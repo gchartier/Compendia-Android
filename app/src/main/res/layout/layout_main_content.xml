@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/main_content_frame"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav">
+    </FrameLayout>
+
+    <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:id="@+id/bottom_nav"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/bottom_nav">
+
+    </com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx>
+
+</android.support.constraint.ConstraintLayout>

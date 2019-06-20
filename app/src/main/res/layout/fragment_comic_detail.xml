@@ -1,0 +1,726 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/comicDetailConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Top Toolbar -->
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/comicDetailToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:titleTextColor="@android:color/white" />
+
+        <ImageView
+            android:id="@+id/comicDetailBackArrow"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="8dp"
+            android:contentDescription="@string/content_description_back_arrow"
+            app:layout_constraintBottom_toBottomOf="@id/comicDetailToolbar"
+            app:layout_constraintEnd_toStartOf="@id/comicDetailFragmentHeader"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="@id/comicDetailToolbar"
+            app:layout_constraintTop_toTopOf="@id/comicDetailToolbar"
+            app:srcCompat="@drawable/ic_round_arrow_back_24px" />
+
+        <TextView
+            android:id="@+id/comicDetailFragmentHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Gideon Falls"
+            android:textAppearance="@style/fragment_header_text"
+            app:layout_constraintBottom_toBottomOf="@id/comicDetailToolbar"
+            app:layout_constraintEnd_toStartOf="@id/comicDetailKabobMenu"
+            app:layout_constraintStart_toEndOf="@id/comicDetailBackArrow"
+            app:layout_constraintTop_toTopOf="@id/comicDetailToolbar" />
+
+        <ImageView
+            android:id="@+id/comicDetailKabobMenu"
+            android:layout_width="34dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:contentDescription="@string/content_description_kabob_menu"
+            app:layout_constraintBottom_toBottomOf="@id/comicDetailToolbar"
+            app:layout_constraintEnd_toEndOf="@id/comicDetailToolbar"
+            app:layout_constraintStart_toEndOf="@id/comicDetailFragmentHeader"
+            app:layout_constraintTop_toTopOf="@id/comicDetailToolbar"
+            app:srcCompat="@drawable/kabob_menu" />
+
+
+        <!-- Comic Summary -->
+        <android.support.constraint.Guideline
+            android:id="@+id/comicDetailGuidelineTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="72dp" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/comicDetailGuidelineLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="16dp" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/comicDetailGuidelineCover"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="116dp" />
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/comicDetailCover"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailGuidelineLeft"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailGuidelineTop"
+            app:srcCompat="@drawable/gideon_falls" />
+
+        <TextView
+            android:id="@+id/comicDetailTitle"
+            style="@style/detail_text_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            tools:text="Gideon Falls #1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@id/comicDetailGuidelineCover"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailCover" />
+
+        <TextView
+            android:id="@+id/comicDetailPublisher"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            tools:text="Image Comics"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailSeparator1"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailTitle"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailTitle" />
+
+        <ImageView
+            android:id="@+id/comicDetailSeparator1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/comicDetailPublisher"
+            android:baselineAlignBottom="true"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailPublisher"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailImprint"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailPublisher"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailPublisher"
+            app:srcCompat="@drawable/ic_remove_black_24dp"
+            android:importantForAccessibility="no"/>
+
+        <TextView
+            android:id="@+id/comicDetailImprint"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
+            tools:text="Skybound"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailSeparator1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailSeparator1"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailSeparator1" />
+
+        <TextView
+            android:id="@+id/comicDetailFormat"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="4dp"
+            tools:text="Issue"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailSeparator2"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailPublisher"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailPublisher" />
+
+        <ImageView
+            android:id="@+id/comicDetailSeparator2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/comicDetailFormat"
+            android:baselineAlignBottom="true"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailFormat"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailCoverDate"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailFormat"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailFormat"
+            app:srcCompat="@drawable/detail_separator"
+            android:importantForAccessibility="no"/>
+
+        <TextView
+            android:id="@+id/comicDetailCoverDate"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            tools:text="April 3rd, 2019"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailSeparator2"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailSeparator3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailSeparator2"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailSeparator2" />
+
+        <ImageView
+            android:id="@+id/comicDetailSeparator3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailCoverDate"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailCoverPrice"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailCoverDate"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailCoverDate"
+            app:srcCompat="@drawable/detail_separator"
+            android:importantForAccessibility="no"/>
+
+        <TextView
+            android:id="@+id/comicDetailCoverPrice"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
+            tools:text="$5.99"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailSeparator3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailSeparator3"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailSeparator3" />
+
+        <TextView
+            android:id="@+id/comicDetailAge"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            tools:text="Modern Age Comic"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailSeparator5"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailFormat"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailFormat" />
+
+        <ImageView
+            android:id="@+id/comicDetailSeparator5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailAge"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailAgeRating"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailAge"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailAge"
+            app:srcCompat="@drawable/detail_separator"
+            android:importantForAccessibility="no"/>
+
+        <TextView
+            android:id="@+id/comicDetailAgeRating"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
+            tools:text="MA"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailSeparator5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailSeparator5"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailSeparator5" />
+
+        <TextView
+            android:id="@+id/comicDetailOtherVersionNum"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            tools:text="1"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailOtherVersionText"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailAge"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailAge" />
+
+        <TextView
+            android:id="@+id/comicDetailOtherVersionText"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/comic_detail_other_versions_text"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailOtherVersionNum"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailOtherVersionArrow"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailOtherVersionNum"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailOtherVersionNum" />
+
+        <ImageView
+            android:id="@+id/comicDetailOtherVersionArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailOtherVersionText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailOtherVersionText"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailOtherVersionText"
+            app:srcCompat="@drawable/navigate_in"
+            android:contentDescription="@string/content_description_comic_detail_other_versions"/>
+
+        <TextView
+            android:id="@+id/comicDetailReviewHeader"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/comic_detail_user_rating_header"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailUserRating"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailOtherVersionNum"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailOtherVersionNum" />
+
+        <com.iarcuschin.simpleratingbar.SimpleRatingBar
+            android:id="@+id/comicDetailUserRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailReviewHeader"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailHasReadIcon"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailReviewHeader"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailReviewHeader"
+            app:srb_borderColor="@color/colorPrimary"
+            app:srb_fillColor="@color/colorPrimary"
+            app:srb_numberOfStars="5"
+            app:srb_rating="0"
+            app:srb_starSize="20dp"
+            app:srb_stepSize="0.5"
+            android:contentDescription="@null"
+            android:importantForAccessibility="yes"/>
+
+        <TextView
+            android:id="@+id/comicDetailAvgReviewText"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:text="@string/comic_detail_average_ratings_header"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailAvgReviewNum"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailReviewHeader"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailReviewHeader" />
+
+        <TextView
+            android:id="@+id/comicDetailAvgReviewNum"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            tools:text="4.5"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailAvgReviewText"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailSeparator6"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailAvgReviewText"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailAvgReviewText" />
+
+        <ImageView
+            android:id="@+id/comicDetailSeparator6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailAvgReviewNum"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailReviewsNum"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailAvgReviewNum"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailAvgReviewNum"
+            app:srcCompat="@drawable/detail_separator"
+            android:importantForAccessibility="no"/>
+
+        <TextView
+            android:id="@+id/comicDetailReviewsNum"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
+            tools:text="12"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailSeparator6"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailReviewsText"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailSeparator6"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailSeparator6" />
+
+        <TextView
+            android:id="@+id/comicDetailReviewsText"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/comic_detail_reviews_text"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailReviewsNum"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailReviewsArrow"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailReviewsNum"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailReviewsNum" />
+
+        <ImageView
+            android:id="@+id/comicDetailReviewsArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailReviewsText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailReviewsText"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailReviewsText"
+            app:srcCompat="@drawable/navigate_in"
+            android:contentDescription="@string/content_description_comic_detail_reviews_button"/>
+
+        <ImageView
+            android:id="@+id/comicDetailHasReadIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:contentDescription="@string/content_description_comic_detail_have_read"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/comicDetailUserRating"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailInCollectionIcon"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailUserRating"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailUserRating"
+            app:srcCompat="@drawable/ic_check_black_24dp"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/comicDetailInCollectionIcon"
+            android:layout_width="23dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/content_description_comic_detail_in_collection"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailHasReadIcon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailHasReadIcon"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailHasReadIcon"
+            app:srcCompat="@drawable/ic_collection"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/comicDetailDescription"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            tools:text="A brand-new ongoing series from the acclaimed bestselling creative team of Old Man Logan and Green Arrow! The lives of a reclusive young man obsessed with a conspiracy in the city's trash, and a washed-up Catholic priest arriving in a small town full of dark secrets, become intertwined around the mysterious legend of The Black Barn, an otherworldly building that is alleged to have appeared in both the city and the small town, throughout history, bringing death and madness in its wake.   Rural mystery and urban horror collide in this character-driven meditation on obsession, mental illness, and faith."
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/comicDetailGuidelineLeft"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailAvgReviewText" />
+
+        <View
+            android:id="@+id/comicDetailContentDivider1"
+            style="@style/Divider"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/comicDetailDescription" />
+
+        <TextView
+            android:id="@+id/comicDetailCreatorsHeader"
+            style="@style/detail_text_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/comic_detail_creators_header"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailGuidelineLeft"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailContentDivider1" />
+
+        <TextView
+            android:id="@+id/comicDetailCreator1"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            tools:text="Jeff Lemire"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailCreatorButton1"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailCreatorsHeader" />
+
+        <TextView
+            android:id="@+id/comicDetailCreatorType1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Writer, Artist"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailCreator1"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailCreator1" />
+
+        <ImageView
+            android:id="@+id/comicDetailCreatorButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailCreator1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailCreator1"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailCreator1"
+            app:srcCompat="@drawable/navigate_in"
+            android:contentDescription="@string/content_description_comic_detail_creator_button"/>
+
+        <android.support.constraint.Group
+            android:id="@+id/comicDetailCollectionDetailsGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="comicDetailContentDivider2, comicDetailCollectionDetailsHeader,
+            comicDetailEditCollectionButton, comicDetailDateCollectedHeader, comicDetailDateCollected,
+            comicDetailPurchasePriceHeader, comicDetailPurchasePrice, comicDetailBoughtAtHeader,
+            comicDetailBoughtAt, comicDetailConditionHeader, comicDetailCondition, comicDetailConditionBarrier,
+            comicDetailGradeHeader, comicDetailGrade, comicDetailGradeBarrier, comicDetailQuantityHeader,
+            comicDetailQuantity" />
+
+        <View
+            android:id="@+id/comicDetailContentDivider2"
+            style="@style/Divider"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/comicDetailCreatorType1" />
+
+        <TextView
+            android:id="@+id/comicDetailCollectionDetailsHeader"
+            style="@style/detail_text_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/comic_detail_collection_details_header"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailGuidelineLeft"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailContentDivider2" />
+
+        <ImageView
+            android:id="@+id/comicDetailEditCollectionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailCollectionDetailsHeader"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailCollectionDetailsHeader"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailCollectionDetailsHeader"
+            app:srcCompat="@drawable/ic_edit_black_24dp"
+            android:contentDescription="@string/content_description_comic_detail_edit_collection_details"/>
+
+        <TextView
+            android:id="@+id/comicDetailDateCollectedHeader"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/comic_detail_date_collected_header"
+            app:layout_constraintEnd_toEndOf="@+id/comicDetailContentDivider2"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailGuidelineLeft"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailCollectionDetailsHeader" />
+
+        <TextView
+            android:id="@+id/comicDetailDateCollected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="April 9th, 2019"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailDateCollectedHeader"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailDateCollectedHeader" />
+
+        <TextView
+            android:id="@+id/comicDetailPurchasePriceHeader"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/comic_detail_purchase_price_header"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailBoughtAtHeader"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@id/comicDetailGuidelineLeft"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailDateCollected" />
+
+        <TextView
+            android:id="@+id/comicDetailPurchasePrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="$3.99"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailPurchasePriceHeader"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailPurchasePriceHeader" />
+
+        <TextView
+            android:id="@+id/comicDetailBoughtAtHeader"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/comic_detail_bought_at_header"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailPurchasePriceHeader"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailPurchasePriceHeader"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailPurchasePriceHeader" />
+
+        <TextView
+            android:id="@+id/comicDetailBoughtAt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Titan Games and Comics"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailBoughtAtHeader"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailBoughtAtHeader" />
+
+        <TextView
+            android:id="@+id/comicDetailConditionHeader"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/comic_detail_condition_header"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailGuidelineLeft"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailPurchasePrice" />
+
+        <TextView
+            android:id="@+id/comicDetailCondition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Mint"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailConditionHeader"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailConditionHeader" />
+
+        <android.support.constraint.Barrier
+            android:id="@+id/comicDetailConditionBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="end"
+            app:constraint_referenced_ids="comicDetailConditionHeader, comicDetailCondition" />
+
+        <TextView
+            android:id="@+id/comicDetailGradeHeader"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/comic_detail_grade_header"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailConditionHeader"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailConditionBarrier"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailConditionHeader" />
+
+        <TextView
+            android:id="@+id/comicDetailGrade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="CGC 9.2"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailGradeHeader"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailGradeHeader" />
+
+        <android.support.constraint.Barrier
+            android:id="@+id/comicDetailGradeBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="end"
+            app:constraint_referenced_ids="comicDetailGradeHeader, comicDetailGrade"/>
+
+        <TextView
+            android:id="@+id/comicDetailQuantityHeader"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/comic_detail_quantity_header"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailGradeHeader"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailGradeBarrier"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailGradeHeader" />
+
+        <TextView
+            android:id="@+id/comicDetailQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="1"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailQuantityHeader"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailQuantityHeader" />
+
+        <View
+            android:id="@+id/comicDetailContentDivider3"
+            style="@style/Divider"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/comicDetailCondition" />
+
+        <TextView
+            android:id="@+id/comicDetailListsHeader"
+            style="@style/detail_text_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/comic_detail_lists_header"
+            app:layout_constraintStart_toStartOf="@id/comicDetailGuidelineLeft"
+            app:layout_constraintTop_toBottomOf="@id/comicDetailContentDivider3" />
+
+        <TextView
+            android:id="@+id/comicDetailListHeader1"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Favorites"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailListCheckbox1"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailListsHeader"
+            app:layout_constraintTop_toBottomOf="@id/comicDetailListsHeader" />
+
+        <CheckBox
+            android:id="@+id/comicDetailListCheckbox1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailListHeader1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailListHeader1"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailListHeader1"
+            android:contentDescription="@null" />
+
+        <View
+            android:id="@+id/comicDetailContentDivider4"
+            style="@style/Divider"
+            android:layout_marginTop="32dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/comicDetailConstraintLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/comicDetailListCheckbox1" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>

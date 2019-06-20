@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".HomeFragment">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/homeHeaderBackground"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:background="@color/colorPrimary"
+            android:elevation="3dp"
+            app:layout_constraintBottom_toTopOf="@+id/homeContentGuidelineTop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/homeAppLogo"
+            android:layout_width="68dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:elevation="4dp"
+            android:src="@mipmap/ic_compendia_foreground"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/homeSettingsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:elevation="4dp"
+            android:src="@drawable/ic_settings_black_24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/content_description_home_settings_button"/>
+
+        <android.support.constraint.Guideline
+            android:id="@+id/homeHeaderGuidelineLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="76dp" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/homeHeaderGuidelineTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="41dp" />
+
+        <TextView
+            android:id="@+id/homeOwnedNum"
+            style="@style/detail_text_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:elevation="4dp"
+            app:layout_constraintEnd_toStartOf="@+id/homeReadNum"
+            app:layout_constraintStart_toStartOf="@+id/homeHeaderGuidelineLeft"
+            app:layout_constraintTop_toTopOf="@+id/homeHeaderGuidelineTop"
+            tools:text="123" />
+
+        <TextView
+            android:id="@+id/homeOwnedHeader"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/home_owned_header"
+            android:elevation="4dp"
+            app:layout_constraintEnd_toEndOf="@+id/homeOwnedNum"
+            app:layout_constraintStart_toStartOf="@+id/homeOwnedNum"
+            app:layout_constraintTop_toBottomOf="@+id/homeOwnedNum" />
+
+        <TextView
+            android:id="@+id/homeReadNum"
+            style="@style/detail_text_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/homeOwnedNum"
+            app:layout_constraintEnd_toStartOf="@+id/homeReviewsNum"
+            app:layout_constraintStart_toEndOf="@+id/homeOwnedNum"
+            app:layout_constraintTop_toTopOf="@+id/homeOwnedNum"
+            tools:text="250" />
+
+        <TextView
+            android:id="@+id/homeReadHeader"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/home_read_header"
+            android:elevation="4dp"
+            app:layout_constraintEnd_toEndOf="@+id/homeReadNum"
+            app:layout_constraintStart_toStartOf="@+id/homeReadNum"
+            app:layout_constraintTop_toBottomOf="@+id/homeReadNum" />
+
+        <TextView
+            android:id="@+id/homeReviewsNum"
+            style="@style/detail_text_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:elevation="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/homeReadNum"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/homeReadNum"
+            app:layout_constraintTop_toTopOf="@+id/homeReadNum"
+            tools:text="28" />
+
+        <TextView
+            android:id="@+id/homeReviewsHeader"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/home_reviews_header"
+            android:elevation="4dp"
+            app:layout_constraintEnd_toEndOf="@+id/homeReviewsNum"
+            app:layout_constraintStart_toStartOf="@+id/homeReviewsNum"
+            app:layout_constraintTop_toBottomOf="@+id/homeReviewsNum" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/homeContentGuidelineTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/homeOwnedHeader"
+            app:layout_constraintGuide_begin="140dp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/homeNewReleasesHeader"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/home_new_releases_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/homeContentGuidelineTop" />
+
+        <TextView
+            android:id="@+id/homeSeeAllNewReleasesText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:text="@string/home_see_all_text"
+            app:layout_constraintBottom_toBottomOf="@+id/homeNewReleasesHeader"
+            app:layout_constraintEnd_toStartOf="@+id/homeSeeAllNewReleasesNum"
+            app:layout_constraintTop_toTopOf="@+id/homeNewReleasesHeader" />
+
+        <TextView
+            android:id="@+id/homeSeeAllNewReleasesNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="12"
+            app:layout_constraintBottom_toBottomOf="@+id/homeSeeAllNewReleasesText"
+            app:layout_constraintEnd_toStartOf="@+id/homeSeeAllNewReleasesButton"
+            app:layout_constraintTop_toTopOf="@+id/homeSeeAllNewReleasesText" />
+
+        <ImageView
+            android:id="@+id/homeSeeAllNewReleasesButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/homeSeeAllNewReleasesNum"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/homeSeeAllNewReleasesNum"
+            app:srcCompat="@drawable/navigate_in"
+            android:contentDescription="@string/content_description_home_see_all_new_releases_button"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/homeNewReleasesRecyclerView"
+            android:layout_width="411dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/homeNewReleasesHeader"
+            app:layout_constraintTop_toBottomOf="@+id/homeNewReleasesHeader">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/homePullListHeader"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/home_pull_list_header"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homeNewReleasesRecyclerView" />
+
+        <TextView
+            android:id="@+id/homeSeeAllPullListText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:text="@string/home_see_all_text"
+            app:layout_constraintBottom_toBottomOf="@+id/homePullListHeader"
+            app:layout_constraintEnd_toStartOf="@+id/homeSeeAllPullListNum"
+            app:layout_constraintTop_toTopOf="@+id/homePullListHeader" />
+
+        <TextView
+            android:id="@+id/homeSeeAllPullListNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="12"
+            app:layout_constraintBottom_toBottomOf="@+id/homeSeeAllPullListText"
+            app:layout_constraintEnd_toStartOf="@+id/homeSeeAllPullListButton"
+            app:layout_constraintTop_toTopOf="@+id/homeSeeAllPullListText" />
+
+        <ImageView
+            android:id="@+id/homeSeeAllPullListButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/homeSeeAllPullListNum"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/homeSeeAllPullListNum"
+            app:srcCompat="@drawable/navigate_in"
+            android:contentDescription="@string/content_description_home_see_all_pull_list_button"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/homePullListRecyclerView"
+            android:layout_width="411dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/homePullListHeader"
+            app:layout_constraintTop_toBottomOf="@+id/homePullListHeader">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </android.support.constraint.ConstraintLayout>
+</FrameLayout>

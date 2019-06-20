@@ -1,0 +1,82 @@
+<resources>
+    <!-- App Information -->
+    <string name="app_name">Compendia</string>
+    <string name="first_time_user_message">Welcome to Compendia!</string>
+    <string name="exit_toast">Click back once more to close Compendia</string>
+
+    <!-- Bottom Navigation Titles -->
+    <string name="title_home">Home</string>
+    <string name="title_pull_list">Pull List</string>
+    <string name="title_collection">Collection</string>
+    <string name="title_search">Search</string>
+
+    <!-- Fragment Tags -->
+    <string name="tag_fragment_home">Home</string>
+    <string name="tag_fragment_pull_list">Pull List</string>
+    <string name="tag_fragment_collection">Collection</string>
+    <string name="tag_fragment_search">Search</string>
+    <string name="tag_fragment_comic_detail">Comic Detail</string>
+
+    <!-- Intent Tags -->
+    <string name="intent_comic">intent_comic</string>
+
+    <!-- Image names -->
+    <string name="comic_image">Comic</string>
+
+
+
+    <!-- ### Layout Content Strings ### -->
+
+    <!-- Home -->
+    <string name="home_new_releases_header">New Releases This Week</string>
+    <string name="home_pull_list_header">My Pull List</string>
+    <string name="home_owned_header">Owned</string>
+    <string name="home_read_header">Read</string>
+    <string name="home_reviews_header">Reviews</string>
+    <string name="home_see_all_text">See All</string>
+
+    <!-- Comic Detail -->
+    <string name="comic_detail_date_collected_header">Date Collected</string>
+    <string name="comic_detail_other_versions_text">Other Version(s)</string>
+    <string name="comic_detail_user_rating_header">You</string>
+    <string name="comic_detail_average_ratings_header">Avg.</string>
+    <string name="comic_detail_reviews_text">Reviews</string>
+    <string name="comic_detail_creators_header">Creators</string>
+    <string name="comic_detail_collection_details_header">Collection Details</string>
+    <string name="comic_detail_purchase_price_header">Purchase Price</string>
+    <string name="comic_detail_bought_at_header">Bought At</string>
+    <string name="comic_detail_condition_header">Condition</string>
+    <string name="comic_detail_grade_header">Grade</string>
+    <string name="comic_detail_quantity_header">Quantity</string>
+    <string name="comic_detail_lists_header">Lists</string>
+
+    <!-- Collection -->
+    <string name="collection_recently_added_header">Recently Added</string>
+
+
+
+    <!-- ### Accessibility Content Descriptions ### -->
+
+    <!-- General -->
+    <string name="content_description_back_arrow">Go back to previous screen</string>
+    <string name="content_description_kabob_menu">Open additional options sub menu</string>
+
+    <!-- Home Fragment Layout -->
+    <string name="content_description_home_see_all_new_releases_button">Navigate to full New Releases list</string>
+    <string name="content_description_home_see_all_pull_list_button">Navigate to full pull list</string>
+    <string name="content_description_home_settings_button">Open Settings</string>
+
+    <!-- Comic Detail Fragment Layout -->
+    <string name="content_description_comic_detail_other_versions">Go to other versions of this comic</string>
+    <string name="content_description_comic_detail_reviews_button">Go to reviews of this comic</string>
+    <string name="content_description_comic_detail_have_read">You have read this comic</string>
+    <string name="content_description_comic_detail_in_collection">This comic is in your collection</string>
+    <string name="content_description_comic_detail_creator_button">Go to creator</string>
+    <string name="content_description_comic_detail_edit_collection_details">Edit collection details for this comic</string>
+
+    <!-- Pull List Fragment Layout -->
+    <string name="content_description_pull_list_kabob_menu">Open additional options sub menu for this comic</string>
+    <string name="content_description_pull_list_expand_week_item">Expand week</string>
+
+
+</resources>

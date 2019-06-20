@@ -1,0 +1,67 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <style name="fragment_header_text" parent="TextAppearance.AppCompat">
+        <item name="colorPrimary">@color/black</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">25sp</item>
+    </style>
+
+    <style name="detail_text_1" parent="TextAppearance.AppCompat">
+        <item name="colorPrimary">@color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="detail_text_2" parent="TextAppearance.AppCompat">
+        <item name="colorPrimary">@color/black</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="detail_text_2_bold" parent="TextAppearance.AppCompat">
+        <item name="colorPrimary">@color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="detail_text_2_medium" parent="TextAppearance.AppCompat">
+        <item name="colorPrimary">@color/text_importance_2</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="detail_text_2_light" parent="TextAppearance.AppCompat">
+        <item name="colorPrimary">@color/text_importance_3</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="detail_text_big" parent="TextAppearance.AppCompat">
+        <item name="colorPrimary">@color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="comic_cover">
+        <item name="android:layout_width">120dp</item>
+        <item name="android:layout_height">200dp</item>
+    </style>
+
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">?android:attr/listDivider</item>
+    </style>
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/colorPrimaryDark</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="android:indeterminateDrawable">@null</item>
+        <item name="android:isIndicator">false</item>
+    </style>
+</resources>

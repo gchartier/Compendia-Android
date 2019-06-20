@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:ID="@+ID/bottom_nav_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_home"
+        android:layout_centerVertical="true"/>
+
+    <item
+        android:ID="@+ID/bottom_nav_pull_list"
+        android:icon="@drawable/ic_pull_list"
+        android:title="@string/title_pull_list"
+        android:layout_centerVertical="true"/>
+
+    <item
+        android:ID="@+ID/bottom_nav_collection"
+        android:icon="@drawable/ic_collections_bookmark_black_24dp"
+        android:title="@string/title_collection"
+        android:layout_centerVertical="true"/>
+    <item
+        android:ID="@+ID/bottom_nav_search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/title_search"
+        android:layout_centerVertical="true"/>
+
+</menu>

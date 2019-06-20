@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/pullListWeekItemView"
+        android:layout_width="140dp"
+        android:layout_height="40dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </View>
+
+    <TextView
+        android:id="@+id/pullListWeekItemText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:textAppearance="@style/detail_text_2_medium"
+        app:layout_constraintBottom_toBottomOf="@+id/pullListWeekItemView"
+        app:layout_constraintEnd_toStartOf="@+id/pullListWeekItemButton"
+        app:layout_constraintStart_toStartOf="@+id/pullListWeekItemView"
+        app:layout_constraintTop_toTopOf="@+id/pullListWeekItemView"
+        tools:text="April 9th, 2019" />
+
+    <ImageView
+        android:id="@+id/pullListWeekItemButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pullListWeekItemText"
+        app:layout_constraintEnd_toEndOf="@+id/pullListWeekItemView"
+        app:layout_constraintTop_toTopOf="@+id/pullListWeekItemText"
+        app:srcCompat="@drawable/expand_view"
+        android:contentDescription="@string/content_description_pull_list_expand_week_item"/>
+
+</android.support.constraint.ConstraintLayout>
+
