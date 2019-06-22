@@ -39,12 +39,12 @@
             android:id="@+id/comicDetailFragmentHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Gideon Falls"
             android:textAppearance="@style/fragment_header_text"
             app:layout_constraintBottom_toBottomOf="@id/comicDetailToolbar"
             app:layout_constraintEnd_toStartOf="@id/comicDetailKabobMenu"
             app:layout_constraintStart_toEndOf="@id/comicDetailBackArrow"
-            app:layout_constraintTop_toTopOf="@id/comicDetailToolbar" />
+            app:layout_constraintTop_toTopOf="@id/comicDetailToolbar"
+            tools:text="Gideon Falls" />
 
         <ImageView
             android:id="@+id/comicDetailKabobMenu"
@@ -96,11 +96,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
-            tools:text="Gideon Falls #1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@id/comicDetailGuidelineCover"
-            app:layout_constraintTop_toTopOf="@+id/comicDetailCover" />
+            app:layout_constraintTop_toTopOf="@+id/comicDetailCover"
+            tools:text="Gideon Falls #1" />
 
         <TextView
             android:id="@+id/comicDetailPublisher"
@@ -108,12 +108,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
-            tools:text="Image Comics"
             app:layout_constraintEnd_toStartOf="@+id/comicDetailSeparator1"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@+id/comicDetailTitle"
-            app:layout_constraintTop_toBottomOf="@+id/comicDetailTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailTitle"
+            tools:text="Image Comics" />
 
         <ImageView
             android:id="@+id/comicDetailSeparator1"
@@ -121,13 +121,13 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/comicDetailPublisher"
             android:baselineAlignBottom="true"
+            android:importantForAccessibility="no"
             app:layout_constraintBottom_toBottomOf="@+id/comicDetailPublisher"
             app:layout_constraintEnd_toStartOf="@+id/comicDetailImprint"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/comicDetailPublisher"
             app:layout_constraintTop_toTopOf="@+id/comicDetailPublisher"
-            app:srcCompat="@drawable/ic_remove_black_24dp"
-            android:importantForAccessibility="no"/>
+            app:srcCompat="@drawable/ic_remove_black_24dp" />
 
         <TextView
             android:id="@+id/comicDetailImprint"
@@ -136,12 +136,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="8dp"
-            tools:text="Skybound"
             app:layout_constraintBottom_toBottomOf="@+id/comicDetailSeparator1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/comicDetailSeparator1"
-            app:layout_constraintTop_toTopOf="@+id/comicDetailSeparator1" />
+            app:layout_constraintTop_toTopOf="@+id/comicDetailSeparator1"
+            tools:text="Skybound" />
 
         <TextView
             android:id="@+id/comicDetailFormat"
@@ -150,12 +150,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="4dp"
-            tools:text="Issue"
             app:layout_constraintEnd_toStartOf="@+id/comicDetailSeparator2"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@+id/comicDetailPublisher"
-            app:layout_constraintTop_toBottomOf="@+id/comicDetailPublisher" />
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailPublisher"
+            tools:text="Issue" />
 
         <ImageView
             android:id="@+id/comicDetailSeparator2"
@@ -163,13 +163,13 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/comicDetailFormat"
             android:baselineAlignBottom="true"
+            android:importantForAccessibility="no"
             app:layout_constraintBottom_toBottomOf="@+id/comicDetailFormat"
             app:layout_constraintEnd_toStartOf="@+id/comicDetailCoverDate"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/comicDetailFormat"
             app:layout_constraintTop_toTopOf="@+id/comicDetailFormat"
-            app:srcCompat="@drawable/detail_separator"
-            android:importantForAccessibility="no"/>
+            app:srcCompat="@drawable/detail_separator" />
 
         <TextView
             android:id="@+id/comicDetailCoverDate"
@@ -178,24 +178,24 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
-            tools:text="April 3rd, 2019"
             app:layout_constraintBottom_toBottomOf="@+id/comicDetailSeparator2"
             app:layout_constraintEnd_toStartOf="@+id/comicDetailSeparator3"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/comicDetailSeparator2"
-            app:layout_constraintTop_toTopOf="@+id/comicDetailSeparator2" />
+            app:layout_constraintTop_toTopOf="@+id/comicDetailSeparator2"
+            tools:text="April 3rd, 2019" />
 
         <ImageView
             android:id="@+id/comicDetailSeparator3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
             app:layout_constraintBottom_toBottomOf="@+id/comicDetailCoverDate"
             app:layout_constraintEnd_toStartOf="@+id/comicDetailCoverPrice"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/comicDetailCoverDate"
             app:layout_constraintTop_toTopOf="@+id/comicDetailCoverDate"
-            app:srcCompat="@drawable/detail_separator"
-            android:importantForAccessibility="no"/>
+            app:srcCompat="@drawable/detail_separator" />
 
         <TextView
             android:id="@+id/comicDetailCoverPrice"
@@ -204,12 +204,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="8dp"
-            tools:text="$5.99"
             app:layout_constraintBottom_toBottomOf="@+id/comicDetailSeparator3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/comicDetailSeparator3"
-            app:layout_constraintTop_toTopOf="@+id/comicDetailSeparator3" />
+            app:layout_constraintTop_toTopOf="@+id/comicDetailSeparator3"
+            tools:text="$5.99" />
 
         <TextView
             android:id="@+id/comicDetailAge"
@@ -217,24 +217,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
-            tools:text="Modern Age Comic"
             app:layout_constraintEnd_toStartOf="@+id/comicDetailSeparator5"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@+id/comicDetailFormat"
-            app:layout_constraintTop_toBottomOf="@+id/comicDetailFormat" />
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailFormat"
+            tools:text="Modern Age Comic" />
 
         <ImageView
             android:id="@+id/comicDetailSeparator5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
             app:layout_constraintBottom_toBottomOf="@+id/comicDetailAge"
             app:layout_constraintEnd_toStartOf="@+id/comicDetailAgeRating"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/comicDetailAge"
             app:layout_constraintTop_toTopOf="@+id/comicDetailAge"
-            app:srcCompat="@drawable/detail_separator"
-            android:importantForAccessibility="no"/>
+            app:srcCompat="@drawable/detail_separator" />
 
         <TextView
             android:id="@+id/comicDetailAgeRating"
@@ -243,12 +243,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="8dp"
-            tools:text="MA"
             app:layout_constraintBottom_toBottomOf="@+id/comicDetailSeparator5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/comicDetailSeparator5"
-            app:layout_constraintTop_toTopOf="@+id/comicDetailSeparator5" />
+            app:layout_constraintTop_toTopOf="@+id/comicDetailSeparator5"
+            tools:text="MA" />
 
         <TextView
             android:id="@+id/comicDetailOtherVersionNum"
@@ -256,12 +256,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            tools:text="1"
             app:layout_constraintEnd_toStartOf="@+id/comicDetailOtherVersionText"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@+id/comicDetailAge"
-            app:layout_constraintTop_toBottomOf="@+id/comicDetailAge" />
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailAge"
+            tools:text="1" />
 
         <TextView
             android:id="@+id/comicDetailOtherVersionText"
@@ -281,12 +281,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:contentDescription="@string/content_description_comic_detail_other_versions"
             app:layout_constraintBottom_toBottomOf="@+id/comicDetailOtherVersionText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/comicDetailOtherVersionText"
             app:layout_constraintTop_toTopOf="@+id/comicDetailOtherVersionText"
-            app:srcCompat="@drawable/navigate_in"
-            android:contentDescription="@string/content_description_comic_detail_other_versions"/>
+            app:srcCompat="@drawable/navigate_in" />
 
         <TextView
             android:id="@+id/comicDetailReviewHeader"
@@ -306,6 +306,8 @@
             android:id="@+id/comicDetailUserRating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@null"
+            android:importantForAccessibility="yes"
             app:layout_constraintBottom_toBottomOf="@+id/comicDetailReviewHeader"
             app:layout_constraintEnd_toStartOf="@+id/comicDetailHasReadIcon"
             app:layout_constraintStart_toEndOf="@+id/comicDetailReviewHeader"
@@ -315,9 +317,7 @@
             app:srb_numberOfStars="5"
             app:srb_rating="0"
             app:srb_starSize="20dp"
-            app:srb_stepSize="0.5"
-            android:contentDescription="@null"
-            android:importantForAccessibility="yes"/>
+            app:srb_stepSize="0.5" />
 
         <TextView
             android:id="@+id/comicDetailAvgReviewText"
@@ -338,24 +338,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            tools:text="4.5"
             app:layout_constraintBottom_toBottomOf="@+id/comicDetailAvgReviewText"
             app:layout_constraintEnd_toStartOf="@+id/comicDetailSeparator6"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/comicDetailAvgReviewText"
-            app:layout_constraintTop_toTopOf="@+id/comicDetailAvgReviewText" />
+            app:layout_constraintTop_toTopOf="@+id/comicDetailAvgReviewText"
+            tools:text="4.5" />
 
         <ImageView
             android:id="@+id/comicDetailSeparator6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
             app:layout_constraintBottom_toBottomOf="@+id/comicDetailAvgReviewNum"
             app:layout_constraintEnd_toStartOf="@+id/comicDetailReviewsNum"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/comicDetailAvgReviewNum"
             app:layout_constraintTop_toTopOf="@+id/comicDetailAvgReviewNum"
-            app:srcCompat="@drawable/detail_separator"
-            android:importantForAccessibility="no"/>
+            app:srcCompat="@drawable/detail_separator" />
 
         <TextView
             android:id="@+id/comicDetailReviewsNum"
@@ -364,12 +364,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="4dp"
-            tools:text="12"
             app:layout_constraintBottom_toBottomOf="@+id/comicDetailSeparator6"
             app:layout_constraintEnd_toStartOf="@+id/comicDetailReviewsText"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/comicDetailSeparator6"
-            app:layout_constraintTop_toTopOf="@+id/comicDetailSeparator6" />
+            app:layout_constraintTop_toTopOf="@+id/comicDetailSeparator6"
+            tools:text="12" />
 
         <TextView
             android:id="@+id/comicDetailReviewsText"
@@ -388,12 +388,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:contentDescription="@string/content_description_comic_detail_reviews_button"
             app:layout_constraintBottom_toBottomOf="@+id/comicDetailReviewsText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/comicDetailReviewsText"
             app:layout_constraintTop_toTopOf="@+id/comicDetailReviewsText"
-            app:srcCompat="@drawable/navigate_in"
-            android:contentDescription="@string/content_description_comic_detail_reviews_button"/>
+            app:srcCompat="@drawable/navigate_in" />
 
         <ImageView
             android:id="@+id/comicDetailHasReadIcon"
@@ -431,11 +431,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            tools:text="A brand-new ongoing series from the acclaimed bestselling creative team of Old Man Logan and Green Arrow! The lives of a reclusive young man obsessed with a conspiracy in the city's trash, and a washed-up Catholic priest arriving in a small town full of dark secrets, become intertwined around the mysterious legend of The Black Barn, an otherworldly building that is alleged to have appeared in both the city and the small town, throughout history, bringing death and madness in its wake.   Rural mystery and urban horror collide in this character-driven meditation on obsession, mental illness, and faith."
             app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/comicDetailGuidelineLeft"
-            app:layout_constraintTop_toBottomOf="@+id/comicDetailAvgReviewText" />
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailAvgReviewText"
+            tools:text="A brand-new ongoing series from the acclaimed bestselling creative team of Old Man Logan and Green Arrow! The lives of a reclusive young man obsessed with a conspiracy in the city's trash, and a washed-up Catholic priest arriving in a small town full of dark secrets, become intertwined around the mysterious legend of The Black Barn, an otherworldly building that is alleged to have appeared in both the city and the small town, throughout history, bringing death and madness in its wake.   Rural mystery and urban horror collide in this character-driven meditation on obsession, mental illness, and faith." />
 
         <View
             android:id="@+id/comicDetailContentDivider1"
@@ -463,32 +463,39 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            tools:text="Jeff Lemire"
             app:layout_constraintEnd_toStartOf="@+id/comicDetailCreatorButton1"
             app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/comicDetailCreatorsHeader" />
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailCreatorsHeader"
+            tools:text="Jeff Lemire" />
 
         <TextView
             android:id="@+id/comicDetailCreatorType1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Writer, Artist"
             app:layout_constraintStart_toStartOf="@+id/comicDetailCreator1"
-            app:layout_constraintTop_toBottomOf="@+id/comicDetailCreator1" />
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailCreator1"
+            tools:text="Writer, Artist" />
 
         <ImageView
             android:id="@+id/comicDetailCreatorButton1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/content_description_comic_detail_creator_button"
             app:layout_constraintBottom_toBottomOf="@+id/comicDetailCreator1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/comicDetailCreator1"
             app:layout_constraintTop_toTopOf="@+id/comicDetailCreator1"
-            app:srcCompat="@drawable/navigate_in"
-            android:contentDescription="@string/content_description_comic_detail_creator_button"/>
+            app:srcCompat="@drawable/navigate_in" />
+
+        <android.support.constraint.Barrier
+            android:id="@+id/comicDetailCreatorsBarrier"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:barrierDirection="top"
+            tools:layout_editor_absoluteY="929dp" />
 
         <android.support.constraint.Group
             android:id="@+id/comicDetailCollectionDetailsGroup"
@@ -526,11 +533,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:contentDescription="@string/content_description_comic_detail_edit_collection_details"
             app:layout_constraintBottom_toBottomOf="@+id/comicDetailCollectionDetailsHeader"
             app:layout_constraintStart_toEndOf="@+id/comicDetailCollectionDetailsHeader"
             app:layout_constraintTop_toTopOf="@+id/comicDetailCollectionDetailsHeader"
-            app:srcCompat="@drawable/ic_edit_black_24dp"
-            android:contentDescription="@string/content_description_comic_detail_edit_collection_details"/>
+            app:srcCompat="@drawable/ic_edit_black_24dp" />
 
         <TextView
             android:id="@+id/comicDetailDateCollectedHeader"
@@ -550,9 +557,9 @@
             android:id="@+id/comicDetailDateCollected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="April 9th, 2019"
             app:layout_constraintStart_toStartOf="@+id/comicDetailDateCollectedHeader"
-            app:layout_constraintTop_toBottomOf="@+id/comicDetailDateCollectedHeader" />
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailDateCollectedHeader"
+            tools:text="April 9th, 2019" />
 
         <TextView
             android:id="@+id/comicDetailPurchasePriceHeader"
@@ -573,9 +580,9 @@
             android:id="@+id/comicDetailPurchasePrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="$3.99"
             app:layout_constraintStart_toStartOf="@+id/comicDetailPurchasePriceHeader"
-            app:layout_constraintTop_toBottomOf="@+id/comicDetailPurchasePriceHeader" />
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailPurchasePriceHeader"
+            tools:text="$3.99" />
 
         <TextView
             android:id="@+id/comicDetailBoughtAtHeader"
@@ -594,9 +601,9 @@
             android:id="@+id/comicDetailBoughtAt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Titan Games and Comics"
             app:layout_constraintStart_toStartOf="@+id/comicDetailBoughtAtHeader"
-            app:layout_constraintTop_toBottomOf="@+id/comicDetailBoughtAtHeader" />
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailBoughtAtHeader"
+            tools:text="Titan Games and Comics" />
 
         <TextView
             android:id="@+id/comicDetailConditionHeader"
@@ -613,16 +620,17 @@
             android:id="@+id/comicDetailCondition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Mint"
             app:layout_constraintStart_toStartOf="@+id/comicDetailConditionHeader"
-            app:layout_constraintTop_toBottomOf="@+id/comicDetailConditionHeader" />
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailConditionHeader"
+            tools:text="Mint" />
 
         <android.support.constraint.Barrier
             android:id="@+id/comicDetailConditionBarrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="end"
-            app:constraint_referenced_ids="comicDetailConditionHeader, comicDetailCondition" />
+            app:constraint_referenced_ids="comicDetailConditionHeader, comicDetailCondition"
+            tools:layout_editor_absoluteX="90dp" />
 
         <TextView
             android:id="@+id/comicDetailGradeHeader"
@@ -639,16 +647,17 @@
             android:id="@+id/comicDetailGrade"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="CGC 9.2"
             app:layout_constraintStart_toStartOf="@+id/comicDetailGradeHeader"
-            app:layout_constraintTop_toBottomOf="@+id/comicDetailGradeHeader" />
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailGradeHeader"
+            tools:text="CGC 9.2" />
 
         <android.support.constraint.Barrier
             android:id="@+id/comicDetailGradeBarrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="end"
-            app:constraint_referenced_ids="comicDetailGradeHeader, comicDetailGrade"/>
+            app:constraint_referenced_ids="comicDetailGradeHeader, comicDetailGrade"
+            tools:layout_editor_absoluteX="157dp" />
 
         <TextView
             android:id="@+id/comicDetailQuantityHeader"
@@ -665,9 +674,9 @@
             android:id="@+id/comicDetailQuantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="1"
             app:layout_constraintStart_toStartOf="@+id/comicDetailQuantityHeader"
-            app:layout_constraintTop_toBottomOf="@+id/comicDetailQuantityHeader" />
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailQuantityHeader"
+            tools:text="1" />
 
         <View
             android:id="@+id/comicDetailContentDivider3"
@@ -688,38 +697,41 @@
             app:layout_constraintStart_toStartOf="@id/comicDetailGuidelineLeft"
             app:layout_constraintTop_toBottomOf="@id/comicDetailContentDivider3" />
 
-        <TextView
-            android:id="@+id/comicDetailListHeader1"
-            style="@style/detail_text_2"
+        <CheckBox
+            android:id="@+id/comicDetailListRead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Favorites"
-            app:layout_constraintEnd_toStartOf="@+id/comicDetailListCheckbox1"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintHorizontal_chainStyle="packed"
+            android:layout_marginTop="8dp"
+            android:text="@string/comic_detail_list_name_read"
             app:layout_constraintStart_toStartOf="@+id/comicDetailListsHeader"
-            app:layout_constraintTop_toBottomOf="@id/comicDetailListsHeader" />
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailListsHeader" />
 
         <CheckBox
-            android:id="@+id/comicDetailListCheckbox1"
+            android:id="@+id/comicDetailListWant"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/comicDetailListHeader1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/comicDetailListHeader1"
-            app:layout_constraintTop_toTopOf="@+id/comicDetailListHeader1"
-            android:contentDescription="@null" />
+            android:layout_marginTop="8dp"
+            android:text="@string/comic_detail_list_name_want"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailListRead"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailListRead" />
+
+        <CheckBox
+            android:id="@+id/comicDetailListFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/comic_detail_list_name_favorite"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailListWant"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailListWant" />
 
         <View
             android:id="@+id/comicDetailContentDivider4"
             style="@style/Divider"
-            android:layout_marginTop="32dp"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@id/comicDetailConstraintLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/comicDetailListCheckbox1" />
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailListFavorite" />
 
     </android.support.constraint.ConstraintLayout>
 

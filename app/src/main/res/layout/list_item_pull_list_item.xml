@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:ID="@+ID/pullListItemCover"
+        android:id="@+id/pullListItemCover"
         android:layout_width="@dimen/comic_cover_width"
         android:layout_height="@dimen/comic_cover_height"
         android:layout_marginStart="8dp"
@@ -17,78 +17,78 @@
         tools:srcCompat="@drawable/gideon_falls" />
 
     <TextView
-        android:ID="@+ID/pullListItemTitle"
+        android:id="@+id/pullListItemTitle"
         style="@style/detail_text_2_bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
-        app:layout_constraintStart_toEndOf="@+ID/pullListItemCover"
-        app:layout_constraintTop_toTopOf="@+ID/pullListItemCover"
+        app:layout_constraintStart_toEndOf="@+id/pullListItemCover"
+        app:layout_constraintTop_toTopOf="@+id/pullListItemCover"
         tools:text="THE AMAZING SPIDER-MAN #23" />
 
     <TextView
-        android:ID="@+ID/pullListItemPublisher"
+        android:id="@+id/pullListItemPublisher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        app:layout_constraintStart_toStartOf="@+ID/pullListItemTitle"
-        app:layout_constraintTop_toBottomOf="@+ID/pullListItemTitle"
+        app:layout_constraintStart_toStartOf="@+id/pullListItemTitle"
+        app:layout_constraintTop_toBottomOf="@+id/pullListItemTitle"
         tools:text="Image Comics" />
 
     <TextView
-        android:ID="@+ID/pullListItemCoverPrice"
+        android:id="@+id/pullListItemCoverPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        app:layout_constraintBottom_toBottomOf="@+ID/pullListItemReleaseDate"
-        app:layout_constraintStart_toEndOf="@+ID/pullListItemReleaseDate"
-        app:layout_constraintTop_toTopOf="@+ID/pullListItemReleaseDate"
+        app:layout_constraintBottom_toBottomOf="@+id/pullListItemReleaseDate"
+        app:layout_constraintStart_toEndOf="@+id/pullListItemReleaseDate"
+        app:layout_constraintTop_toTopOf="@+id/pullListItemReleaseDate"
         tools:text="$3.99" />
 
     <ImageView
-        android:ID="@+ID/pullListItemKabobMenu"
+        android:id="@+id/pullListItemKabobMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:contentDescription="@string/content_description_kabob_menu"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+ID/pullListItemCover"
+        app:layout_constraintTop_toTopOf="@+id/pullListItemCover"
         app:srcCompat="@drawable/kabob_menu" />
 
     <TextView
-        android:ID="@+ID/pullListItemImprint"
+        android:id="@+id/pullListItemImprint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toBottomOf="@+ID/pullListItemPublisher"
-        app:layout_constraintStart_toEndOf="@+ID/pullListItemPublisher"
-        app:layout_constraintTop_toTopOf="@+ID/pullListItemPublisher"
+        app:layout_constraintBottom_toBottomOf="@+id/pullListItemPublisher"
+        app:layout_constraintStart_toEndOf="@+id/pullListItemPublisher"
+        app:layout_constraintTop_toTopOf="@+id/pullListItemPublisher"
         app:layout_constraintVertical_bias="1.0"
         tools:text="Skybound Entertainment" />
 
     <TextView
-        android:ID="@+ID/pullListItemFormat"
+        android:id="@+id/pullListItemFormat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        app:layout_constraintStart_toStartOf="@+ID/pullListItemPublisher"
-        app:layout_constraintTop_toBottomOf="@+ID/pullListItemPublisher"
+        app:layout_constraintStart_toStartOf="@+id/pullListItemPublisher"
+        app:layout_constraintTop_toBottomOf="@+id/pullListItemPublisher"
         tools:text="Single Issue Comic" />
 
     <TextView
-        android:ID="@+ID/pullListItemReleaseDate"
+        android:id="@+id/pullListItemReleaseDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        app:layout_constraintStart_toStartOf="@+ID/pullListItemFormat"
-        app:layout_constraintTop_toBottomOf="@+ID/pullListItemFormat"
+        app:layout_constraintStart_toStartOf="@+id/pullListItemFormat"
+        app:layout_constraintTop_toBottomOf="@+id/pullListItemFormat"
         tools:text="April 9th, 2019" />
 
 </android.support.constraint.ConstraintLayout>
