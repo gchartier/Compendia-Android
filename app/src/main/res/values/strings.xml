@@ -28,6 +28,10 @@
     <string name="alert_dialog_go_back">Go Back</string>
     <string name="alert_dialog_report_error">Report Error</string>
 
+    <!-- Toolbar -->
+    <string name="toolbar_submit_report_text">See Incorrect or Missing info? Submit a Report.</string>
+    <string name="toolbar_share_comic_text">Share Comic</string>
+
 
 
     <!-- ### Layout Content Strings ### -->
@@ -60,10 +64,10 @@
     <string name="comic_detail_no_other_versions">No Other Versions</string>
     <string name="comic_detail_no_reviews">No</string>
     <string name="comic_detail_no_comic_error">Couldn\'t Find Comic Details&#8230;</string>
+    <string name="comic_detail_no_description">No Description</string>
 
     <!-- Collection -->
     <string name="collection_recently_added_header">Recently Added</string>
-
 
 
     <!-- ### Accessibility Content Descriptions ### -->
@@ -84,10 +88,10 @@
     <string name="content_description_comic_detail_in_collection">This comic is in your collection</string>
     <string name="content_description_comic_detail_creator_button">Go to creator</string>
     <string name="content_description_comic_detail_edit_collection_details">Edit collection details for this comic</string>
+    <string name="content_description_comic_detail_cover">Comic Cover Art</string>
 
     <!-- Pull List Fragment Layout -->
     <string name="content_description_pull_list_kabob_menu">Open additional options sub menu for this comic</string>
     <string name="content_description_pull_list_expand_week_item">Expand week</string>
-
 
 </resources>

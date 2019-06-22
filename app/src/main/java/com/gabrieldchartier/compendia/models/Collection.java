@@ -93,7 +93,10 @@ public class Collection
 
     public List<ComicList> getCustomLists()
     {
-        return customLists;
+        if(customLists == null)
+            return new ArrayList<>();
+        else
+            return customLists;
     }
 
     public void setCustomLists(List<ComicList> customLists)

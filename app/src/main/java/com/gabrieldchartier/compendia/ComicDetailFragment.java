@@ -12,13 +12,19 @@ import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.constraint.Group;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
 import com.gabrieldchartier.compendia.models.Collection;
 import com.gabrieldchartier.compendia.models.Comic;
@@ -36,6 +42,7 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     private ImageView backArrow;
     private TextView title;
     private TextView seriesTitle;
+    private ImageView toolbarKabobMenu;
     private ImageView cover;
     private TextView publisher;
     private ImageView detailSeparator1;
@@ -53,6 +60,7 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     private ImageView inCollectionIcon;
     private TextView averageRating;
     private TextView numberOfReviews;
+    private ImageView reviewsButton;
     private TextView description;
     private TextView[] creatorNames;
     private TextView[] creatorTypes;
@@ -71,6 +79,7 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     private CheckBox readList;
     private CheckBox wantList;
     private CheckBox favoriteList;
+    private View endContentDivider;
 
     // Variables
     private Comic comic;
@@ -86,6 +95,7 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
+        setHasOptionsMenu(true);
 
         collection = Collection.getInstance();
         customLists = collection.getCustomLists();
@@ -116,17 +126,16 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
 
         if(comic != null)
         {
-            // Inflate the view and instantiate the widgets
+            // Inflate the view, then initialize the toolbar and widgets
             view = inflater.inflate(R.layout.fragment_comic_detail, container, false);
-            setViewWidgets(view);
+            initializeToolbar(view);
+            initializeWidgets(view);
 
             // Set the widgets to the comic data
             setViewData();
             inflateCreators();
             inflateComicLists();
-
-            // Set OnClick listeners
-            backArrow.setOnClickListener(this);
+            setWidgetListeners();
         }
         else
         {
@@ -155,6 +164,28 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.detail_tool_bar_menu, menu);
+        super.onCreateOptionsMenu(menu,inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.subMenuSubmitReport:
+                //TODO submit report
+                return true;
+            case R.id.subMenuShare:
+                //TODO share
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onAttach(Context context)
     {
         super.onAttach(context);
@@ -168,27 +199,25 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         Log.d(TAG, "onDestroy: called.");
     }
 
-    @Override
-    public void onClick(View v)
+    private void initializeToolbar(View view)
     {
-        if(v.getId() == R.id.comicDetailBackArrow)
-        {
-            Log.d(TAG, "Comic detail back button clicked");
-            mInterface.onBackPressed();
-        }
+        Toolbar toolbar = view.findViewById(R.id.comicDetailToolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
-    private void setViewWidgets(View view)
+    private void initializeWidgets(View view)
     {
         constraintSet = new ConstraintSet();
         constraintLayout = view.findViewById(R.id.comicDetailConstraintLayout);
         constraintSet.clone(constraintLayout);
         backArrow = view.findViewById(R.id.comicDetailBackArrow);
         seriesTitle = view.findViewById(R.id.comicDetailFragmentHeader);
+        //toolbarKabobMenu = view.findViewById(R.id.comicDetailKabobMenu);
         cover = view.findViewById(R.id.comicDetailCover);
         title = view.findViewById(R.id.comicDetailTitle);
         publisher = view.findViewById(R.id.comicDetailPublisher);
-        detailSeparator1 = view.findViewById(R.id.comicDetailSeparator1);
+        detailSeparator1 = view.findViewById(R.id.comicDetailPublisherImprintSeparator);
         imprint = view.findViewById(R.id.comicDetailImprint);
         format = view.findViewById(R.id.comicDetailFormat);
         coverDate = view.findViewById(R.id.comicDetailCoverDate);
@@ -203,6 +232,7 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         inCollectionIcon = view.findViewById(R.id.comicDetailInCollectionIcon);
         averageRating = view.findViewById(R.id.comicDetailAvgReviewNum);
         numberOfReviews = view.findViewById(R.id.comicDetailReviewsNum);
+        reviewsButton = view.findViewById(R.id.comicDetailReviewsArrow);
         description = view.findViewById(R.id.comicDetailDescription);
         creatorNames = new TextView[comic.getCreators().size()];
         creatorTypes = new TextView[comic.getCreators().size()];
@@ -216,10 +246,11 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         condition = view.findViewById(R.id.comicDetailCondition);
         grade = view.findViewById(R.id.comicDetailGrade);
         quantity = view.findViewById(R.id.comicDetailQuantity);
-        contentDivider3 = view.findViewById(R.id.comicDetailContentDivider3);
+        contentDivider3 = view.findViewById(R.id.comicDetailCollectionListsContentDivider);
         readList = view.findViewById(R.id.comicDetailListRead);
         wantList = view.findViewById(R.id.comicDetailListWant);
         favoriteList = view.findViewById(R.id.comicDetailListFavorite);
+        endContentDivider = view.findViewById(R.id.comicDetailListsEndContentDivider);
     }
 
     private void setViewData()
@@ -230,7 +261,7 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
                 .into(cover);
         title.setText(comic.getTitle());
         publisher.setText(comic.getPublisherName());
-        if(comic.getImprintName() != null && !comic.getImprintName().equals(""))
+        if(!comic.getImprintName().equals(""))
             imprint.setText(comic.getImprintName());
         else
         {
@@ -238,8 +269,8 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
             detailSeparator1.setVisibility(View.GONE);
         }
         format.setText(comic.getFormat());
-        coverDate.setText(comic.getReleaseDate().toString());
-        coverPrice.setText(comic.getCoverPrice().toString());
+        coverDate.setText(comic.getReleaseDate());
+        coverPrice.setText(comic.getCoverPrice());
         age.setText(comic.getAge());
         ageRating.setText(comic.getAgeRating());
         if(comic.getOtherVersions().length >= 1)
@@ -256,20 +287,23 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
             hasReadIcon.setVisibility(View.VISIBLE);
         if(comic.getUserRating() > 0.0f)
             userRating.setRating(comic.getUserRating());
-        averageRating.setText(comic.getAverageRatingToString());
+        averageRating.setText(String.valueOf(comic.getAverageRating()));
         if(comic.getTotalReviews() >= 1)
-            numberOfReviews.setText(comic.getTotalReviews());
+            numberOfReviews.setText(String.valueOf(comic.getTotalReviews()));
         else
             numberOfReviews.setText(getString(R.string.comic_detail_no_reviews));
-        description.setText(comic.getDescription());
+        if(comic.getDescription().equals(""))
+            description.setText(getString(R.string.comic_detail_no_description));
+        else
+            description.setText(comic.getDescription());
         if(comicIsInCollection)
         {
-            collectedDate.setText(comic.getDateCollected().toString());
-            purchasePrice.setText(comic.getPurchasePrice().toString());
+            collectedDate.setText(comic.getDateCollected());
+            purchasePrice.setText(comic.getPurchasePrice());
             boughtAt.setText(comic.getBoughtAt());
             condition.setText(comic.getCondition());
             grade.setText(comic.getGradeAndAgencyString());
-            quantity.setText(comic.getQuantity());
+            quantity.setText(String.valueOf(comic.getQuantity()));
         }
         else
         {
@@ -307,18 +341,23 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
             newCustomList.setText(customLists.get(i).getListName());
             customListCheckboxes.add(newCustomList);
 
-            // If the custom list being built is the first custom list, connect it to favorites
-            // Else, connect it to the previous custom list
+            // If the custom list being built is the first custom list, connect it to favorites list
             if(i == 1)
             {
+                constraintSet.clear(endContentDivider.getId(), ConstraintSet.TOP);
                 constraintSet.connect(customListCheckboxes.get(i).getId(), ConstraintSet.START, favoriteList.getId(), ConstraintSet.START);
                 constraintSet.connect(customListCheckboxes.get(i).getId(), ConstraintSet.TOP, favoriteList.getId(), ConstraintSet.BOTTOM);
             }
+            // Else, connect it to the previous custom list that was built
             else
             {
                 constraintSet.connect(customListCheckboxes.get(i).getId(), ConstraintSet.START, customListCheckboxes.get(i - 1).getId(), ConstraintSet.START);
                 constraintSet.connect(customListCheckboxes.get(i).getId(), ConstraintSet.TOP, customListCheckboxes.get(i - 1).getId(), ConstraintSet.BOTTOM);
             }
+
+            // Constrain the last custom list to the top of the end content divider
+            if(i == customLists.size())
+                constraintSet.connect(endContentDivider.getId(), ConstraintSet.TOP, customListCheckboxes.get(i).getId(), ConstraintSet.BOTTOM);
         }
         constraintSet.applyTo(constraintLayout);
 
@@ -333,4 +372,41 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
             if(collection.comicIsInCustomList(comic, list.getText().toString()))
                 list.setChecked(true);
     }
+
+    private void setWidgetListeners()
+    {
+        backArrow.setOnClickListener(this);
+        //toolbarKabobMenu.setOnClickListener(this);
+        otherVersionsButton.setOnClickListener(this);
+        reviewsButton.setOnClickListener(this);
+        editCollectionButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view)
+    {
+        if(view.getId() == R.id.comicDetailBackArrow)
+        {
+            Log.d(TAG, "Comic detail back button clicked");
+            mInterface.onBackPressed();
+        }
+//        else if(view.getId() == R.id.comicDetailKabobMenu)
+//        {
+//            Log.d(TAG, "Comic detail kabob menu clicked");
+//        }
+        else if(view.getId() == R.id.comicDetailOtherVersionArrow)
+        {
+            Log.d(TAG, "Comic detail other versions clicked");
+        }
+        else if(view.getId() == R.id.comicDetailReviewsArrow)
+        {
+            Log.d(TAG, "Comic detail reviews clicked");
+        }
+        else if(view.getId() == R.id.comicDetailEditCollectionButton)
+        {
+            Log.d(TAG, "Comic detail edit collection clicked");
+        }
+    }
+
+
 }

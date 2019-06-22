@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorPrimary"
+    android:elevation="4dp"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+    <ImageView
+        android:id="@+id/comicDetailBackArrow"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/content_description_back_arrow"
+        app:layout_constraintBottom_toBottomOf="@id/comicDetailToolbar"
+        app:layout_constraintEnd_toStartOf="@id/comicDetailFragmentHeader"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="@id/comicDetailToolbar"
+        app:layout_constraintTop_toTopOf="@id/comicDetailToolbar"
+        app:srcCompat="@drawable/ic_round_arrow_back_24px" />
+
+    <TextView
+        android:id="@+id/comicDetailFragmentHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constrainedWidth="true"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textAppearance="@style/fragment_header_text"
+        app:layout_constraintBottom_toBottomOf="@id/comicDetailToolbar"
+        app:layout_constraintStart_toEndOf="@id/comicDetailBackArrow"
+        app:layout_constraintTop_toTopOf="@id/comicDetailToolbar"
+        tools:text="Gideon Falls" />
+
+    <!--<ImageView-->
+        <!--android:id="@+id/comicDetailKabobMenu"-->
+        <!--android:layout_width="34dp"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:contentDescription="@string/content_description_kabob_menu"-->
+        <!--app:layout_constraintBottom_toBottomOf="@id/comicDetailToolbar"-->
+        <!--app:layout_constraintEnd_toEndOf="@id/comicDetailToolbar"-->
+        <!--app:layout_constraintStart_toEndOf="@id/comicDetailFragmentHeader"-->
+        <!--app:layout_constraintTop_toTopOf="@id/comicDetailToolbar"-->
+        <!--app:srcCompat="@drawable/kabob_menu" />-->
+
+</android.support.v7.widget.Toolbar>

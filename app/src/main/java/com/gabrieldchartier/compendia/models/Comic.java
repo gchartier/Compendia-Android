@@ -8,10 +8,17 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Date;
 import java.util.Dictionary;
+import java.util.List;
 import java.util.UUID;
 
 public class Comic implements Parcelable
 {
+    private static final String MODERN_AGE_COMIC = "Modern Age";
+    private static final int SINGLE_ISSUE_FORMAT_CODE = 1;
+    private static final String SINGLE_ISSUE_FORMAT_TEXT = "Issue";
+    private static final int MATURE_RATING_CODE = 1;
+    private static final String MATURE_RATING_TEXT = "MA";
+
     private UUID ID;
     private String title;
     private String cover;
@@ -21,13 +28,13 @@ public class Comic implements Parcelable
     private String imprintName;
     private UUID imprintID;
     private Dictionary characters;
-    private Date releaseDate;
-    private Currency coverPrice;
+    private String releaseDate;
+    private String coverPrice;
     private String description;
     private int pageCount;
     private String arc;
     private UUID arcID;
-    private String age;
+    private int age;
     private String synopsis;
     private String barcode;
     private int totalWant;
@@ -46,13 +53,13 @@ public class Comic implements Parcelable
     private boolean isReprint;
     private boolean isOneShot;
     private int miniSeriesLimit;
-    private int format;
+    private String format;
     private int itemNumber;
     private int collectionType;
     private UUID[] otherVersions;
     private float userRating;
-    private Date dateCollected;
-    private Currency purchasePrice;
+    private String dateCollected;
+    private String purchasePrice;
     private String boughtAt;
     private String condition;
     private String gradingAgency;
@@ -60,11 +67,80 @@ public class Comic implements Parcelable
     private int quantity;
     private String notes;
 
-    public Comic(String ID, String title, String cover)
+    public Comic(String ID, String title, String cover, ArrayList<ComicCreator> creators, String publisherName,
+                 String publisherID, String imprintName, String imprintID, Dictionary characters,
+                 String releaseDate, String coverPrice, String description, int pageCount, String arc,
+                 String arcID, int age, String synopsis, String barcode, int totalWant, int totalFavorited,
+                 int totalOwned, int totalRead, float averageRating, int totalRatings, int totalReviews,
+                 String seriesName, String seriesID, int printing, String variant, int ageRating,
+                 boolean isMiniSeries, boolean isReprint, boolean isOneShot, int miniSeriesLimit,
+                 int format, int itemNumber, int collectionType, String[] otherVersions, float userRating,
+                 String dateCollected, String purchasePrice, String boughtAt, String condition,
+                 String gradingAgency, float grade, int quantity, String notes)
     {
         this.ID = UUID.fromString(ID);
         this.title = title;
         this.cover = cover;
+        this.creators = new ArrayList<>(creators);
+        this.publisherName = publisherName;
+        this.publisherID = UUID.fromString(publisherID);
+        this.imprintName = imprintName;
+        if(!imprintID.equals(""))
+            this.imprintID = UUID.fromString(imprintID);
+        this.characters = characters;
+        this.releaseDate = releaseDate;
+        this.coverPrice = coverPrice;
+        this.description = description;
+        this.pageCount = pageCount;
+        this.arc = arc;
+        if(!arcID.equals(""))
+            this.arcID = UUID.fromString(arcID);
+        this.age = age;
+        this.synopsis = synopsis;
+        this.barcode = barcode;
+        this.totalWant = totalWant;
+        this.totalFavorited = totalFavorited;
+        this.totalOwned = totalOwned;
+        this.totalRead = totalRead;
+        this.averageRating = averageRating;
+        this.totalRatings = totalRatings;
+        this.totalReviews = totalReviews;
+        this.seriesName = seriesName;
+        this.seriesID = UUID.fromString(seriesID);
+        this.printing = printing;
+        this.variant = variant;
+        if(ageRating == MATURE_RATING_CODE)
+            this.ageRating = MATURE_RATING_TEXT;
+        else
+            this.ageRating = "All Ages";
+        this.isMiniSeries = isMiniSeries;
+        this.isReprint = isReprint;
+        this.isOneShot = isOneShot;
+        this.miniSeriesLimit = miniSeriesLimit;
+        if(format == SINGLE_ISSUE_FORMAT_CODE)
+            this.format = SINGLE_ISSUE_FORMAT_TEXT;
+        else
+            this.format = "Something Else";
+        this.itemNumber = itemNumber;
+        this.collectionType = collectionType;
+        if(otherVersions != null)
+        {
+            this.otherVersions = new UUID[otherVersions.length];
+            for(int i = 0; i < otherVersions.length - 1; i++)
+                this.otherVersions[i] = UUID.fromString(otherVersions[i]);
+        }
+        else
+            this.otherVersions = new UUID[]{};
+
+        this.userRating = userRating;
+        this.dateCollected = dateCollected;
+        this.purchasePrice = purchasePrice;
+        this.boughtAt = boughtAt;
+        this.condition = condition;
+        this.gradingAgency = gradingAgency;
+        this.grade = grade;
+        this.quantity = quantity;
+        this.notes = notes;
     }
 
     public Comic()
@@ -162,22 +238,22 @@ public class Comic implements Parcelable
         this.characters = characters;
     }
 
-    public Date getReleaseDate()
+    public String getReleaseDate()
     {
         return releaseDate;
     }
 
-    public void setReleaseDate(Date releaseDate)
+    public void setReleaseDate(String releaseDate)
     {
         this.releaseDate = releaseDate;
     }
 
-    public Currency getCoverPrice()
+    public String getCoverPrice()
     {
         return coverPrice;
     }
 
-    public void setCoverPrice(Currency coverPrice)
+    public void setCoverPrice(String coverPrice)
     {
         this.coverPrice = coverPrice;
     }
@@ -222,12 +298,16 @@ public class Comic implements Parcelable
         this.arcID = arcID;
     }
 
+    //TODO
     public String getAge()
     {
-        return age;
+        if(age == 4)
+            return MODERN_AGE_COMIC;
+        else
+            return "Not Modern";
     }
 
-    public void setAge(String age)
+    public void setAge(int age)
     {
         this.age = age;
     }
@@ -417,12 +497,12 @@ public class Comic implements Parcelable
         this.miniSeriesLimit = miniSeriesLimit;
     }
 
-    public int getFormat()
+    public String getFormat()
     {
         return format;
     }
 
-    public void setFormat(int format)
+    public void setFormat(String format)
     {
         this.format = format;
     }
@@ -472,22 +552,22 @@ public class Comic implements Parcelable
         this.userRating = userRating;
     }
 
-    public Date getDateCollected()
+    public String getDateCollected()
     {
         return dateCollected;
     }
 
-    public void setDateCollected(Date dateCollected)
+    public void setDateCollected(String dateCollected)
     {
         this.dateCollected = dateCollected;
     }
 
-    public Currency getPurchasePrice()
+    public String getPurchasePrice()
     {
         return purchasePrice;
     }
 
-    public void setPurchasePrice(Currency purchasePrice)
+    public void setPurchasePrice(String purchasePrice)
     {
         this.purchasePrice = purchasePrice;
     }
