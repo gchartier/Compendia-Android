@@ -159,6 +159,8 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
     }
 
+
+
     // Set the bottom nav icon if the tag passed in is associated with a bottom nav fragment
     private void setBottomNavIcon(String fragmentTag)
     {

@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class TempCollection
 {
-    public List<Comic> comics;
+    public ArrayList<Comic> comics;
 
     private static final Comic Thumbs1 = new Comic("5cf99e46-1fc1-313f-9471-dca900000000",
             "Thumbs #1 (Of 5)", "https://www.previewsworld.com/SiteImage/CatalogImage/STL120775?type=1",
@@ -134,9 +134,46 @@ public class TempCollection
         comics.add(SectionZero3A);
         comics.add(SectionZero3B);
         comics.add(SectionZero3C);
+
+        ComicCreator newCreator1 = new ComicCreator(UUID.randomUUID(),
+                "Jeff Lemire", new String[]{"Writer","Artist"});
+        ComicCreator newCreator2 = new ComicCreator(UUID.randomUUID(),
+                "Brian K. Vaughan", new String[]{"Writer"});
+        ComicCreator newCreator3 = new ComicCreator(UUID.randomUUID(),
+                "Alan Moore", new String[]{"Writer","Artist", "Inker", "Penciler"});
+        ComicCreator newCreator4 = new ComicCreator(UUID.randomUUID(),
+                "Jill Stein", new String[]{"Cover Artist"});
+        ComicCreator newCreator5 = new ComicCreator(UUID.randomUUID(),
+                "Gabriel Chartier", new String[]{"Cover Artist"});
+        List<ComicCreator> creatorsList1 = new ArrayList<>();
+        List<ComicCreator> creatorsList2 = new ArrayList<>();
+        List<ComicCreator> creatorsList3 = new ArrayList<>();
+        List<ComicCreator> creatorsList4 = new ArrayList<>();
+        List<ComicCreator> creatorsList5 = new ArrayList<>();
+        creatorsList1.add(newCreator1);
+        creatorsList2.add(newCreator2);
+        creatorsList2.add(newCreator1);
+        creatorsList3.add(newCreator1);
+        creatorsList3.add(newCreator2);
+        creatorsList3.add(newCreator3);
+        creatorsList4.add(newCreator4);
+        creatorsList4.add(newCreator3);
+        creatorsList4.add(newCreator1);
+        creatorsList4.add(newCreator2);
+        creatorsList5.add(newCreator4);
+        creatorsList5.add(newCreator3);
+        creatorsList5.add(newCreator1);
+        creatorsList5.add(newCreator2);
+        creatorsList5.add(newCreator5);
+        comics.get(0).setCreators(creatorsList1);
+        comics.get(1).setCreators(creatorsList2);
+        comics.get(2).setCreators(creatorsList3);
+        comics.get(3).setCreators(creatorsList4);
+        comics.get(4).setCreators(creatorsList5);
+        comics.get(5).setCreators(new ArrayList<ComicCreator>());
     }
 
-    public List<Comic> getTempCollection()
+    public ArrayList<Comic> getTempCollection()
     {
         return comics;
     }

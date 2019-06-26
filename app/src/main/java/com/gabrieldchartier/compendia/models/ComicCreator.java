@@ -6,13 +6,13 @@ public class ComicCreator
 {
     private UUID ID;
     private String name;
-    private int creatorType;
+    private String[] creatorTypes;
 
-    public ComicCreator(UUID ID, String name, int creatorType)
+    public ComicCreator(UUID ID, String name, String[] creatorTypes)
     {
         this.ID = ID;
         this.name = name;
-        this.creatorType = creatorType;
+        this.creatorTypes = creatorTypes;
     }
 
     public UUID getID()
@@ -35,13 +35,20 @@ public class ComicCreator
         this.name = name;
     }
 
-    public int getCreatorType()
+    public String getCreatorTypes()
     {
-        return creatorType;
+        StringBuilder types = new StringBuilder();
+        if(creatorTypes.length >= 1)
+            for(String type : creatorTypes)
+                types.append(" - ").append(type);
+        else
+            types.append("");
+
+        return types.toString().substring(2);
     }
 
-    public void setCreatorType(int creatorType)
+    public void setCreatorType(String[] creatorTypes)
     {
-        this.creatorType = creatorType;
+        this.creatorTypes = creatorTypes;
     }
 }

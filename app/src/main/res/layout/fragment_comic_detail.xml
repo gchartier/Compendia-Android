@@ -197,39 +197,27 @@
             tools:text="MA" />
 
         <TextView
-            android:id="@+id/comicDetailOtherVersionNum"
-            style="@style/detail_text_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/comicDetailOtherVersionText"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="@+id/comicDetailFormat"
-            app:layout_constraintTop_toBottomOf="@+id/comicDetailFormat"
-            tools:text="1" />
-
-        <TextView
             android:id="@+id/comicDetailOtherVersionText"
             style="@style/detail_text_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="@string/comic_detail_other_versions_text"
-            app:layout_constraintBottom_toBottomOf="@+id/comicDetailOtherVersionNum"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toStartOf="@+id/comicDetailOtherVersionArrow"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/comicDetailOtherVersionNum"
-            app:layout_constraintTop_toTopOf="@+id/comicDetailOtherVersionNum" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailCover"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailFormat"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailFormat"
+            tools:text="1 Other Version(s)" />
 
         <ImageView
             android:id="@+id/comicDetailOtherVersionArrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:contentDescription="@string/content_description_comic_detail_other_versions"
             app:layout_constraintBottom_toBottomOf="@+id/comicDetailOtherVersionText"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/comicDetailOtherVersionText"
             app:layout_constraintTop_toTopOf="@+id/comicDetailOtherVersionText"
             app:srcCompat="@drawable/navigate_in" />
@@ -245,8 +233,8 @@
             app:layout_constraintEnd_toStartOf="@+id/comicDetailUserRating"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="@+id/comicDetailOtherVersionNum"
-            app:layout_constraintTop_toBottomOf="@+id/comicDetailOtherVersionNum" />
+            app:layout_constraintStart_toStartOf="@+id/comicDetailOtherVersionText"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailOtherVersionText" />
 
         <com.iarcuschin.simpleratingbar.SimpleRatingBar
             android:id="@+id/comicDetailUserRating"
@@ -371,13 +359,25 @@
             app:layout_constraintTop_toTopOf="@+id/comicDetailReviewsText"
             app:srcCompat="@drawable/navigate_in" />
 
+        <View
+            android:id="@+id/descriptionGradient"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:background="@drawable/detail_gradient"
+            android:elevation="1dp"
+            app:layout_constraintBottom_toBottomOf="@id/comicDetailDescription"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <TextView
             android:id="@+id/comicDetailDescription"
             style="@style/detail_text_2"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:maxLines="@integer/DESCRIPTION_MAX_LINES"
+            android:minLines="1"
             app:layout_constrainedWidth="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/comicDetailGuidelineLeft"
@@ -387,7 +387,7 @@
         <View
             android:id="@+id/comicDetailDescriptionCreatorsContentDivider"
             style="@style/Divider"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/comicDetailDescription" />
@@ -402,6 +402,27 @@
             android:text="@string/comic_detail_creators_header"
             app:layout_constraintStart_toStartOf="@+id/comicDetailGuidelineLeft"
             app:layout_constraintTop_toBottomOf="@+id/comicDetailDescriptionCreatorsContentDivider" />
+
+        <TextView
+            android:id="@+id/comicDetailSeeAllCreatorsText"
+            style="@style/detail_text_2_light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/comic_detail_see_all_creators_text"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailSeeAllCreatorsButton"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailDescriptionCreatorsContentDivider" />
+
+        <ImageView
+            android:id="@+id/comicDetailSeeAllCreatorsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/content_description_comic_detail_see_all_creators"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailSeeAllCreatorsText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailSeeAllCreatorsText"
+            app:srcCompat="@drawable/navigate_in" />
 
         <TextView
             android:id="@+id/comicDetailCreator1"
@@ -423,7 +444,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@+id/comicDetailCreator1"
             app:layout_constraintTop_toBottomOf="@+id/comicDetailCreator1"
-            tools:text="Writer, Artist" />
+            tools:text="Writer, Artist, Penciler, Inker" />
 
         <ImageView
             android:id="@+id/comicDetailCreatorButton1"
@@ -437,12 +458,185 @@
             app:layout_constraintTop_toTopOf="@+id/comicDetailCreator1"
             app:srcCompat="@drawable/navigate_in" />
 
+        <TextView
+            android:id="@+id/comicDetailCreator2"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailCreatorButton2"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/comicDetailCreator1Barrier"
+            app:layout_constraintTop_toTopOf="@id/comicDetailCreator1"
+            tools:text="Brian K. Vaughan" />
+
+        <TextView
+            android:id="@+id/comicDetailCreatorType2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/comicDetailCreatorType1"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailCreator2"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailCreator2"
+            tools:text="Writer, Artist" />
+
+        <ImageView
+            android:id="@+id/comicDetailCreatorButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/content_description_comic_detail_creator_button"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailCreator2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailCreator2"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailCreator2"
+            app:srcCompat="@drawable/navigate_in" />
+
+        <TextView
+            android:id="@+id/comicDetailCreator3"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailCreatorButton3"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/comicDetailCreatorType1"
+            tools:text="Mark Craig Armstrong" />
+
+        <TextView
+            android:id="@+id/comicDetailCreatorType3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailCreator3"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailCreator3"
+            tools:text="Artist, Cover Artist" />
+
+        <ImageView
+            android:id="@+id/comicDetailCreatorButton3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/content_description_comic_detail_creator_button"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailCreator3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailCreator3"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailCreator3"
+            app:srcCompat="@drawable/navigate_in" />
+
+        <TextView
+            android:id="@+id/comicDetailCreator4"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailCreatorButton4"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@id/comicDetailCreator3Barrier"
+            app:layout_constraintTop_toTopOf="@id/comicDetailCreator3"
+            tools:text="Jeff Lemire" />
+
+        <TextView
+            android:id="@+id/comicDetailCreatorType4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailCreatorType3"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailCreator4"
+            tools:text="Writer, Artist" />
+
+        <ImageView
+            android:id="@+id/comicDetailCreatorButton4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/content_description_comic_detail_creator_button"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailCreator4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailCreator4"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailCreator4"
+            app:srcCompat="@drawable/navigate_in" />
+
+        <TextView
+            android:id="@+id/comicDetailNoCreators"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/comic_detail_no_creators"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/comicDetailCreatorsCollectionContentDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/comicDetailCreatorsHeader" />
+
+        <android.support.constraint.Group
+            android:id="@+id/comicDetailCreatorGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="comicDetailCreator1, comicDetailCreatorType1, comicDetailCreatorButton1" />
+
+        <android.support.constraint.Group
+            android:id="@+id/comicDetailCreator2Group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="comicDetailCreator2, comicDetailCreatorType2, comicDetailCreatorButton2" />
+
+        <android.support.constraint.Group
+            android:id="@+id/comicDetailCreator3Group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="comicDetailCreator3, comicDetailCreatorType3, comicDetailCreatorButton3" />
+
+        <android.support.constraint.Group
+            android:id="@+id/comicDetailCreator4Group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="comicDetailCreator4, comicDetailCreatorType4, comicDetailCreatorButton4" />
+
+        <android.support.constraint.Group
+            android:id="@+id/comicDetailSeeAllCreatorsGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="comicDetailSeeAllCreatorsButton, comicDetailSeeAllCreatorsText" />
+
         <android.support.constraint.Barrier
-            android:id="@+id/comicDetailCreatorsBarrier"
+            android:id="@+id/comicDetailCreatorsBarrierBottom"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:barrierDirection="top"
-            tools:layout_editor_absoluteY="929dp" />
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="comicDetailCreatorType1, comicDetailCreatorType2,
+            comicDetailCreatorType3, comicDetailCreatorType4, comicDetailNoCreators"
+            tools:layout_editor_absoluteY="452dp" />
+
+        <android.support.constraint.Barrier
+            android:id="@+id/comicDetailCreator1Barrier"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:barrierDirection="end"
+            app:constraint_referenced_ids="comicDetailCreatorType1, comicDetailCreatorButton1"
+            tools:layout_editor_absoluteX="21dp" />
+
+        <android.support.constraint.Barrier
+            android:id="@+id/comicDetailCreator3Barrier"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:barrierDirection="end"
+            app:constraint_referenced_ids="comicDetailCreatorType3, comicDetailCreatorButton3"
+            tools:layout_editor_absoluteX="21dp" />
+
+        <View
+            android:id="@+id/comicDetailCreatorsCollectionContentDivider"
+            style="@style/Divider"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/comicDetailCreatorsBarrierBottom" />
 
         <android.support.constraint.Group
             android:id="@+id/comicDetailCollectionDetailsGroup"
@@ -455,14 +649,6 @@
             comicDetailBoughtAt, comicDetailConditionHeader, comicDetailCondition, comicDetailConditionBarrier,
             comicDetailGradeHeader, comicDetailGrade, comicDetailGradeBarrier, comicDetailQuantityHeader,
             comicDetailQuantity" />
-
-        <View
-            android:id="@+id/comicDetailCreatorsCollectionContentDivider"
-            style="@style/Divider"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/comicDetailCreatorType1" />
 
         <TextView
             android:id="@+id/comicDetailCollectionDetailsHeader"
@@ -680,7 +866,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/comicDetailListFavorite" />
-
     </android.support.constraint.ConstraintLayout>
 
 </ScrollView>

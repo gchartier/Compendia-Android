@@ -1,5 +1,6 @@
 package com.gabrieldchartier.compendia;
 
+import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,6 +13,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.constraint.Group;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -24,10 +26,10 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.gabrieldchartier.compendia.models.Collection;
 import com.gabrieldchartier.compendia.models.Comic;
+import com.gabrieldchartier.compendia.models.ComicCreator;
 import com.gabrieldchartier.compendia.models.ComicList;
 import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 import java.util.ArrayList;
@@ -42,7 +44,6 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     private ImageView backArrow;
     private TextView title;
     private TextView seriesTitle;
-    private ImageView toolbarKabobMenu;
     private ImageView cover;
     private TextView publisher;
     private ImageView detailSeparator1;
@@ -52,7 +53,6 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     private TextView coverPrice;
     private TextView age;
     private TextView ageRating;
-    private TextView numberOfOtherVersions;
     private TextView otherVersionsText;
     private ImageView otherVersionsButton;
     private SimpleRatingBar userRating;
@@ -61,11 +61,23 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     private TextView averageRating;
     private TextView numberOfReviews;
     private ImageView reviewsButton;
+    private View descriptionGradient;
     private TextView description;
-    private TextView[] creatorNames;
-    private TextView[] creatorTypes;
-    private TextView[] creatorButtons;
-    private Barrier creatorsBarrier;
+    private TextView creator1Name;
+    private TextView creator2Name;
+    private TextView creator3Name;
+    private TextView creator4Name;
+    private TextView creator1Type;
+    private TextView creator2Type;
+    private TextView creator3Type;
+    private TextView creator4Type;
+    private Barrier creatorsBarrierBottom;
+    private TextView noCreators;
+    private Group seeAllCreatorsGroup;
+    private Group creator1Group;
+    private Group creator2Group;
+    private Group creator3Group;
+    private Group creator4Group;
     private Group collectionDetailsGroup;
     private ImageView editCollectionButton;
     private TextView collectedDate;
@@ -74,8 +86,7 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     private TextView condition;
     private TextView grade;
     private TextView quantity;
-    private View contentDivider3;
-    private ArrayList<CheckBox> customListCheckboxes;
+    private View collectionDetailListsDivider;
     private CheckBox readList;
     private CheckBox wantList;
     private CheckBox favoriteList;
@@ -84,7 +95,6 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     // Variables
     private Comic comic;
     private Collection collection;
-    private List<ComicList> customLists;
     private boolean comicIsInCollection;
     private FragmentInfoRelay mInterface;
     private ConstraintLayout constraintLayout;
@@ -98,7 +108,7 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         setHasOptionsMenu(true);
 
         collection = Collection.getInstance();
-        customLists = collection.getCustomLists();
+
         if(bundle != null)
         {
             comic = bundle.getParcelable(getString(R.string.intent_comic));
@@ -153,7 +163,7 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
                     // A null listener allows the button to dismiss the dialog and take no further action.
                     .setNegativeButton(getString(R.string.alert_dialog_report_error), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            // TODO Report Error Logic
+                            // TODO Open Report Error Dialog
                         }
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert)
@@ -202,8 +212,17 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     private void initializeToolbar(View view)
     {
         Toolbar toolbar = view.findViewById(R.id.comicDetailToolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if(getActivity() != null)
+        {
+            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            if(actionBar != null)
+                actionBar.setDisplayShowTitleEnabled(false);
+            else
+                Log.e(TAG, "Support Action Bar was null");
+        }
+        else
+            Log.e(TAG, "Activity was null");
     }
 
     private void initializeWidgets(View view)
@@ -213,7 +232,6 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         constraintSet.clone(constraintLayout);
         backArrow = view.findViewById(R.id.comicDetailBackArrow);
         seriesTitle = view.findViewById(R.id.comicDetailFragmentHeader);
-        //toolbarKabobMenu = view.findViewById(R.id.comicDetailKabobMenu);
         cover = view.findViewById(R.id.comicDetailCover);
         title = view.findViewById(R.id.comicDetailTitle);
         publisher = view.findViewById(R.id.comicDetailPublisher);
@@ -224,7 +242,6 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         coverPrice = view.findViewById(R.id.comicDetailCoverPrice);
         age = view.findViewById(R.id.comicDetailAge);
         ageRating = view.findViewById(R.id.comicDetailAgeRating);
-        numberOfOtherVersions = view.findViewById(R.id.comicDetailOtherVersionNum);
         otherVersionsText = view.findViewById(R.id.comicDetailOtherVersionText);
         otherVersionsButton = view.findViewById(R.id.comicDetailOtherVersionArrow);
         userRating = view.findViewById(R.id.comicDetailUserRating);
@@ -233,11 +250,8 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         averageRating = view.findViewById(R.id.comicDetailAvgReviewNum);
         numberOfReviews = view.findViewById(R.id.comicDetailReviewsNum);
         reviewsButton = view.findViewById(R.id.comicDetailReviewsArrow);
+        descriptionGradient = view.findViewById(R.id.descriptionGradient);
         description = view.findViewById(R.id.comicDetailDescription);
-        creatorNames = new TextView[comic.getCreators().size()];
-        creatorTypes = new TextView[comic.getCreators().size()];
-        creatorButtons = new TextView[comic.getCreators().size()];
-        creatorsBarrier = view.findViewById(R.id.comicDetailCreatorsBarrier);
         collectionDetailsGroup = view.findViewById(R.id.comicDetailCollectionDetailsGroup);
         editCollectionButton = view.findViewById(R.id.comicDetailEditCollectionButton);
         collectedDate = view.findViewById(R.id.comicDetailDateCollected);
@@ -246,11 +260,28 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         condition = view.findViewById(R.id.comicDetailCondition);
         grade = view.findViewById(R.id.comicDetailGrade);
         quantity = view.findViewById(R.id.comicDetailQuantity);
-        contentDivider3 = view.findViewById(R.id.comicDetailCollectionListsContentDivider);
+        collectionDetailListsDivider = view.findViewById(R.id.comicDetailCollectionListsContentDivider);
         readList = view.findViewById(R.id.comicDetailListRead);
         wantList = view.findViewById(R.id.comicDetailListWant);
         favoriteList = view.findViewById(R.id.comicDetailListFavorite);
         endContentDivider = view.findViewById(R.id.comicDetailListsEndContentDivider);
+
+        // Creator related views
+        creator1Name = view.findViewById(R.id.comicDetailCreator1);
+        creator2Name = view.findViewById(R.id.comicDetailCreator2);
+        creator3Name = view.findViewById(R.id.comicDetailCreator3);
+        creator4Name = view.findViewById(R.id.comicDetailCreator4);
+        creator1Type = view.findViewById(R.id.comicDetailCreatorType1);
+        creator2Type = view.findViewById(R.id.comicDetailCreatorType2);
+        creator3Type = view.findViewById(R.id.comicDetailCreatorType3);
+        creator4Type = view.findViewById(R.id.comicDetailCreatorType4);
+        creator1Group = view.findViewById(R.id.comicDetailCreatorGroup);
+        creator2Group = view.findViewById(R.id.comicDetailCreator2Group);
+        creator3Group = view.findViewById(R.id.comicDetailCreator3Group);
+        creator4Group = view.findViewById(R.id.comicDetailCreator4Group);
+        creatorsBarrierBottom = view.findViewById(R.id.comicDetailCreatorsBarrierBottom);
+        noCreators = view.findViewById(R.id.comicDetailNoCreators);
+        seeAllCreatorsGroup = view.findViewById(R.id.comicDetailSeeAllCreatorsGroup);
     }
 
     private void setViewData()
@@ -274,11 +305,10 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         age.setText(comic.getAge());
         ageRating.setText(comic.getAgeRating());
         if(comic.getOtherVersions().length >= 1)
-            numberOfOtherVersions.setText(comic.getOtherVersions().length);
+            otherVersionsText.setText(getString(R.string.comic_detail_other_versions_text, Integer.toString(comic.getOtherVersions().length)));
         else
         {
-            numberOfOtherVersions.setVisibility(View.INVISIBLE);
-            otherVersionsText.setText(getString(R.string.comic_detail_no_other_versions));
+            otherVersionsText.setText(getString(R.string.comic_detail_other_versions_text, "No"));
             otherVersionsButton.setVisibility(View.GONE);
         }
         if(comicIsInCollection)
@@ -296,6 +326,17 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
             description.setText(getString(R.string.comic_detail_no_description));
         else
             description.setText(comic.getDescription());
+        descriptionGradient.post(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                if(description.getLineCount() <= getResources().getInteger(R.integer.DESCRIPTION_MAX_LINES))
+                    descriptionGradient.setVisibility(View.GONE);
+                else
+                    descriptionGradient.setVisibility(View.VISIBLE);
+            }
+        });
         if(comicIsInCollection)
         {
             collectedDate.setText(comic.getDateCollected());
@@ -307,24 +348,58 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         }
         else
         {
-            //TODO check this and ensure it works
             collectionDetailsGroup.setVisibility(View.GONE);
             constraintSet = new ConstraintSet();
-            constraintSet.connect(contentDivider3.getId(),ConstraintSet.TOP, creatorsBarrier.getId(), ConstraintSet.BOTTOM,0);
+            constraintSet.connect(collectionDetailListsDivider.getId(),ConstraintSet.TOP,
+                    creatorsBarrierBottom.getId(), ConstraintSet.BOTTOM, 0);
             constraintSet.applyTo(constraintLayout);
         }
     }
 
-    //TODO
     private void inflateCreators()
     {
+        // Initialize creators
+        List<ComicCreator> creators = comic.getCreators();
+        int numberOfCreators = creators.size();
 
+        // Set text and visibility of creators
+        if(numberOfCreators >= 1)
+        {
+            creator1Group.setVisibility(View.VISIBLE);
+            creator1Name.setText(creators.get(0).getName());
+            creator1Type.setText(creators.get(0).getCreatorTypes());
+            if(numberOfCreators >= 2)
+            {
+                creator2Group.setVisibility(View.VISIBLE);
+                creator2Name.setText(creators.get(1).getName());
+                creator2Type.setText(creators.get(1).getCreatorTypes());
+                if(numberOfCreators >= 3)
+                {
+                    creator3Group.setVisibility(View.VISIBLE);
+                    creator3Name.setText(creators.get(2).getName());
+                    creator3Type.setText(creators.get(2).getCreatorTypes());
+                    if(numberOfCreators >= 4)
+                    {
+                        creator4Group.setVisibility(View.VISIBLE);
+                        creator4Name.setText(creators.get(3).getName());
+                        creator4Type.setText(creators.get(3).getCreatorTypes());
+                        if(numberOfCreators > 4)
+                            seeAllCreatorsGroup.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        }
+        else
+        {
+            noCreators.setVisibility(View.VISIBLE);
+        }
     }
 
     private void inflateComicLists()
     {
         // Initialize list checkboxes, and their layout params
-        customListCheckboxes = new ArrayList<>();
+        List<ComicList> customLists = collection.getCustomLists();
+        ArrayList<CheckBox> customListCheckboxes = new ArrayList<>();
         ConstraintLayout.LayoutParams layoutParams;
         CheckBox newCustomList;
         layoutParams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
@@ -376,10 +451,17 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     private void setWidgetListeners()
     {
         backArrow.setOnClickListener(this);
-        //toolbarKabobMenu.setOnClickListener(this);
         otherVersionsButton.setOnClickListener(this);
         reviewsButton.setOnClickListener(this);
+        description.setOnClickListener(this);
         editCollectionButton.setOnClickListener(this);
+
+        // Creator related listeners
+        creator1Group.setOnClickListener(this);
+        creator2Group.setOnClickListener(this);
+        creator3Group.setOnClickListener(this);
+        creator4Group.setOnClickListener(this);
+        seeAllCreatorsGroup.setOnClickListener(this);
     }
 
     @Override
@@ -390,10 +472,6 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
             Log.d(TAG, "Comic detail back button clicked");
             mInterface.onBackPressed();
         }
-//        else if(view.getId() == R.id.comicDetailKabobMenu)
-//        {
-//            Log.d(TAG, "Comic detail kabob menu clicked");
-//        }
         else if(view.getId() == R.id.comicDetailOtherVersionArrow)
         {
             Log.d(TAG, "Comic detail other versions clicked");
@@ -401,6 +479,35 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         else if(view.getId() == R.id.comicDetailReviewsArrow)
         {
             Log.d(TAG, "Comic detail reviews clicked");
+        }
+        else if(view.getId() == R.id.comicDetailDescription)
+        {
+            Log.d(TAG, "Comic detail description gradient clicked");
+
+            descriptionGradient.post(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    ObjectAnimator animation;
+                    if(descriptionGradient.getVisibility() == View.VISIBLE)
+                    {
+                        Log.d(TAG, "Comic detail description gradient is visible");
+                        animation = ObjectAnimator.ofInt(description, "maxLines", 300);
+                        animation.setDuration(200);
+                        animation.start();
+                        descriptionGradient.setVisibility(View.GONE);
+                    }
+                    else if(descriptionGradient.getVisibility() == View.GONE)
+                    {
+                        Log.d(TAG, "Comic detail description gradient is gone");
+                        animation = ObjectAnimator.ofInt(description, "maxLines", getResources().getInteger(R.integer.DESCRIPTION_MAX_LINES));
+                        animation.setDuration(200);
+                        animation.start();
+                        descriptionGradient.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
         }
         else if(view.getId() == R.id.comicDetailEditCollectionButton)
         {

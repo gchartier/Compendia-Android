@@ -22,7 +22,7 @@ public class Comic implements Parcelable
     private UUID ID;
     private String title;
     private String cover;
-    private ArrayList<ComicCreator> creators;
+    private List<ComicCreator> creators;
     private String publisherName;
     private UUID publisherID;
     private String imprintName;
@@ -178,12 +178,12 @@ public class Comic implements Parcelable
         this.ID = ID;
     }
 
-    public ArrayList<ComicCreator> getCreators()
+    public List<ComicCreator> getCreators()
     {
         return creators;
     }
 
-    public void setCreators(ArrayList<ComicCreator> creators)
+    public void setCreators(List<ComicCreator> creators)
     {
         this.creators = creators;
     }

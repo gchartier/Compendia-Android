@@ -29,7 +29,7 @@
     <string name="alert_dialog_report_error">Report Error</string>
 
     <!-- Toolbar -->
-    <string name="toolbar_submit_report_text">See Incorrect or Missing info? Submit a Report.</string>
+    <string name="toolbar_submit_report_text">Submit a Correction</string>
     <string name="toolbar_share_comic_text">Share Comic</string>
 
 
@@ -46,7 +46,7 @@
 
     <!-- Comic Detail -->
     <string name="comic_detail_date_collected_header">Date Collected</string>
-    <string name="comic_detail_other_versions_text">Other Version(s)</string>
+    <string name="comic_detail_other_versions_text">%1$s Other Version(s)</string>
     <string name="comic_detail_user_rating_header">You</string>
     <string name="comic_detail_average_ratings_header">Avg.</string>
     <string name="comic_detail_reviews_text">Reviews</string>
@@ -61,10 +61,11 @@
     <string name="comic_detail_list_name_want">Want</string>
     <string name="comic_detail_list_name_favorite">Favorite</string>
     <string name="comic_detail_list_name_read">Read</string>
-    <string name="comic_detail_no_other_versions">No Other Versions</string>
     <string name="comic_detail_no_reviews">No</string>
     <string name="comic_detail_no_comic_error">Couldn\'t Find Comic Details&#8230;</string>
     <string name="comic_detail_no_description">No Description</string>
+    <string name="comic_detail_see_all_creators_text">See All Creators</string>
+    <string name="comic_detail_no_creators">No Creators Listed</string>
 
     <!-- Collection -->
     <string name="collection_recently_added_header">Recently Added</string>
@@ -89,6 +90,7 @@
     <string name="content_description_comic_detail_creator_button">Go to creator</string>
     <string name="content_description_comic_detail_edit_collection_details">Edit collection details for this comic</string>
     <string name="content_description_comic_detail_cover">Comic Cover Art</string>
+    <string name="content_description_comic_detail_see_all_creators">Navigate to full list of creators</string>
 
     <!-- Pull List Fragment Layout -->
     <string name="content_description_pull_list_kabob_menu">Open additional options sub menu for this comic</string>
