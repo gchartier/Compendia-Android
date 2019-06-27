@@ -16,9 +16,12 @@
     <string name="tag_fragment_collection">Collection</string>
     <string name="tag_fragment_search">Search</string>
     <string name="tag_fragment_comic_detail">Comic Detail</string>
+    <string name="tag_fragment_other_versions">Other Versions</string>
 
     <!-- Intent Tags -->
     <string name="intent_comic">intent_comic</string>
+    <string name="intent_other_versions">intent_other_versions</string>
+    <string name="intent_comic_title">intent_comic_title</string>
 
     <!-- Image names -->
     <string name="comic_image">Comic</string>

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +22,7 @@ import com.gabrieldchartier.compendia.util.PreferenceKeys;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity
         implements FragmentInfoRelay, BottomNavigationViewEx.OnNavigationItemSelectedListener
@@ -41,10 +43,12 @@ public class MainActivity extends AppCompatActivity
     CollectionFragment collectionFragment;
     SearchFragment searchFragment;
     ComicDetailFragment comicDetailFragment;
+    OtherVersionsFragment otherVersionsFragment;
 
     // Variables
     private ArrayList<String> fragmentTags = new ArrayList<>();
     private ArrayList<FragmentTag> fragments = new ArrayList<>();
+    private ArrayList<String> hideNavBarFragments = new ArrayList<>();
     private int appExitAttempts = 0;
 
     @Override
@@ -52,6 +56,8 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        hideNavBarFragments.add(getString(R.string.tag_fragment_comic_detail));
+        hideNavBarFragments.add(getString(R.string.tag_fragment_other_versions));
         isFirstLogin();
         initBottomNav();
         inflateHomeFragment();
@@ -67,14 +73,14 @@ public class MainActivity extends AppCompatActivity
     }
 
     // Hide the bottom navigation view
-    private void hideBottomNav()
+    public void hideBottomNav()
     {
         if(bottomNav != null)
             bottomNav.setVisibility(View.INVISIBLE);
     }
 
     // Show the bottom navigation view
-    private void showBottomNav()
+    public void showBottomNav()
     {
         if(bottomNav != null)
             bottomNav.setVisibility(View.VISIBLE);
@@ -115,7 +121,7 @@ public class MainActivity extends AppCompatActivity
     private void setFragmentVisibility(String tag)
     {
         // Toggle visibility of the bottom nav based on fragment tag
-        if(tag.equals(getString(R.string.tag_fragment_comic_detail)))
+        if(hideNavBarFragments.contains(tag))
             hideBottomNav();
         else
             showBottomNav();
@@ -159,6 +165,16 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
     }
 
+    public void initializeFragmentToolbar(int toolbarID, String TAG)
+    {
+        Toolbar toolbar = findViewById(toolbarID);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null)
+            actionBar.setDisplayShowTitleEnabled(false);
+        else
+            Log.e(TAG, "Support Action Bar was null");
+    }
 
 
     // Set the bottom nav icon if the tag passed in is associated with a bottom nav fragment
@@ -194,6 +210,28 @@ public class MainActivity extends AppCompatActivity
         fragmentTags.add(getString(R.string.tag_fragment_comic_detail));
         fragments.add(new FragmentTag(comicDetailFragment, getString(R.string.tag_fragment_comic_detail)));
         setFragmentVisibility(getString(R.string.tag_fragment_comic_detail));
+    }
+
+    // Inflate the other versions fragment passing in the list of other comic versions
+    @Override
+    public void inflateOtherVersionsFragment(UUID[] otherVersions, String comicTitle)
+    {
+        // Remove comic detail fragment if it exists
+        if(otherVersionsFragment != null)
+            getSupportFragmentManager().beginTransaction().remove(otherVersionsFragment).commitAllowingStateLoss();
+
+        // Create fragment, set the comic data passed in, and add the fragment to the back stack
+        otherVersionsFragment = new OtherVersionsFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(getString(R.string.intent_other_versions), otherVersions);
+        args.putString(getString(R.string.intent_comic_title), comicTitle);
+        otherVersionsFragment.setArguments(args);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.main_content_frame, otherVersionsFragment, getString(R.string.tag_fragment_other_versions));
+        transaction.commit();
+        fragmentTags.add(getString(R.string.tag_fragment_other_versions));
+        fragments.add(new FragmentTag(otherVersionsFragment, getString(R.string.tag_fragment_other_versions)));
+        setFragmentVisibility(getString(R.string.tag_fragment_other_versions));
     }
 
     // Inflate the home fragment

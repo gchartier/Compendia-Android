@@ -171,6 +171,8 @@ public class TempCollection
         comics.get(3).setCreators(creatorsList4);
         comics.get(4).setCreators(creatorsList5);
         comics.get(5).setCreators(new ArrayList<ComicCreator>());
+
+        comics.get(0).setOtherVersions(new UUID[]{comics.get(1).getID(), comics.get(2).getID()});
     }
 
     public ArrayList<Comic> getTempCollection()

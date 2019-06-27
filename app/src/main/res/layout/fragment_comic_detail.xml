@@ -598,13 +598,6 @@
             android:visibility="gone"
             app:constraint_referenced_ids="comicDetailCreator4, comicDetailCreatorType4, comicDetailCreatorButton4" />
 
-        <android.support.constraint.Group
-            android:id="@+id/comicDetailSeeAllCreatorsGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:constraint_referenced_ids="comicDetailSeeAllCreatorsButton, comicDetailSeeAllCreatorsText" />
-
         <android.support.constraint.Barrier
             android:id="@+id/comicDetailCreatorsBarrierBottom"
             android:layout_width="match_parent"
