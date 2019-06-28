@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.gabrieldchartier.compendia.models.Comic;
 import java.util.ArrayList;
@@ -51,7 +51,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             public void onClick(View v)
             {
                 Log.d(TAG, "onClick: clicked on a comic " + mComics.get(viewHolder.getAdapterPosition()).getTitle());
-                Toast.makeText(mContext, mComics.get(i).getTitle(), Toast.LENGTH_SHORT).show();
                 fragmentRelay.inflateComicDetailFragment(mComics.get(viewHolder.getAdapterPosition()));
             }
         });
@@ -76,7 +75,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public ViewHolder(View itemView)
         {
             super(itemView);
-            image = itemView.findViewById(R.id.image);
+            image = itemView.findViewById(R.id.otherVersionsListItemCover);
 
         }
     }

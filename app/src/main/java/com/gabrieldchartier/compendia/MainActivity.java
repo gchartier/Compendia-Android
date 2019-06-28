@@ -14,14 +14,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.gabrieldchartier.compendia.models.Comic;
 import com.gabrieldchartier.compendia.models.FragmentTag;
 import com.gabrieldchartier.compendia.util.PreferenceKeys;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
-
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity
@@ -165,18 +165,6 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
     }
 
-    public void initializeFragmentToolbar(int toolbarID, String TAG)
-    {
-        Toolbar toolbar = findViewById(toolbarID);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null)
-            actionBar.setDisplayShowTitleEnabled(false);
-        else
-            Log.e(TAG, "Support Action Bar was null");
-    }
-
-
     // Set the bottom nav icon if the tag passed in is associated with a bottom nav fragment
     private void setBottomNavIcon(String fragmentTag)
     {
@@ -205,6 +193,7 @@ public class MainActivity extends AppCompatActivity
         args.putParcelable(getString(R.string.intent_comic), comic);
         comicDetailFragment.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
         transaction.add(R.id.main_content_frame, comicDetailFragment, getString(R.string.tag_fragment_comic_detail));
         transaction.commit();
         fragmentTags.add(getString(R.string.tag_fragment_comic_detail));
@@ -214,7 +203,7 @@ public class MainActivity extends AppCompatActivity
 
     // Inflate the other versions fragment passing in the list of other comic versions
     @Override
-    public void inflateOtherVersionsFragment(UUID[] otherVersions, String comicTitle)
+    public void inflateOtherVersionsFragment(List<UUID> otherVersions, String comicTitle)
     {
         // Remove comic detail fragment if it exists
         if(otherVersionsFragment != null)
@@ -223,10 +212,11 @@ public class MainActivity extends AppCompatActivity
         // Create fragment, set the comic data passed in, and add the fragment to the back stack
         otherVersionsFragment = new OtherVersionsFragment();
         Bundle args = new Bundle();
-        args.putSerializable(getString(R.string.intent_other_versions), otherVersions);
+        args.putSerializable(getString(R.string.intent_other_versions), otherVersions.toArray());
         args.putString(getString(R.string.intent_comic_title), comicTitle);
         otherVersionsFragment.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
         transaction.add(R.id.main_content_frame, otherVersionsFragment, getString(R.string.tag_fragment_other_versions));
         transaction.commit();
         fragmentTags.add(getString(R.string.tag_fragment_other_versions));

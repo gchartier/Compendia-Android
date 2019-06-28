@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/otherVersionsListItemCover"
+        android:layout_width="120dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/other_versions_list_item_cover"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@mipmap/ic_comic" />
+
+    <TextView
+        android:id="@+id/otherVersionsListItemTitle"
+        style="@style/detail_text_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemCover"
+        app:layout_constraintTop_toTopOf="@+id/otherVersionsListItemCover"
+        tools:text="Ice Cream Man #1" />
+
+    <TextView
+        android:id="@+id/otherVersionsListItemPublisher"
+        style="@style/detail_text_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toStartOf="@+id/otherVersionsListItemPublisherImprintSeparator"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@+id/otherVersionsListItemTitle"
+        app:layout_constraintTop_toBottomOf="@+id/otherVersionsListItemTitle"
+        tools:text="Image Comics" />
+
+    <ImageView
+        android:id="@+id/otherVersionsListItemPublisherImprintSeparator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/otherVersionsListItemPublisher"
+        android:baselineAlignBottom="true"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="@+id/otherVersionsListItemPublisher"
+        app:layout_constraintEnd_toStartOf="@+id/otherVersionsListItemImprint"
+        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemPublisher"
+        app:layout_constraintTop_toTopOf="@+id/otherVersionsListItemPublisher"
+        app:srcCompat="@drawable/ic_remove_black_24dp" />
+
+    <TextView
+        android:id="@+id/otherVersionsListItemImprint"
+        style="@style/detail_text_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/otherVersionsListItemPublisherImprintSeparator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemPublisherImprintSeparator"
+        app:layout_constraintTop_toTopOf="@+id/otherVersionsListItemPublisherImprintSeparator"
+        tools:text="Skybound" />
+
+    <TextView
+        android:id="@+id/otherVersionsListItemFormat"
+        style="@style/detail_text_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toStartOf="@+id/otherVersionsListItemFormatDateSeparator"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemCover"
+        app:layout_constraintStart_toStartOf="@+id/otherVersionsListItemPublisher"
+        app:layout_constraintTop_toBottomOf="@+id/otherVersionsListItemPublisher"
+        tools:text="Issue" />
+
+    <ImageView
+        android:id="@+id/otherVersionsListItemFormatDateSeparator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="@+id/otherVersionsListItemFormat"
+        app:layout_constraintEnd_toStartOf="@+id/otherVersionsListItemDate"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemFormat"
+        app:layout_constraintTop_toTopOf="@+id/otherVersionsListItemFormat"
+        app:srcCompat="@drawable/detail_separator" />
+
+    <TextView
+        android:id="@+id/otherVersionsListItemDate"
+        style="@style/detail_text_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/otherVersionsListItemFormatDateSeparator"
+        app:layout_constraintEnd_toStartOf="@+id/otherVersionsListItemDatePriceSeparator"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemFormatDateSeparator"
+        app:layout_constraintTop_toTopOf="@+id/otherVersionsListItemFormatDateSeparator"
+        tools:text="April 9th, 2019" />
+
+    <ImageView
+        android:id="@+id/otherVersionsListItemDatePriceSeparator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        app:layout_constraintBottom_toBottomOf="@+id/otherVersionsListItemDate"
+        app:layout_constraintEnd_toStartOf="@+id/otherVersionsListItemPrice"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemDate"
+        app:layout_constraintTop_toTopOf="@+id/otherVersionsListItemDate"
+        app:srcCompat="@drawable/detail_separator" />
+
+    <TextView
+        android:id="@+id/otherVersionsListItemPrice"
+        style="@style/detail_text_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/otherVersionsListItemDatePriceSeparator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemDatePriceSeparator"
+        app:layout_constraintTop_toTopOf="@+id/otherVersionsListItemDatePriceSeparator"
+        tools:text="$4.99" />
+
+    <TextView
+        android:id="@+id/otherVersionsListItemReviewHeader"
+        style="@style/detail_text_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/common_user_rating_header"
+        app:layout_constraintEnd_toStartOf="@+id/otherVersionsListItemUserRating"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemCover"
+        app:layout_constraintStart_toStartOf="@+id/otherVersionsListItemFormat"
+        app:layout_constraintTop_toBottomOf="@+id/otherVersionsListItemFormat" />
+
+    <!-- TODO Null Content Descriptions -->
+    <com.iarcuschin.simpleratingbar.SimpleRatingBar
+        android:id="@+id/otherVersionsListItemUserRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@null"
+        android:importantForAccessibility="yes"
+        app:layout_constraintBottom_toBottomOf="@+id/otherVersionsListItemReviewHeader"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemReviewHeader"
+        app:layout_constraintTop_toTopOf="@+id/otherVersionsListItemReviewHeader"
+        app:srb_borderColor="@color/colorPrimary"
+        app:srb_fillColor="@color/colorPrimary"
+        app:srb_numberOfStars="5"
+        app:srb_rating="0"
+        app:srb_starSize="20dp"
+        app:srb_stepSize="0.5" />
+
+    <TextView
+        android:id="@+id/otherVersionsListItemAvgReviewText"
+        style="@style/detail_text_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintEnd_toStartOf="@+id/otherVersionsListItemRatingReviewSeparator"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemCover"
+        app:layout_constraintStart_toStartOf="@+id/otherVersionsListItemReviewHeader"
+        app:layout_constraintTop_toBottomOf="@+id/otherVersionsListItemReviewHeader"
+        tools:text="Avg. 3.5" />
+
+    <!-- TODO ensure all image views have src and not srcCompat -->
+    <ImageView
+        android:id="@+id/otherVersionsListItemRatingReviewSeparator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        android:src="@drawable/detail_separator"
+        app:layout_constraintBottom_toBottomOf="@+id/otherVersionsListItemAvgReviewText"
+        app:layout_constraintEnd_toStartOf="@+id/otherVersionsListItemReviewsText"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemAvgReviewText"
+        app:layout_constraintTop_toTopOf="@+id/otherVersionsListItemAvgReviewText" />
+
+    <TextView
+        android:id="@+id/otherVersionsListItemReviewsText"
+        style="@style/detail_text_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/otherVersionsListItemRatingReviewSeparator"
+        app:layout_constraintEnd_toStartOf="@+id/otherVersionsListItemReviewsArrow"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemRatingReviewSeparator"
+        app:layout_constraintTop_toTopOf="@+id/otherVersionsListItemRatingReviewSeparator"
+        tools:text="12 Reviews" />
+
+    <ImageView
+        android:id="@+id/otherVersionsListItemReviewsArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/content_description_reviews_button"
+        app:layout_constraintBottom_toBottomOf="@+id/otherVersionsListItemReviewsText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemReviewsText"
+        app:layout_constraintTop_toTopOf="@+id/otherVersionsListItemReviewsText"
+        app:srcCompat="@drawable/navigate_in" />
+
+</android.support.constraint.ConstraintLayout>

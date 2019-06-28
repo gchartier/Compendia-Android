@@ -39,6 +39,11 @@
 
     <!-- ### Layout Content Strings ### -->
 
+    <!-- Common -->
+    <string name="common_user_rating_header">You</string>
+    <string name="common_average_ratings">Avg. %1$s</string>
+    <string name="common_reviews">%1$s Reviews</string>
+
     <!-- Home -->
     <string name="home_new_releases_header">New Releases This Week</string>
     <string name="home_pull_list_header">My Pull List</string>
@@ -50,9 +55,6 @@
     <!-- Comic Detail -->
     <string name="comic_detail_date_collected_header">Date Collected</string>
     <string name="comic_detail_other_versions_text">%1$s Other Version(s)</string>
-    <string name="comic_detail_user_rating_header">You</string>
-    <string name="comic_detail_average_ratings_header">Avg.</string>
-    <string name="comic_detail_reviews_text">Reviews</string>
     <string name="comic_detail_creators_header">Creators</string>
     <string name="comic_detail_collection_details_header">Collection Details</string>
     <string name="comic_detail_purchase_price_header">Purchase Price</string>
@@ -73,12 +75,16 @@
     <!-- Collection -->
     <string name="collection_recently_added_header">Recently Added</string>
 
+    <!-- Other Versions -->
+    <string name="other_versions_list_item_cover">Comic Cover Image</string>
+
 
     <!-- ### Accessibility Content Descriptions ### -->
 
-    <!-- General -->
+    <!-- Common -->
     <string name="content_description_back_arrow">Go back to previous screen</string>
     <string name="content_description_kabob_menu">Open additional options sub menu</string>
+    <string name="content_description_reviews_button">Go to reviews of this comic</string>
 
     <!-- Home Fragment Layout -->
     <string name="content_description_home_see_all_new_releases_button">Navigate to full New Releases list</string>
@@ -87,7 +93,6 @@
 
     <!-- Comic Detail Fragment Layout -->
     <string name="content_description_comic_detail_other_versions">Go to other versions of this comic</string>
-    <string name="content_description_comic_detail_reviews_button">Go to reviews of this comic</string>
     <string name="content_description_comic_detail_have_read">You have read this comic</string>
     <string name="content_description_comic_detail_in_collection">This comic is in your collection</string>
     <string name="content_description_comic_detail_creator_button">Go to creator</string>

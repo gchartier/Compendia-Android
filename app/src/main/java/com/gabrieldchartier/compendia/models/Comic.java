@@ -56,7 +56,7 @@ public class Comic implements Parcelable
     private String format;
     private int itemNumber;
     private int collectionType;
-    private UUID[] otherVersions;
+    private List<UUID> otherVersions;
     private float userRating;
     private String dateCollected;
     private String purchasePrice;
@@ -74,7 +74,7 @@ public class Comic implements Parcelable
                  int totalOwned, int totalRead, float averageRating, int totalRatings, int totalReviews,
                  String seriesName, String seriesID, int printing, String variant, int ageRating,
                  boolean isMiniSeries, boolean isReprint, boolean isOneShot, int miniSeriesLimit,
-                 int format, int itemNumber, int collectionType, String[] otherVersions, float userRating,
+                 int format, int itemNumber, int collectionType, ArrayList<String> otherVersions, float userRating,
                  String dateCollected, String purchasePrice, String boughtAt, String condition,
                  String gradingAgency, float grade, int quantity, String notes)
     {
@@ -125,12 +125,13 @@ public class Comic implements Parcelable
         this.collectionType = collectionType;
         if(otherVersions != null)
         {
-            this.otherVersions = new UUID[otherVersions.length];
-            for(int i = 0; i < otherVersions.length - 1; i++)
-                this.otherVersions[i] = UUID.fromString(otherVersions[i]);
+            this.otherVersions = new ArrayList<>();
+
+            for(String s : otherVersions)
+                this.otherVersions.add(UUID.fromString(s));
         }
         else
-            this.otherVersions = new UUID[]{};
+            this.otherVersions = new ArrayList<>();
 
         this.userRating = userRating;
         this.dateCollected = dateCollected;
@@ -527,12 +528,12 @@ public class Comic implements Parcelable
         this.collectionType = collectionType;
     }
 
-    public UUID[] getOtherVersions()
+    public List<UUID> getOtherVersions()
     {
         return otherVersions;
     }
 
-    public void setOtherVersions(UUID[] otherVersions)
+    public void setOtherVersions(List<UUID> otherVersions)
     {
         this.otherVersions = otherVersions;
     }

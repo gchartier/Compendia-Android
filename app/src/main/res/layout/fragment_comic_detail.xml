@@ -229,7 +229,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="@string/comic_detail_user_rating_header"
+            android:text="@string/common_user_rating_header"
             app:layout_constraintEnd_toStartOf="@+id/comicDetailUserRating"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintHorizontal_chainStyle="packed"
@@ -289,70 +289,44 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="4dp"
-            android:text="@string/comic_detail_average_ratings_header"
-            app:layout_constraintEnd_toStartOf="@+id/comicDetailAvgReviewNum"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailRatingReviewSeparator"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@+id/comicDetailReviewHeader"
-            app:layout_constraintTop_toBottomOf="@+id/comicDetailReviewHeader" />
-
-        <TextView
-            android:id="@+id/comicDetailAvgReviewNum"
-            style="@style/detail_text_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/comicDetailAvgReviewText"
-            app:layout_constraintEnd_toStartOf="@+id/comicDetailRatingReviewSeparator"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/comicDetailAvgReviewText"
-            app:layout_constraintTop_toTopOf="@+id/comicDetailAvgReviewText"
-            tools:text="4.5" />
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailReviewHeader"
+            tools:text="Avg. 3.5" />
 
         <ImageView
             android:id="@+id/comicDetailRatingReviewSeparator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:importantForAccessibility="no"
-            app:layout_constraintBottom_toBottomOf="@+id/comicDetailAvgReviewNum"
-            app:layout_constraintEnd_toStartOf="@+id/comicDetailReviewsNum"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/comicDetailAvgReviewNum"
-            app:layout_constraintTop_toTopOf="@+id/comicDetailAvgReviewNum"
-            app:srcCompat="@drawable/detail_separator" />
-
-        <TextView
-            android:id="@+id/comicDetailReviewsNum"
-            style="@style/detail_text_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="4dp"
-            app:layout_constraintBottom_toBottomOf="@+id/comicDetailRatingReviewSeparator"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailAvgReviewText"
             app:layout_constraintEnd_toStartOf="@+id/comicDetailReviewsText"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/comicDetailRatingReviewSeparator"
-            app:layout_constraintTop_toTopOf="@+id/comicDetailRatingReviewSeparator"
-            tools:text="12" />
+            app:layout_constraintStart_toEndOf="@+id/comicDetailAvgReviewText"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailAvgReviewText"
+            app:srcCompat="@drawable/detail_separator" />
 
         <TextView
             android:id="@+id/comicDetailReviewsText"
             style="@style/detail_text_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/comic_detail_reviews_text"
-            app:layout_constraintBottom_toBottomOf="@+id/comicDetailReviewsNum"
+            android:layout_marginStart="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailRatingReviewSeparator"
             app:layout_constraintEnd_toStartOf="@+id/comicDetailReviewsArrow"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/comicDetailReviewsNum"
-            app:layout_constraintTop_toTopOf="@+id/comicDetailReviewsNum" />
+            app:layout_constraintStart_toEndOf="@+id/comicDetailRatingReviewSeparator"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailRatingReviewSeparator"
+            tools:text="12 Reviews" />
 
         <ImageView
             android:id="@+id/comicDetailReviewsArrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:contentDescription="@string/content_description_comic_detail_reviews_button"
+            android:contentDescription="@string/content_description_reviews_button"
             app:layout_constraintBottom_toBottomOf="@+id/comicDetailReviewsText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/comicDetailReviewsText"

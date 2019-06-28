@@ -7,6 +7,7 @@ import com.gabrieldchartier.compendia.R;
 import com.gabrieldchartier.compendia.util.TempCollection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Collection
 {
@@ -66,6 +67,17 @@ public class Collection
     public List<Comic> getComics()
     {
         return comics;
+    }
+
+    @Nullable
+    public Comic getComicByID(UUID ID)
+    {
+        for(Comic c : comics)
+        {
+            if(c.getID() == ID)
+                return c;
+        }
+        return null;
     }
 
     public void setComics(List<Comic> comics)

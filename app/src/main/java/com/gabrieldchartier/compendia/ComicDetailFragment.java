@@ -1,7 +1,6 @@
 package com.gabrieldchartier.compendia;
 
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,7 +13,6 @@ import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.constraint.Group;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -33,11 +31,9 @@ import com.gabrieldchartier.compendia.models.Collection;
 import com.gabrieldchartier.compendia.models.Comic;
 import com.gabrieldchartier.compendia.models.ComicCreator;
 import com.gabrieldchartier.compendia.models.ComicList;
-import com.gabrieldchartier.compendia.models.FragmentTag;
 import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @SuppressWarnings("FieldCanBeLocal")
 public class ComicDetailFragment extends Fragment implements View.OnClickListener
@@ -46,7 +42,6 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     private static final String TAG = "ComicDetailFragment";
 
     // Widgets
-    private ImageView backArrow;
     private TextView title;
     private TextView seriesTitle;
     private ImageView cover;
@@ -110,11 +105,15 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     public void onCreate(@Nullable Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        Bundle bundle = this.getArguments();
+
+        // Toolbar Menu
         setHasOptionsMenu(true);
 
+        // Variables
+        Bundle bundle = this.getArguments();
         collection = Collection.getInstance();
 
+        // Retrieve bundle if it is not null
         if(bundle != null)
         {
             comic = bundle.getParcelable(getString(R.string.intent_comic));
@@ -140,11 +139,13 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
 
         View view;
 
+        // If the retrieved comic is not null, build the view
+        //TODO maybe there's a better way to do this so that it won't bomb. Also, test this
         if(comic != null)
         {
             // Inflate the view, then initialize the toolbar and widgets
             view = inflater.inflate(R.layout.fragment_comic_detail, container, false);
-            mInterface.initializeFragmentToolbar(R.id.comicDetailToolbar, TAG);
+            initializeFragmentToolbar(view);
             initializeViews(view);
 
             // Set the widgets to the comic data
@@ -179,6 +180,25 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         return view;
     }
 
+    // Initialize the fragment toolbar at the top of the screen
+    private void initializeFragmentToolbar(View view)
+    {
+        Toolbar toolbar = view.findViewById(R.id.comicDetailToolbar);
+        ActionBar actionBar = null;
+        if(getActivity() != null)
+        {
+            ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+            actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        }
+        if(actionBar != null)
+        {
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        else
+            Log.e(TAG, "Support Action Bar was null");
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
     {
@@ -191,6 +211,9 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     {
         switch (item.getItemId())
         {
+            case android.R.id.home:
+                mInterface.onBackPressed();
+                return true;
             case R.id.subMenuSubmitReport:
                 //TODO submit report
                 return true;
@@ -221,7 +244,6 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         constraintSet = new ConstraintSet();
         constraintLayout = view.findViewById(R.id.comicDetailConstraintLayout);
         constraintSet.clone(constraintLayout);
-        backArrow = view.findViewById(R.id.comicDetailBackArrow);
         seriesTitle = view.findViewById(R.id.comicDetailFragmentHeader);
         cover = view.findViewById(R.id.comicDetailCover);
         title = view.findViewById(R.id.comicDetailTitle);
@@ -238,8 +260,8 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         userRating = view.findViewById(R.id.comicDetailUserRating);
         hasReadIcon = view.findViewById(R.id.comicDetailHasReadIcon);
         inCollectionIcon = view.findViewById(R.id.comicDetailInCollectionIcon);
-        averageRating = view.findViewById(R.id.comicDetailAvgReviewNum);
-        numberOfReviews = view.findViewById(R.id.comicDetailReviewsNum);
+        averageRating = view.findViewById(R.id.comicDetailAvgReviewText);
+        numberOfReviews = view.findViewById(R.id.comicDetailReviewsText);
         reviewsButton = view.findViewById(R.id.comicDetailReviewsArrow);
         descriptionGradient = view.findViewById(R.id.descriptionGradient);
         description = view.findViewById(R.id.comicDetailDescription);
@@ -274,8 +296,8 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         coverPrice.setText(comic.getCoverPrice());
         age.setText(comic.getAge());
         ageRating.setText(comic.getAgeRating());
-        if(comic.getOtherVersions().length >= 1)
-            otherVersionsText.setText(getString(R.string.comic_detail_other_versions_text, Integer.toString(comic.getOtherVersions().length)));
+        if(comic.getOtherVersions().size() >= 1)
+            otherVersionsText.setText(getString(R.string.comic_detail_other_versions_text, Integer.toString(comic.getOtherVersions().size())));
         else
         {
             otherVersionsText.setText(getString(R.string.comic_detail_other_versions_text, "No"));
@@ -287,9 +309,9 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
             hasReadIcon.setVisibility(View.VISIBLE);
         if(comic.getUserRating() > 0.0f)
             userRating.setRating(comic.getUserRating());
-        averageRating.setText(String.valueOf(comic.getAverageRating()));
+        averageRating.setText(getString(R.string.common_average_ratings, Float.toString(comic.getAverageRating())));
         if(comic.getTotalReviews() >= 1)
-            numberOfReviews.setText(String.valueOf(comic.getTotalReviews()));
+            numberOfReviews.setText(getString(R.string.common_reviews, Float.toString(comic.getTotalReviews())));
         else
             numberOfReviews.setText(getString(R.string.comic_detail_no_reviews));
         if(comic.getDescription().equals(""))
@@ -447,11 +469,8 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
 
     private void setWidgetListeners()
     {
-        // Toolbar listeners
-        backArrow.setOnClickListener(this);
-
         // Top detail listeners
-        if(comic.getOtherVersions().length >= 1)
+        if(comic.getOtherVersions().size() >= 1)
             otherVersionsText.setOnClickListener(this);
         otherVersionsButton.setOnClickListener(this);
         reviewsButton.setOnClickListener(this);
@@ -472,12 +491,7 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View view)
     {
-        if(view.getId() == R.id.comicDetailBackArrow)
-        {
-            Log.d(TAG, "Comic detail back button clicked");
-            mInterface.onBackPressed();
-        }
-        else if(view.getId() == R.id.comicDetailOtherVersionArrow || view.getId() == R.id.comicDetailOtherVersionText)
+        if(view.getId() == R.id.comicDetailOtherVersionArrow || view.getId() == R.id.comicDetailOtherVersionText)
         {
             Log.d(TAG, "Comic detail other versions clicked");
             if(getActivity() != null)
