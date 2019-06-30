@@ -19,7 +19,7 @@
         android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/otherVersionsListItemCover"
+        android:id="@+id/comicListItemCover"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -35,7 +35,7 @@
         tools:src="@mipmap/ic_comic" />
 
         <TextView
-            android:id="@+id/otherVersionsListItemTitle"
+            android:id="@+id/comicListItemTitle"
             style="@style/detail_text_2_bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -43,143 +43,143 @@
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemCover"
-            app:layout_constraintTop_toTopOf="@+id/otherVersionsListItemCover"
+            app:layout_constraintStart_toEndOf="@+id/comicListItemCover"
+            app:layout_constraintTop_toTopOf="@+id/comicListItemCover"
             tools:text="Ice Cream Man #1" />
 
     <TextView
-        android:id="@+id/otherVersionsListItemPublisher"
+        android:id="@+id/comicListItemPublisher"
         style="@style/detail_text_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
-        app:layout_constraintEnd_toStartOf="@+id/otherVersionsListItemPublisherImprintSeparator"
+        app:layout_constraintEnd_toStartOf="@+id/comicListItemPublisherImprintSeparator"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="@+id/otherVersionsListItemTitle"
-        app:layout_constraintTop_toBottomOf="@+id/otherVersionsListItemTitle"
+        app:layout_constraintStart_toStartOf="@+id/comicListItemTitle"
+        app:layout_constraintTop_toBottomOf="@+id/comicListItemTitle"
         tools:text="Image Comics" />
 
     <ImageView
-        android:id="@+id/otherVersionsListItemPublisherImprintSeparator"
+        android:id="@+id/comicListItemPublisherImprintSeparator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/otherVersionsListItemPublisher"
+        android:layout_alignBaseline="@+id/comicListItemPublisher"
         android:baselineAlignBottom="true"
         android:importantForAccessibility="no"
-        app:layout_constraintBottom_toBottomOf="@+id/otherVersionsListItemPublisher"
-        app:layout_constraintEnd_toStartOf="@+id/otherVersionsListItemImprint"
-        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemPublisher"
-        app:layout_constraintTop_toTopOf="@+id/otherVersionsListItemPublisher"
+        app:layout_constraintBottom_toBottomOf="@+id/comicListItemPublisher"
+        app:layout_constraintEnd_toStartOf="@+id/comicListItemImprint"
+        app:layout_constraintStart_toEndOf="@+id/comicListItemPublisher"
+        app:layout_constraintTop_toTopOf="@+id/comicListItemPublisher"
         app:srcCompat="@drawable/ic_remove_black_24dp" />
 
     <TextView
-        android:id="@+id/otherVersionsListItemImprint"
+        android:id="@+id/comicListItemImprint"
         style="@style/detail_text_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        app:layout_constraintBottom_toBottomOf="@+id/otherVersionsListItemPublisherImprintSeparator"
+        app:layout_constraintBottom_toBottomOf="@+id/comicListItemPublisherImprintSeparator"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemPublisherImprintSeparator"
-        app:layout_constraintTop_toTopOf="@+id/otherVersionsListItemPublisherImprintSeparator"
+        app:layout_constraintStart_toEndOf="@+id/comicListItemPublisherImprintSeparator"
+        app:layout_constraintTop_toTopOf="@+id/comicListItemPublisherImprintSeparator"
         tools:text="Skybound" />
 
     <TextView
-        android:id="@+id/otherVersionsListItemFormat"
+        android:id="@+id/comicListItemFormat"
         style="@style/detail_text_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
-        app:layout_constraintEnd_toStartOf="@+id/otherVersionsListItemFormatDateSeparator"
+        app:layout_constraintEnd_toStartOf="@+id/comicListItemFormatDateSeparator"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemCover"
-        app:layout_constraintStart_toStartOf="@+id/otherVersionsListItemPublisher"
-        app:layout_constraintTop_toBottomOf="@+id/otherVersionsListItemPublisher"
+        app:layout_constraintStart_toEndOf="@+id/comicListItemCover"
+        app:layout_constraintStart_toStartOf="@+id/comicListItemPublisher"
+        app:layout_constraintTop_toBottomOf="@+id/comicListItemPublisher"
         tools:text="Issue" />
 
     <ImageView
-        android:id="@+id/otherVersionsListItemFormatDateSeparator"
+        android:id="@+id/comicListItemFormatDateSeparator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:importantForAccessibility="no"
-        app:layout_constraintBottom_toBottomOf="@+id/otherVersionsListItemFormat"
-        app:layout_constraintEnd_toStartOf="@+id/otherVersionsListItemDate"
+        app:layout_constraintBottom_toBottomOf="@+id/comicListItemFormat"
+        app:layout_constraintEnd_toStartOf="@+id/comicListItemDate"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemFormat"
-        app:layout_constraintTop_toTopOf="@+id/otherVersionsListItemFormat"
+        app:layout_constraintStart_toEndOf="@+id/comicListItemFormat"
+        app:layout_constraintTop_toTopOf="@+id/comicListItemFormat"
         app:srcCompat="@drawable/detail_separator" />
 
     <TextView
-        android:id="@+id/otherVersionsListItemDate"
+        android:id="@+id/comicListItemDate"
         style="@style/detail_text_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginEnd="4dp"
-        app:layout_constraintBottom_toBottomOf="@+id/otherVersionsListItemFormatDateSeparator"
-        app:layout_constraintEnd_toStartOf="@+id/otherVersionsListItemDatePriceSeparator"
+        app:layout_constraintBottom_toBottomOf="@+id/comicListItemFormatDateSeparator"
+        app:layout_constraintEnd_toStartOf="@+id/comicListItemDatePriceSeparator"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemFormatDateSeparator"
-        app:layout_constraintTop_toTopOf="@+id/otherVersionsListItemFormatDateSeparator"
+        app:layout_constraintStart_toEndOf="@+id/comicListItemFormatDateSeparator"
+        app:layout_constraintTop_toTopOf="@+id/comicListItemFormatDateSeparator"
         tools:text="April 9th, 2019" />
 
     <ImageView
-        android:id="@+id/otherVersionsListItemDatePriceSeparator"
+        android:id="@+id/comicListItemDatePriceSeparator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:importantForAccessibility="no"
-        app:layout_constraintBottom_toBottomOf="@+id/otherVersionsListItemDate"
-        app:layout_constraintEnd_toStartOf="@+id/otherVersionsListItemPrice"
+        app:layout_constraintBottom_toBottomOf="@+id/comicListItemDate"
+        app:layout_constraintEnd_toStartOf="@+id/comicListItemPrice"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemDate"
-        app:layout_constraintTop_toTopOf="@+id/otherVersionsListItemDate"
+        app:layout_constraintStart_toEndOf="@+id/comicListItemDate"
+        app:layout_constraintTop_toTopOf="@+id/comicListItemDate"
         app:srcCompat="@drawable/detail_separator" />
 
     <TextView
-        android:id="@+id/otherVersionsListItemPrice"
+        android:id="@+id/comicListItemPrice"
         style="@style/detail_text_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/otherVersionsListItemDatePriceSeparator"
+        app:layout_constraintBottom_toBottomOf="@+id/comicListItemDatePriceSeparator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemDatePriceSeparator"
-        app:layout_constraintTop_toTopOf="@+id/otherVersionsListItemDatePriceSeparator"
+        app:layout_constraintStart_toEndOf="@+id/comicListItemDatePriceSeparator"
+        app:layout_constraintTop_toTopOf="@+id/comicListItemDatePriceSeparator"
         tools:text="$4.99" />
 
     <TextView
-        android:id="@+id/otherVersionsListItemReviewHeader"
+        android:id="@+id/comicListItemReviewHeader"
         style="@style/detail_text_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/common_user_rating_header"
-        app:layout_constraintEnd_toStartOf="@+id/otherVersionsListItemUserRating"
+        app:layout_constraintEnd_toStartOf="@+id/comicListItemUserRating"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemCover"
-        app:layout_constraintStart_toStartOf="@+id/otherVersionsListItemFormat"
-        app:layout_constraintTop_toBottomOf="@+id/otherVersionsListItemFormat" />
+        app:layout_constraintStart_toEndOf="@+id/comicListItemCover"
+        app:layout_constraintStart_toStartOf="@+id/comicListItemFormat"
+        app:layout_constraintTop_toBottomOf="@+id/comicListItemFormat" />
 
     <!-- TODO Null Content Descriptions -->
     <com.iarcuschin.simpleratingbar.SimpleRatingBar
-        android:id="@+id/otherVersionsListItemUserRating"
+        android:id="@+id/comicListItemUserRating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@null"
         android:importantForAccessibility="yes"
-        app:layout_constraintBottom_toBottomOf="@+id/otherVersionsListItemReviewHeader"
+        app:layout_constraintBottom_toBottomOf="@+id/comicListItemReviewHeader"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemReviewHeader"
-        app:layout_constraintTop_toTopOf="@+id/otherVersionsListItemReviewHeader"
+        app:layout_constraintStart_toEndOf="@+id/comicListItemReviewHeader"
+        app:layout_constraintTop_toTopOf="@+id/comicListItemReviewHeader"
         app:srb_isIndicator="true"
         app:srb_borderColor="@color/colorPrimary"
         app:srb_fillColor="@color/colorPrimary"
@@ -189,54 +189,54 @@
         app:srb_stepSize="0.5" />
 
     <TextView
-        android:id="@+id/otherVersionsListItemAvgReviewText"
+        android:id="@+id/comicListItemAvgReviewText"
         style="@style/detail_text_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
-        app:layout_constraintEnd_toStartOf="@+id/otherVersionsListItemRatingReviewSeparator"
+        app:layout_constraintEnd_toStartOf="@+id/comicListItemRatingReviewSeparator"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemCover"
-        app:layout_constraintStart_toStartOf="@+id/otherVersionsListItemReviewHeader"
-        app:layout_constraintTop_toBottomOf="@+id/otherVersionsListItemReviewHeader"
+        app:layout_constraintStart_toEndOf="@+id/comicListItemCover"
+        app:layout_constraintStart_toStartOf="@+id/comicListItemReviewHeader"
+        app:layout_constraintTop_toBottomOf="@+id/comicListItemReviewHeader"
         tools:text="Avg. 3.5" />
 
     <!-- TODO ensure all image views have src and not srcCompat -->
     <ImageView
-        android:id="@+id/otherVersionsListItemRatingReviewSeparator"
+        android:id="@+id/comicListItemRatingReviewSeparator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:importantForAccessibility="no"
         android:src="@drawable/detail_separator"
-        app:layout_constraintBottom_toBottomOf="@+id/otherVersionsListItemAvgReviewText"
-        app:layout_constraintEnd_toStartOf="@+id/otherVersionsListItemReviewsText"
+        app:layout_constraintBottom_toBottomOf="@+id/comicListItemAvgReviewText"
+        app:layout_constraintEnd_toStartOf="@+id/comicListItemReviewsText"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemAvgReviewText"
-        app:layout_constraintTop_toTopOf="@+id/otherVersionsListItemAvgReviewText" />
+        app:layout_constraintStart_toEndOf="@+id/comicListItemAvgReviewText"
+        app:layout_constraintTop_toTopOf="@+id/comicListItemAvgReviewText" />
 
     <TextView
-        android:id="@+id/otherVersionsListItemReviewsText"
+        android:id="@+id/comicListItemReviewsText"
         style="@style/detail_text_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        app:layout_constraintBottom_toBottomOf="@+id/otherVersionsListItemRatingReviewSeparator"
+        app:layout_constraintBottom_toBottomOf="@+id/comicListItemRatingReviewSeparator"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemRatingReviewSeparator"
-        app:layout_constraintTop_toTopOf="@+id/otherVersionsListItemRatingReviewSeparator"
+        app:layout_constraintStart_toEndOf="@+id/comicListItemRatingReviewSeparator"
+        app:layout_constraintTop_toTopOf="@+id/comicListItemRatingReviewSeparator"
         tools:text="12 Reviews" />
 
         <TextView
-            android:id="@+id/otherVersionListItemID"
+            android:id="@+id/comicListItemID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/otherVersionsListItemTitle"
-            app:layout_constraintStart_toEndOf="@+id/otherVersionsListItemTitle"
-            app:layout_constraintTop_toTopOf="@+id/otherVersionsListItemTitle"
+            app:layout_constraintBottom_toBottomOf="@+id/comicListItemTitle"
+            app:layout_constraintStart_toEndOf="@+id/comicListItemTitle"
+            app:layout_constraintTop_toTopOf="@+id/comicListItemTitle"
             tools:text="ID"
             tools:visibility="visible" />
     </android.support.constraint.ConstraintLayout>

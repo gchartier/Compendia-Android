@@ -11,9 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.gabrieldchartier.compendia.models.Comic;
-import com.gabrieldchartier.compendia.util.Comics;
+
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class CollectionFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener
 {
@@ -43,7 +42,7 @@ public class CollectionFragment extends Fragment implements SwipeRefreshLayout.O
         swipeRefreshLayout.setOnRefreshListener(this);
 
         // Populate the comic data
-        getComics();
+        //TODO getComics();
 
         return view;
     }
@@ -79,22 +78,22 @@ public class CollectionFragment extends Fragment implements SwipeRefreshLayout.O
     {
         mRecentlyAddedRecyclerView.smoothScrollToPosition(0);
     }
-
-    // Get the comics in the collection
-    private void getComics()
-    {
-        Comics comics = new Comics();
-        if(mComics != null)
-            mComics.clear();
-        try
-        {
-            Collections.addAll(mComics, comics.COMICS);
-        }
-        catch(NullPointerException error)
-        {
-            Log.d(TAG, "Error in add all comics: " + error);
-        }
-        if(adapter == null)
-            initRecyclerView();
-    }
+//TODO
+//    // Get the comics in the collection
+//    private void getComics()
+//    {
+//        Comics comics = new Comics();
+//        if(mComics != null)
+//            mComics.clear();
+//        try
+//        {
+//            Collections.addAll(mComics, comics.COMICS);
+//        }
+//        catch(NullPointerException error)
+//        {
+//            Log.d(TAG, "Error in add all comics: " + error);
+//        }
+//        if(adapter == null)
+//            initRecyclerView();
+//    }
 }

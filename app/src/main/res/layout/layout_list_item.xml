@@ -22,7 +22,7 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     android:layout_centerHorizontal="true"
-                    android:id="@+id/otherVersionsListItemCover"
+                    android:id="@+id/comicListItemCover"
                     android:src="@mipmap/ic_comic"
                     android:contentDescription="@string/comic_image"/>
             </RelativeLayout>

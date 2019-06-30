@@ -30,18 +30,18 @@ public class ComicChildViewHolder extends ChildViewHolder
     public ComicChildViewHolder(View itemView)
     {
         super(itemView);
-        comicCover = itemView.findViewById(R.id.otherVersionsListItemCover);
-        comicTitle = itemView.findViewById(R.id.otherVersionsListItemTitle);
-        comicID = itemView.findViewById(R.id.otherVersionListItemID);
-        comicPublisher = itemView.findViewById(R.id.otherVersionsListItemPublisher);
-        comicPublisherImprintSeparator = itemView.findViewById(R.id.otherVersionsListItemPublisherImprintSeparator);
-        comicImprint = itemView.findViewById(R.id.otherVersionsListItemImprint);
-        comicFormat = itemView.findViewById(R.id.otherVersionsListItemFormat);
-        comicCoverDate = itemView.findViewById(R.id.otherVersionsListItemDate);
-        comicCoverPrice = itemView.findViewById(R.id.otherVersionsListItemPrice);
-        comicUserRating = itemView.findViewById(R.id.otherVersionsListItemUserRating);
-        comicAverageRatings = itemView.findViewById(R.id.otherVersionsListItemAvgReviewText);
-        comicReviews = itemView.findViewById(R.id.otherVersionsListItemReviewsText);
+        comicCover = itemView.findViewById(R.id.comicListItemCover);
+        comicTitle = itemView.findViewById(R.id.comicListItemTitle);
+        comicID = itemView.findViewById(R.id.comicListItemID);
+        comicPublisher = itemView.findViewById(R.id.comicListItemPublisher);
+        comicPublisherImprintSeparator = itemView.findViewById(R.id.comicListItemPublisherImprintSeparator);
+        comicImprint = itemView.findViewById(R.id.comicListItemImprint);
+        comicFormat = itemView.findViewById(R.id.comicListItemFormat);
+        comicCoverDate = itemView.findViewById(R.id.comicListItemDate);
+        comicCoverPrice = itemView.findViewById(R.id.comicListItemPrice);
+        comicUserRating = itemView.findViewById(R.id.comicListItemUserRating);
+        comicAverageRatings = itemView.findViewById(R.id.comicListItemAvgReviewText);
+        comicReviews = itemView.findViewById(R.id.comicListItemReviewsText);
     }
 
     public void onBind(Comic comic, Context context)

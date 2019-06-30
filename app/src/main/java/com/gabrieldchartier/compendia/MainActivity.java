@@ -6,15 +6,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 import com.gabrieldchartier.compendia.models.Comic;
 import com.gabrieldchartier.compendia.models.FragmentTag;
@@ -22,7 +19,6 @@ import com.gabrieldchartier.compendia.util.PreferenceKeys;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity
         implements FragmentInfoRelay, BottomNavigationViewEx.OnNavigationItemSelectedListener
@@ -42,7 +38,7 @@ public class MainActivity extends AppCompatActivity
     PullListFragment pullListFragment;
     CollectionFragment collectionFragment;
     SearchFragment searchFragment;
-    ComicDetailFragment comicDetailFragment;
+    List<ComicDetailFragment> comicDetailFragments = new ArrayList<>();
     OtherVersionsFragment otherVersionsFragment;
 
     // Variables
@@ -163,7 +159,6 @@ public class MainActivity extends AppCompatActivity
 
             setFragmentVisibility(fragmentTags.get(backStackCount - 2));
             fragmentTags.remove(backStackCount - 1);
-            fragments.remove(backStackCount - 1);
             Log.d(TAG, "Fragments after removal " + fragments.size());
             appExitAttempts = 0;
         }
@@ -200,17 +195,19 @@ public class MainActivity extends AppCompatActivity
         //if(comicDetailFragment != null)
             //getSupportFragmentManager().beginTransaction().remove(comicDetailFragment).commitAllowingStateLoss();
 
+        //TODO bug here having to do with multiple comic detail fragments overwriting each other
         // Create fragment, set the comic passed in, and add the fragment to the back stack
-        comicDetailFragment = new ComicDetailFragment();
+        comicDetailFragments.add(new ComicDetailFragment());
         Bundle args = new Bundle();
         args.putParcelable(getString(R.string.intent_comic), comic);
-        comicDetailFragment.setArguments(args);
+        comicDetailFragments.get(comicDetailFragments.size()-1).setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right);
-        transaction.add(R.id.main_content_frame, comicDetailFragment, getString(R.string.tag_fragment_comic_detail));
+        transaction.add(R.id.main_content_frame, comicDetailFragments.get(comicDetailFragments.size()-1), getString(R.string.tag_fragment_comic_detail));
         transaction.commit();
         fragmentTags.add(getString(R.string.tag_fragment_comic_detail));
-        fragments.add(new FragmentTag(comicDetailFragment, getString(R.string.tag_fragment_comic_detail)));
+        //if(fragmentAlreadyExists(getString(R.string.tag_fragment_comic_detail)))
+            fragments.add(new FragmentTag(comicDetailFragments.get(comicDetailFragments.size()-1), getString(R.string.tag_fragment_comic_detail)));
         setFragmentVisibility(getString(R.string.tag_fragment_comic_detail));
     }
 
@@ -352,5 +349,13 @@ public class MainActivity extends AppCompatActivity
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
         }
+    }
+
+    private boolean fragmentAlreadyExists(String fragmentTag)
+    {
+        for(FragmentTag tag : fragments)
+            if(tag.getTag().equals(fragmentTag))
+                return true;
+        return false;
     }
 }

@@ -75,7 +75,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public ViewHolder(View itemView)
         {
             super(itemView);
-            image = itemView.findViewById(R.id.otherVersionsListItemCover);
+            image = itemView.findViewById(R.id.comicListItemCover);
 
         }
     }

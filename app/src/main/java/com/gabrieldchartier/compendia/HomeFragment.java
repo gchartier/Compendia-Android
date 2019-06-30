@@ -10,12 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.gabrieldchartier.compendia.models.Comic;
-import com.gabrieldchartier.compendia.util.Comics;
 import com.gabrieldchartier.compendia.util.TempCollection;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class HomeFragment extends Fragment
 {

@@ -20,30 +20,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/OtherVersionListItemIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:contentDescription="Expand Versions Category"
-            android:src="@drawable/expand_view"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/otherVersionListItemCategory"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
-            android:id="@+id/otherVersionListItemCategory"
+            android:id="@+id/categoryListItem"
             style="@style/detail_text_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/OtherVersionListItemIcon"
-            app:layout_constraintStart_toEndOf="@+id/OtherVersionListItemIcon"
-            app:layout_constraintTop_toTopOf="@+id/OtherVersionListItemIcon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Reprints" />
 
     </android.support.constraint.ConstraintLayout>

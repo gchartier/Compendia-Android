@@ -1,9 +1,6 @@
 package com.gabrieldchartier.compendia.models;
 
-import android.content.Context;
 import android.support.annotation.Nullable;
-
-import com.gabrieldchartier.compendia.R;
 import com.gabrieldchartier.compendia.util.TempCollection;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +37,7 @@ public class Collection
         return instance;
     }
 
+    //TODO retrieve from repository
     private Collection()
     {
         comics = new TempCollection().getTempCollection();

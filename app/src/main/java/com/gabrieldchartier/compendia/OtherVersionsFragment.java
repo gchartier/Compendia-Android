@@ -93,7 +93,7 @@ public class OtherVersionsFragment extends Fragment
         initializeFragmentToolbar(view);
         setViews(view);
         setViewData();
-        initRecyclerView(view);
+        initRecyclerView();
         setWidgetListeners();
 
         return view;
@@ -159,15 +159,15 @@ public class OtherVersionsFragment extends Fragment
     }
 
     // Initialize the recycler views
-    private void initRecyclerView(View view)
+    private void initRecyclerView()
     {
         Log.d(TAG, "Initializing other versions recycler view");
         List<OtherVersionRecyclerCategory> categories = getCategoryGroups(otherVersionComics);
-        otherVersionsRecyclerView = view.findViewById(R.id.otherVersionsRecyclerView);
         otherVersionsLayoutManager = new LinearLayoutManager(getActivity());
         adapter = new OtherVersionsExpandableRecyclerAdapter(categories, getActivity());
         otherVersionsRecyclerView.setLayoutManager(otherVersionsLayoutManager);
         otherVersionsRecyclerView.setAdapter(adapter);
+        adapter.expandAll(categories);
     }
 
     private void setWidgetListeners()
@@ -177,7 +177,7 @@ public class OtherVersionsFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                TextView clickedItemID = v.findViewById(R.id.otherVersionListItemID);
+                TextView clickedItemID = v.findViewById(R.id.comicListItemID);
                 Comic clickedComic = collection.getComicByID(UUID.fromString(clickedItemID.getText().toString()));
                 if(clickedComic != null)
                 {
