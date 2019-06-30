@@ -74,7 +74,7 @@ public class Collection
     {
         for(Comic c : comics)
         {
-            if(c.getID() == ID)
+            if(c.getID().equals(ID))
                 return c;
         }
         return null;

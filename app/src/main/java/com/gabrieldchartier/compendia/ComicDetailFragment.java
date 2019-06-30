@@ -311,7 +311,7 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
             userRating.setRating(comic.getUserRating());
         averageRating.setText(getString(R.string.common_average_ratings, Float.toString(comic.getAverageRating())));
         if(comic.getTotalReviews() >= 1)
-            numberOfReviews.setText(getString(R.string.common_reviews, Float.toString(comic.getTotalReviews())));
+            numberOfReviews.setText(getString(R.string.common_reviews, Integer.toString(comic.getTotalReviews())));
         else
             numberOfReviews.setText(getString(R.string.comic_detail_no_reviews));
         if(comic.getDescription().equals(""))
@@ -493,9 +493,10 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     {
         if(view.getId() == R.id.comicDetailOtherVersionArrow || view.getId() == R.id.comicDetailOtherVersionText)
         {
+            Log.d(TAG, "OtherVersionsStringArray = " + comic.getOtherVersionsAsStringArray()[0]);
             Log.d(TAG, "Comic detail other versions clicked");
             if(getActivity() != null)
-                ((MainActivity)getActivity()).inflateOtherVersionsFragment(comic.getOtherVersions(), comic.getTitle());
+                ((MainActivity)getActivity()).inflateOtherVersionsFragment(comic.getOtherVersionsAsStringArray(), comic.getTitle());
         }
         else if(view.getId() == R.id.comicDetailReviewsArrow)
         {

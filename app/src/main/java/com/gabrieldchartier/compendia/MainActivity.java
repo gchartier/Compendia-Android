@@ -120,20 +120,29 @@ public class MainActivity extends AppCompatActivity
     // Sets the visibility of the fragments in the back stack
     private void setFragmentVisibility(String tag)
     {
+        boolean fragmentWasSet = false;
+
+        Log.d(TAG, "Setting fragment visibility for " + tag);
+
         // Toggle visibility of the bottom nav based on fragment tag
         if(hideNavBarFragments.contains(tag))
             hideBottomNav();
         else
             showBottomNav();
 
+        //TODO ensure this works with the updated for loop
         // Show the fragment matching the tag passed in and hide the rest
-        for(FragmentTag fTag : fragments)
+        for(int i = fragments.size() - 1; i >= 0; i--)
         {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            if(tag.equals(fTag.getTag()))
-                transaction.show(fTag.getFragment());
+            if(tag.equals(fragments.get(i).getTag()) && !fragmentWasSet)
+            {
+                Log.d(TAG, "In Visibility: Showing fragment " + (i+1) + " of " + fragments.size());
+                transaction.show(fragments.get(i).getFragment());
+                fragmentWasSet = true;
+            }
             else
-                transaction.hide(fTag.getFragment());
+                transaction.hide(fragments.get(i).getFragment());
             transaction.commit();
         }
         setBottomNavIcon(tag);
@@ -144,6 +153,8 @@ public class MainActivity extends AppCompatActivity
     {
         int backStackCount = fragmentTags.size();
 
+        Log.d(TAG, "onBackPressed stack count" + backStackCount);
+
         if(backStackCount > 1)
         {
             // Scroll to the top of the screen on navigate back in the collection screen
@@ -151,7 +162,9 @@ public class MainActivity extends AppCompatActivity
                 collectionFragment.scrollToTop();
 
             setFragmentVisibility(fragmentTags.get(backStackCount - 2));
-            fragmentTags.remove(fragmentTags.get(backStackCount - 1));
+            fragmentTags.remove(backStackCount - 1);
+            fragments.remove(backStackCount - 1);
+            Log.d(TAG, "Fragments after removal " + fragments.size());
             appExitAttempts = 0;
         }
         else if(backStackCount == 1)
@@ -184,8 +197,8 @@ public class MainActivity extends AppCompatActivity
     public void inflateComicDetailFragment(Comic comic)
     {
         // Remove comic detail fragment if it exists
-        if(comicDetailFragment != null)
-            getSupportFragmentManager().beginTransaction().remove(comicDetailFragment).commitAllowingStateLoss();
+        //if(comicDetailFragment != null)
+            //getSupportFragmentManager().beginTransaction().remove(comicDetailFragment).commitAllowingStateLoss();
 
         // Create fragment, set the comic passed in, and add the fragment to the back stack
         comicDetailFragment = new ComicDetailFragment();
@@ -203,7 +216,7 @@ public class MainActivity extends AppCompatActivity
 
     // Inflate the other versions fragment passing in the list of other comic versions
     @Override
-    public void inflateOtherVersionsFragment(List<UUID> otherVersions, String comicTitle)
+    public void inflateOtherVersionsFragment(String[] otherVersions, String comicTitle)
     {
         // Remove comic detail fragment if it exists
         if(otherVersionsFragment != null)
@@ -212,7 +225,8 @@ public class MainActivity extends AppCompatActivity
         // Create fragment, set the comic data passed in, and add the fragment to the back stack
         otherVersionsFragment = new OtherVersionsFragment();
         Bundle args = new Bundle();
-        args.putSerializable(getString(R.string.intent_other_versions), otherVersions.toArray());
+        Log.d(TAG, "OtherVersions = " + otherVersions[0]);
+        args.putStringArray(getString(R.string.intent_other_versions), otherVersions);
         args.putString(getString(R.string.intent_comic_title), comicTitle);
         otherVersionsFragment.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

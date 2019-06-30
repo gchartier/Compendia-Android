@@ -6,4 +6,6 @@
     <color name="colorAccent">#D81B60</color>
     <color name="text_importance_2">#7D7D7D</color>
     <color name="text_importance_3">#F0F0F0</color>
+    <color name="expandable_recycler_headers">#D4D4D4</color>
+    <color name="white">#FFFFFF</color>
 </resources>

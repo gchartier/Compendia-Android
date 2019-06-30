@@ -18,15 +18,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.gabrieldchartier.compendia.models.Collection;
 import com.gabrieldchartier.compendia.models.Comic;
-import com.gabrieldchartier.compendia.util.TempCollection;
-
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
-public class OtherVersionsFragment extends Fragment implements View.OnClickListener
+@SuppressWarnings("FieldCanBeLocal")
+public class OtherVersionsFragment extends Fragment
 {
     // Constants
     private static final String TAG = "OtherVersionsFragment";
@@ -35,10 +34,9 @@ public class OtherVersionsFragment extends Fragment implements View.OnClickListe
     // Variables
     private FragmentInfoRelay mInterface;
     private LinearLayoutManager otherVersionsLayoutManager;
-    private RecyclerViewAdapter adapter;
-    private ArrayList<Comic> otherVersionComics = new ArrayList<>();
+    private OtherVersionsExpandableRecyclerAdapter adapter;
+    private List<Comic> otherVersionComics = new ArrayList<>();
     private Collection collection;
-    private String comicTitle;
 
     // Widgets
     private TextView fragmentHeader;
@@ -68,14 +66,17 @@ public class OtherVersionsFragment extends Fragment implements View.OnClickListe
         if(bundle != null)
         {
             String[] comicIDs;
-            comicTitle = bundle.getString(getString(R.string.intent_comic_title));
             comicIDs = bundle.getStringArray(getString(R.string.intent_other_versions));
             if(comicIDs != null)
+            {
+                Log.d(TAG, "OtherVersionID UUID" + UUID.fromString(comicIDs[0]));
                 for(String s : comicIDs)
                 {
                     //TODO request comic data from repository. This is placeholder stuff
                     otherVersionComics.add(collection.getComicByID(UUID.fromString(s)));
+                    Log.d(TAG, "OtherVersionID UUID 2" + collection.getComicByID(UUID.fromString(s)));
                 }
+            }
         }
         else
             Log.d(TAG, "Bundle was null");
@@ -92,11 +93,33 @@ public class OtherVersionsFragment extends Fragment implements View.OnClickListe
         initializeFragmentToolbar(view);
         setViews(view);
         setViewData();
-        if(adapter == null)
-            initRecyclerView();
+        initRecyclerView(view);
         setWidgetListeners();
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+    {
+        inflater.inflate(R.menu.submit_report_tool_bar_menu, menu);
+        super.onCreateOptionsMenu(menu,inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                mInterface.onBackPressed();
+                return true;
+            case R.id.subMenuSubmitReport:
+                //TODO submit report
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void initializeFragmentToolbar(View view)
@@ -124,38 +147,10 @@ public class OtherVersionsFragment extends Fragment implements View.OnClickListe
             Log.e(TAG, "Support Action Bar was null");
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
-    {
-        inflater.inflate(R.menu.submit_report_tool_bar_menu, menu);
-        super.onCreateOptionsMenu(menu,inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case android.R.id.home:
-                mInterface.onBackPressed();
-                return true;
-            case R.id.subMenuSubmitReport:
-                //TODO submit report
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
     private void setViews(View view)
     {
         fragmentHeader = view.findViewById(R.id.comicDetailFragmentHeader);
         otherVersionsRecyclerView = view.findViewById(R.id.otherVersionsRecyclerView);
-    }
-
-    private void setWidgetListeners()
-    {
-
     }
 
     private void setViewData()
@@ -164,19 +159,60 @@ public class OtherVersionsFragment extends Fragment implements View.OnClickListe
     }
 
     // Initialize the recycler views
-    private void initRecyclerView()
+    private void initRecyclerView(View view)
     {
-        Log.d(TAG, "initRecyclerView: init RecyclerView");
-
-        otherVersionsLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        Log.d(TAG, "Initializing other versions recycler view");
+        List<OtherVersionRecyclerCategory> categories = getCategoryGroups(otherVersionComics);
+        otherVersionsRecyclerView = view.findViewById(R.id.otherVersionsRecyclerView);
+        otherVersionsLayoutManager = new LinearLayoutManager(getActivity());
+        adapter = new OtherVersionsExpandableRecyclerAdapter(categories, getActivity());
         otherVersionsRecyclerView.setLayoutManager(otherVersionsLayoutManager);
-        adapter = new RecyclerViewAdapter(getActivity(), otherVersionComics);
         otherVersionsRecyclerView.setAdapter(adapter);
     }
 
-    @Override
-    public void onClick(View v)
+    private void setWidgetListeners()
     {
+        adapter.setClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                TextView clickedItemID = v.findViewById(R.id.otherVersionListItemID);
+                Comic clickedComic = collection.getComicByID(UUID.fromString(clickedItemID.getText().toString()));
+                if(clickedComic != null)
+                {
+                    Log.d(TAG, "Clicked Other Version Item " + clickedComic.getTitle());
+                    mInterface.inflateComicDetailFragment(clickedComic);
+                }
+                else
+                    Log.e(TAG,"Clicked Other Version Comic was null");
+            }
+        });
+    }
 
+    // Get other version category groups for the other version recycler view
+    private List<OtherVersionRecyclerCategory> getCategoryGroups(List<Comic> otherVersionComics)
+    {
+        List<OtherVersionRecyclerCategory> categories = new ArrayList<>();
+        List<Comic> reprints = new ArrayList<>();
+        List<Comic> variants = new ArrayList<>();
+        List<Comic> other = new ArrayList<>();
+        for(Comic c : otherVersionComics)
+        {
+            if(c.isVariant())
+                variants.add(c);
+            else if(c.isReprint())
+                reprints.add(c);
+            else
+                other.add(c);
+        }
+        if(reprints.size() > 0)
+            categories.add(new OtherVersionRecyclerCategory("Reprints", reprints));
+        if(variants.size() > 0)
+            categories.add(new OtherVersionRecyclerCategory("Variants", variants));
+        if(other.size() > 0)
+            categories.add(new OtherVersionRecyclerCategory("Other", other));
+
+        return categories;
     }
 }

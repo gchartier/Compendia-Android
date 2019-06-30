@@ -47,6 +47,7 @@ public class Comic implements Parcelable
     private String seriesName;
     private UUID seriesID;
     private int printing;
+    private boolean isVariant;
     private String variant;
     private String ageRating;
     private boolean isMiniSeries;
@@ -76,7 +77,7 @@ public class Comic implements Parcelable
                  boolean isMiniSeries, boolean isReprint, boolean isOneShot, int miniSeriesLimit,
                  int format, int itemNumber, int collectionType, ArrayList<String> otherVersions, float userRating,
                  String dateCollected, String purchasePrice, String boughtAt, String condition,
-                 String gradingAgency, float grade, int quantity, String notes)
+                 String gradingAgency, float grade, int quantity, String notes, boolean isVariant)
     {
         this.ID = UUID.fromString(ID);
         this.title = title;
@@ -108,6 +109,7 @@ public class Comic implements Parcelable
         this.seriesName = seriesName;
         this.seriesID = UUID.fromString(seriesID);
         this.printing = printing;
+        this.isVariant = isVariant;
         this.variant = variant;
         if(ageRating == MATURE_RATING_CODE)
             this.ageRating = MATURE_RATING_TEXT;
@@ -438,6 +440,16 @@ public class Comic implements Parcelable
         this.printing = printing;
     }
 
+    public boolean isVariant()
+    {
+        return isVariant;
+    }
+
+    public void setVariant(boolean variant)
+    {
+        isVariant = variant;
+    }
+
     public String getVariant()
     {
         return variant;
@@ -531,6 +543,16 @@ public class Comic implements Parcelable
     public List<UUID> getOtherVersions()
     {
         return otherVersions;
+    }
+
+    public String[] getOtherVersionsAsStringArray()
+    {
+        String[] otherVersionIDs = new String[otherVersions.size()];
+        for(int i = 0; i < otherVersions.size(); i++)
+        {
+            otherVersionIDs[i] = otherVersions.get(i).toString();
+        }
+        return otherVersionIDs;
     }
 
     public void setOtherVersions(List<UUID> otherVersions)
