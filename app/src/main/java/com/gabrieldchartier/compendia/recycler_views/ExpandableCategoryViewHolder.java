@@ -1,7 +1,9 @@
-package com.gabrieldchartier.compendia;
+package com.gabrieldchartier.compendia.recycler_views;
 
 import android.view.View;
 import android.widget.TextView;
+
+import com.gabrieldchartier.compendia.R;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 import com.thoughtbot.expandablerecyclerview.viewholders.GroupViewHolder;
 

@@ -1,20 +1,21 @@
-package com.gabrieldchartier.compendia;
+package com.gabrieldchartier.compendia.recycler_views;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gabrieldchartier.compendia.R;
 import com.gabrieldchartier.compendia.models.Comic;
 import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 import java.util.List;
 
-public class OtherVersionsExpandableRecyclerAdapter extends ExpandableRecyclerViewAdapter<ExpandableCategoryViewHolder, ComicChildViewHolder>
+public class PullListExpandableRecyclerAdapter extends ExpandableRecyclerViewAdapter<ExpandableCategoryViewHolder, ComicChildViewHolder>
 {
     private Context context;
     private View.OnClickListener mClickListener;
-    public OtherVersionsExpandableRecyclerAdapter(List<? extends ExpandableGroup> groups, Context context)
+    public PullListExpandableRecyclerAdapter(List<? extends ExpandableGroup> groups, Context context)
     {
         super(groups);
         this.context = context;
@@ -45,7 +46,7 @@ public class OtherVersionsExpandableRecyclerAdapter extends ExpandableRecyclerVi
     @Override
     public void onBindChildViewHolder(ComicChildViewHolder holder, int flatPosition, ExpandableGroup group, int childIndex)
     {
-        final Comic comic = ((OtherVersionRecyclerCategory) group).getItems().get(childIndex);
+        final Comic comic = ((PullListRecyclerWeek) group).getItems().get(childIndex);
         holder.onBind(comic, context);
     }
 
@@ -58,12 +59,5 @@ public class OtherVersionsExpandableRecyclerAdapter extends ExpandableRecyclerVi
     public void setClickListener(View.OnClickListener callback)
     {
         mClickListener = callback;
-    }
-
-    public void expandAll(List<? extends ExpandableGroup> groups)
-    {
-        for(ExpandableGroup group : groups)
-            if(!isGroupExpanded(group))
-                toggleGroup(group);
     }
 }

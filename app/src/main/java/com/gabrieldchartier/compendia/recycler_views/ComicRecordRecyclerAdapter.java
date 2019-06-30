@@ -1,4 +1,4 @@
-package com.gabrieldchartier.compendia;
+package com.gabrieldchartier.compendia.recycler_views;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.gabrieldchartier.compendia.FragmentInterface;
+import com.gabrieldchartier.compendia.R;
 import com.gabrieldchartier.compendia.models.Comic;
 import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 
@@ -24,7 +26,7 @@ public class ComicRecordRecyclerAdapter extends RecyclerView.Adapter<ComicRecord
     // Variables
     private ArrayList<Comic> otherVersionComics;
     private Context context;
-    private FragmentInfoRelay fragmentRelay;
+    private FragmentInterface fragmentRelay;
     private View.OnClickListener mClickListener;
 
     public ComicRecordRecyclerAdapter(Context context, ArrayList<Comic> otherVersionComics)
@@ -89,7 +91,7 @@ public class ComicRecordRecyclerAdapter extends RecyclerView.Adapter<ComicRecord
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView)
     {
         super.onAttachedToRecyclerView(recyclerView);
-        fragmentRelay = (FragmentInfoRelay) context;
+        fragmentRelay = (FragmentInterface) context;
     }
 
     @Override

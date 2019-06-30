@@ -1,4 +1,4 @@
-package com.gabrieldchartier.compendia;
+package com.gabrieldchartier.compendia.recycler_views;
 
 import android.content.Context;
 import android.util.Log;
@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.gabrieldchartier.compendia.R;
 import com.gabrieldchartier.compendia.models.Comic;
 import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 import com.thoughtbot.expandablerecyclerview.viewholders.ChildViewHolder;

@@ -1,4 +1,4 @@
-package com.gabrieldchartier.compendia;
+package com.gabrieldchartier.compendia.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -18,6 +18,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.gabrieldchartier.compendia.FragmentInterface;
+import com.gabrieldchartier.compendia.recycler_views.OtherVersionRecyclerCategory;
+import com.gabrieldchartier.compendia.recycler_views.OtherVersionsExpandableRecyclerAdapter;
+import com.gabrieldchartier.compendia.R;
 import com.gabrieldchartier.compendia.models.Collection;
 import com.gabrieldchartier.compendia.models.Comic;
 import java.util.ArrayList;
@@ -32,7 +37,7 @@ public class OtherVersionsFragment extends Fragment
 
     // TODO change all variables preceded by m to actual names
     // Variables
-    private FragmentInfoRelay mInterface;
+    private FragmentInterface mInterface;
     private LinearLayoutManager otherVersionsLayoutManager;
     private OtherVersionsExpandableRecyclerAdapter adapter;
     private List<Comic> otherVersionComics = new ArrayList<>();
@@ -46,7 +51,7 @@ public class OtherVersionsFragment extends Fragment
     public void onAttach(Context context)
     {
         super.onAttach(context);
-        mInterface = (FragmentInfoRelay) getActivity();
+        mInterface = (FragmentInterface) getActivity();
     }
 
     @Override

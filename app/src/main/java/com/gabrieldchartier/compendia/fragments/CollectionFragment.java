@@ -1,4 +1,4 @@
-package com.gabrieldchartier.compendia;
+package com.gabrieldchartier.compendia.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.gabrieldchartier.compendia.recycler_views.ComicCoversAdapter;
+import com.gabrieldchartier.compendia.R;
 import com.gabrieldchartier.compendia.models.Comic;
 
 import java.util.ArrayList;
@@ -28,7 +31,7 @@ public class CollectionFragment extends Fragment implements SwipeRefreshLayout.O
 
     // Recycler Views
     private LinearLayoutManager mRecentlyAddedLayoutManager;
-    private RecyclerViewAdapter adapter;
+    private ComicCoversAdapter adapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -54,7 +57,7 @@ public class CollectionFragment extends Fragment implements SwipeRefreshLayout.O
 
         mRecentlyAddedLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecentlyAddedRecyclerView.setLayoutManager(mRecentlyAddedLayoutManager);
-        adapter = new RecyclerViewAdapter(getActivity(), mComics);
+        adapter = new ComicCoversAdapter(getActivity(), mComics);
         mRecentlyAddedRecyclerView.setAdapter(adapter);
     }
 

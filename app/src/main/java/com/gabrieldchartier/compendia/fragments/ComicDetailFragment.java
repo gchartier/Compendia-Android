@@ -1,4 +1,4 @@
-package com.gabrieldchartier.compendia;
+package com.gabrieldchartier.compendia.fragments;
 
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
@@ -27,6 +27,9 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.gabrieldchartier.compendia.FragmentInterface;
+import com.gabrieldchartier.compendia.MainActivity;
+import com.gabrieldchartier.compendia.R;
 import com.gabrieldchartier.compendia.models.Collection;
 import com.gabrieldchartier.compendia.models.Comic;
 import com.gabrieldchartier.compendia.models.ComicCreator;
@@ -97,7 +100,7 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     private Comic comic;
     private Collection collection;
     private boolean comicIsInCollection;
-    private FragmentInfoRelay mInterface;
+    private FragmentInterface mInterface;
     private ConstraintLayout constraintLayout;
     private ConstraintSet constraintSet;
 
@@ -229,7 +232,7 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     public void onAttach(Context context)
     {
         super.onAttach(context);
-        mInterface = (FragmentInfoRelay) getActivity();
+        mInterface = (FragmentInterface) getActivity();
     }
 
     @Override

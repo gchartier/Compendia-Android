@@ -1,4 +1,4 @@
-package com.gabrieldchartier.compendia;
+package com.gabrieldchartier.compendia.recycler_views;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,20 +10,23 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.gabrieldchartier.compendia.FragmentInterface;
+import com.gabrieldchartier.compendia.R;
 import com.gabrieldchartier.compendia.models.Comic;
 import java.util.ArrayList;
+import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>
+public class ComicCoversAdapter extends RecyclerView.Adapter<ComicCoversAdapter.ViewHolder>
 {
     // Constants
     private static final String TAG = "RecyclerViewAdapter";
 
     // Variables
-    private ArrayList<Comic> mComics;
+    private List<Comic> mComics;
     private Context mContext;
-    private FragmentInfoRelay fragmentRelay;
+    private FragmentInterface fragmentRelay;
 
-    public RecyclerViewAdapter(Context mContext, ArrayList<Comic> mComics)
+    public ComicCoversAdapter(Context mContext, List<Comic> mComics)
     {
         this.mComics = mComics;
         this.mContext = mContext;
@@ -60,7 +63,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView)
     {
         super.onAttachedToRecyclerView(recyclerView);
-        fragmentRelay = (FragmentInfoRelay) mContext;
+        fragmentRelay = (FragmentInterface) mContext;
     }
 
     @Override

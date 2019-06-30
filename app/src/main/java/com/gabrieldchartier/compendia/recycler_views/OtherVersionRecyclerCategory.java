@@ -1,4 +1,4 @@
-package com.gabrieldchartier.compendia;
+package com.gabrieldchartier.compendia.recycler_views;
 
 import com.gabrieldchartier.compendia.models.Comic;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;

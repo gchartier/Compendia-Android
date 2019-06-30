@@ -13,6 +13,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import com.gabrieldchartier.compendia.fragments.CollectionFragment;
+import com.gabrieldchartier.compendia.fragments.ComicDetailFragment;
+import com.gabrieldchartier.compendia.fragments.HomeFragment;
+import com.gabrieldchartier.compendia.fragments.OtherVersionsFragment;
+import com.gabrieldchartier.compendia.fragments.PullListFragment;
+import com.gabrieldchartier.compendia.fragments.SearchFragment;
 import com.gabrieldchartier.compendia.models.Comic;
 import com.gabrieldchartier.compendia.models.FragmentTag;
 import com.gabrieldchartier.compendia.util.PreferenceKeys;
@@ -21,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements FragmentInfoRelay, BottomNavigationViewEx.OnNavigationItemSelectedListener
+        implements FragmentInterface, BottomNavigationViewEx.OnNavigationItemSelectedListener
 {
     // Constants
     private static final int BOTTOM_NAV_HOME = 0;

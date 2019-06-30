@@ -4,11 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".HomeFragment">
+    tools:context=".fragments.HomeFragment">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <View
             android:id="@+id/homeHeaderBackground"
@@ -19,7 +21,7 @@
             app:layout_constraintBottom_toTopOf="@+id/homeContentGuidelineTop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/homeAppLogo"
@@ -39,11 +41,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:contentDescription="@string/content_description_home_settings_button"
             android:elevation="4dp"
             android:src="@drawable/ic_settings_black_24dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/content_description_home_settings_button"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <android.support.constraint.Guideline
             android:id="@+id/homeHeaderGuidelineLeft"
@@ -77,8 +79,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/home_owned_header"
             android:elevation="4dp"
+            android:text="@string/home_owned_header"
             app:layout_constraintEnd_toEndOf="@+id/homeOwnedNum"
             app:layout_constraintStart_toStartOf="@+id/homeOwnedNum"
             app:layout_constraintTop_toBottomOf="@+id/homeOwnedNum" />
@@ -101,8 +103,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/home_read_header"
             android:elevation="4dp"
+            android:text="@string/home_read_header"
             app:layout_constraintEnd_toEndOf="@+id/homeReadNum"
             app:layout_constraintStart_toStartOf="@+id/homeReadNum"
             app:layout_constraintTop_toBottomOf="@+id/homeReadNum" />
@@ -126,8 +128,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/home_reviews_header"
             android:elevation="4dp"
+            android:text="@string/home_reviews_header"
             app:layout_constraintEnd_toEndOf="@+id/homeReviewsNum"
             app:layout_constraintStart_toStartOf="@+id/homeReviewsNum"
             app:layout_constraintTop_toBottomOf="@+id/homeReviewsNum" />
@@ -166,21 +168,21 @@
             android:id="@+id/homeSeeAllNewReleasesNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="12"
             app:layout_constraintBottom_toBottomOf="@+id/homeSeeAllNewReleasesText"
             app:layout_constraintEnd_toStartOf="@+id/homeSeeAllNewReleasesButton"
-            app:layout_constraintTop_toTopOf="@+id/homeSeeAllNewReleasesText" />
+            app:layout_constraintTop_toTopOf="@+id/homeSeeAllNewReleasesText"
+            tools:text="12" />
 
         <ImageView
             android:id="@+id/homeSeeAllNewReleasesButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
+            android:contentDescription="@string/content_description_home_see_all_new_releases_button"
             app:layout_constraintBottom_toBottomOf="@+id/homeSeeAllNewReleasesNum"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/homeSeeAllNewReleasesNum"
-            app:srcCompat="@drawable/navigate_in"
-            android:contentDescription="@string/content_description_home_see_all_new_releases_button"/>
+            app:srcCompat="@drawable/navigate_in" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/homeNewReleasesRecyclerView"
@@ -206,36 +208,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/homeNewReleasesRecyclerView" />
 
-        <TextView
-            android:id="@+id/homeSeeAllPullListText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
-            android:text="@string/home_see_all_text"
-            app:layout_constraintBottom_toBottomOf="@+id/homePullListHeader"
-            app:layout_constraintEnd_toStartOf="@+id/homeSeeAllPullListNum"
-            app:layout_constraintTop_toTopOf="@+id/homePullListHeader" />
-
-        <TextView
-            android:id="@+id/homeSeeAllPullListNum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="12"
-            app:layout_constraintBottom_toBottomOf="@+id/homeSeeAllPullListText"
-            app:layout_constraintEnd_toStartOf="@+id/homeSeeAllPullListButton"
-            app:layout_constraintTop_toTopOf="@+id/homeSeeAllPullListText" />
-
-        <ImageView
-            android:id="@+id/homeSeeAllPullListButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/homeSeeAllPullListNum"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/homeSeeAllPullListNum"
-            app:srcCompat="@drawable/navigate_in"
-            android:contentDescription="@string/content_description_home_see_all_pull_list_button"/>
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/homePullListRecyclerView"
             android:layout_width="411dp"
@@ -247,6 +219,18 @@
             app:layout_constraintTop_toBottomOf="@+id/homePullListHeader">
 
         </android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/homeNoPullListText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:text="You don't have any comics this week!"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homePullListHeader" />
 
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

@@ -1,11 +1,10 @@
-package com.gabrieldchartier.compendia;
+package com.gabrieldchartier.compendia.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,9 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.gabrieldchartier.compendia.FragmentInterface;
+import com.gabrieldchartier.compendia.recycler_views.PullListExpandableRecyclerAdapter;
+import com.gabrieldchartier.compendia.recycler_views.PullListRecyclerWeek;
+import com.gabrieldchartier.compendia.R;
 import com.gabrieldchartier.compendia.models.Comic;
 import com.gabrieldchartier.compendia.models.PullList;
-import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +31,7 @@ public class PullListFragment extends Fragment
     private static final String TAG = "PullListFragment";
 
     // Variables
-    private FragmentInfoRelay fragmentInterface;
+    private FragmentInterface fragmentInterface;
     private LinearLayoutManager pullListLayoutManager;
     private PullListExpandableRecyclerAdapter adapter;
     private PullList pullList;
@@ -41,7 +43,7 @@ public class PullListFragment extends Fragment
     public void onAttach(Context context)
     {
         super.onAttach(context);
-        fragmentInterface = (FragmentInfoRelay) getActivity();
+        fragmentInterface = (FragmentInterface) getActivity();
     }
 
     @Override
