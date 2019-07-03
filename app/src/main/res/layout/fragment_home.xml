@@ -19,7 +19,7 @@
             app:layout_constraintBottom_toTopOf="@+id/homeContentGuidelineTop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/homeAppLogo"
@@ -39,18 +39,18 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:contentDescription="@string/content_description_home_settings_button"
             android:elevation="4dp"
             android:src="@drawable/ic_settings_black_24dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/content_description_home_settings_button"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <android.support.constraint.Guideline
             android:id="@+id/homeHeaderGuidelineLeft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="76dp" />
+            app:layout_constraintGuide_begin="40dp" />
 
         <android.support.constraint.Guideline
             android:id="@+id/homeHeaderGuidelineTop"
@@ -76,9 +76,8 @@
             style="@style/detail_text_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/home_owned_header"
             android:elevation="4dp"
+            android:text="@string/home_collected_header"
             app:layout_constraintEnd_toEndOf="@+id/homeOwnedNum"
             app:layout_constraintStart_toStartOf="@+id/homeOwnedNum"
             app:layout_constraintTop_toBottomOf="@+id/homeOwnedNum" />
@@ -100,9 +99,8 @@
             style="@style/detail_text_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/home_read_header"
             android:elevation="4dp"
+            android:text="@string/home_read_header"
             app:layout_constraintEnd_toEndOf="@+id/homeReadNum"
             app:layout_constraintStart_toStartOf="@+id/homeReadNum"
             app:layout_constraintTop_toBottomOf="@+id/homeReadNum" />
@@ -125,9 +123,8 @@
             style="@style/detail_text_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/home_reviews_header"
             android:elevation="4dp"
+            android:text="@string/home_reviews_header"
             app:layout_constraintEnd_toEndOf="@+id/homeReviewsNum"
             app:layout_constraintStart_toStartOf="@+id/homeReviewsNum"
             app:layout_constraintTop_toBottomOf="@+id/homeReviewsNum" />
@@ -143,7 +140,7 @@
 
         <TextView
             android:id="@+id/homeNewReleasesHeader"
-            style="@style/detail_text_2"
+            style="@style/detail_text_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -156,31 +153,26 @@
             android:id="@+id/homeSeeAllNewReleasesText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
-            android:text="@string/home_see_all_text"
+            android:layout_marginStart="8dp"
+            android:text="@string/common_see_all"
             app:layout_constraintBottom_toBottomOf="@+id/homeNewReleasesHeader"
-            app:layout_constraintEnd_toStartOf="@+id/homeSeeAllNewReleasesNum"
-            app:layout_constraintTop_toTopOf="@+id/homeNewReleasesHeader" />
-
-        <TextView
-            android:id="@+id/homeSeeAllNewReleasesNum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="12"
-            app:layout_constraintBottom_toBottomOf="@+id/homeSeeAllNewReleasesText"
             app:layout_constraintEnd_toStartOf="@+id/homeSeeAllNewReleasesButton"
-            app:layout_constraintTop_toTopOf="@+id/homeSeeAllNewReleasesText" />
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@+id/homeNewReleasesHeader"
+            app:layout_constraintTop_toTopOf="@+id/homeNewReleasesHeader" />
 
         <ImageView
             android:id="@+id/homeSeeAllNewReleasesButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/homeSeeAllNewReleasesNum"
+            android:layout_marginEnd="8dp"
+            android:contentDescription="@string/content_description_home_see_all_new_releases_button"
+            app:layout_constraintBottom_toBottomOf="@+id/homeSeeAllNewReleasesText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/homeSeeAllNewReleasesNum"
-            app:srcCompat="@drawable/navigate_in"
-            android:contentDescription="@string/content_description_home_see_all_new_releases_button"/>
+            app:layout_constraintStart_toEndOf="@+id/homeSeeAllNewReleasesText"
+            app:layout_constraintTop_toTopOf="@+id/homeSeeAllNewReleasesText"
+            app:srcCompat="@drawable/navigate_in" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/homeNewReleasesRecyclerView"
@@ -195,70 +187,62 @@
         </android.support.v7.widget.RecyclerView>
 
         <TextView
-            android:id="@+id/homePullListHeader"
-            style="@style/detail_text_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="24dp"
-            android:text="@string/home_pull_list_header"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/homeNewReleasesRecyclerView" />
-
-        <TextView
-            android:id="@+id/homeSeeAllPullListText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
-            android:text="@string/home_see_all_text"
-            app:layout_constraintBottom_toBottomOf="@+id/homePullListHeader"
-            app:layout_constraintEnd_toStartOf="@+id/homeSeeAllPullListNum"
-            app:layout_constraintTop_toTopOf="@+id/homePullListHeader" />
-
-        <TextView
-            android:id="@+id/homeSeeAllPullListNum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="12"
-            app:layout_constraintBottom_toBottomOf="@+id/homeSeeAllPullListText"
-            app:layout_constraintEnd_toStartOf="@+id/homeSeeAllPullListButton"
-            app:layout_constraintTop_toTopOf="@+id/homeSeeAllPullListText" />
-
-        <ImageView
-            android:id="@+id/homeSeeAllPullListButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/homeSeeAllPullListNum"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/homeSeeAllPullListNum"
-            app:srcCompat="@drawable/navigate_in"
-            android:contentDescription="@string/content_description_home_see_all_pull_list_button"/>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/homePullListRecyclerView"
-            android:layout_width="411dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/homePullListHeader"
-            app:layout_constraintTop_toBottomOf="@+id/homePullListHeader">
-
-        </android.support.v7.widget.RecyclerView>
-
-        <TextView
-            android:id="@+id/homeNoPullListText"
+            android:id="@+id/homeBoxesHeader"
+            style="@style/detail_text_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="8dp"
-            android:text="You don't have any comics this week!"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/home_boxes_header"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/homePullListHeader" />
+            app:layout_constraintTop_toBottomOf="@+id/homeNewReleasesRecyclerView" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/homeFeaturedBoxRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/homeBoxesHeader"
+            app:layout_constraintTop_toBottomOf="@+id/homeFeaturedBoxHeader">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/homeSeeAllBoxesText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/common_see_all"
+            app:layout_constraintBottom_toBottomOf="@+id/homeBoxesHeader"
+            app:layout_constraintEnd_toStartOf="@+id/homeSeeAllBoxesButton"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@+id/homeBoxesHeader"
+            app:layout_constraintTop_toTopOf="@+id/homeBoxesHeader" />
+
+        <ImageView
+            android:id="@+id/homeSeeAllBoxesButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/navigate_in"
+            app:layout_constraintBottom_toBottomOf="@+id/homeSeeAllBoxesText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/homeSeeAllBoxesText"
+            app:layout_constraintTop_toTopOf="@+id/homeSeeAllBoxesText" />
+
+        <TextView
+            android:id="@+id/homeFeaturedBoxHeader"
+            style="@style/detail_text_2_medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/homeFeaturedBoxRecyclerView"
+            app:layout_constraintTop_toBottomOf="@+id/homeBoxesHeader"
+            tools:text="Favorites" />
 
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

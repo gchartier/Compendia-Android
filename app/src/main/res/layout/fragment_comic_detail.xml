@@ -779,7 +779,7 @@
             tools:text="1" />
 
         <View
-            android:id="@+id/comicDetailCollectionListsContentDivider"
+            android:id="@+id/comicDetailCollectionBoxesContentDivider"
             style="@style/Divider"
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -787,52 +787,52 @@
             app:layout_constraintTop_toBottomOf="@id/comicDetailCondition" />
 
         <TextView
-            android:id="@+id/comicDetailListsHeader"
+            android:id="@+id/comicDetailBoxesHeader"
             style="@style/detail_text_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="@string/comic_detail_lists_header"
+            android:text="@string/comic_detail_boxes_header"
             app:layout_constraintStart_toStartOf="@id/comicDetailGuidelineLeft"
-            app:layout_constraintTop_toBottomOf="@id/comicDetailCollectionListsContentDivider" />
+            app:layout_constraintTop_toBottomOf="@id/comicDetailCollectionBoxesContentDivider" />
 
         <CheckBox
-            android:id="@+id/comicDetailListRead"
+            android:id="@+id/comicDetailBoxRead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/comic_detail_list_name_read"
-            app:layout_constraintStart_toStartOf="@+id/comicDetailListsHeader"
-            app:layout_constraintTop_toBottomOf="@+id/comicDetailListsHeader" />
+            android:text="@string/comic_detail_box_name_read"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailBoxesHeader"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailBoxesHeader" />
 
         <CheckBox
-            android:id="@+id/comicDetailListWant"
+            android:id="@+id/comicDetailBoxWant"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/comic_detail_list_name_want"
-            app:layout_constraintStart_toStartOf="@+id/comicDetailListRead"
-            app:layout_constraintTop_toBottomOf="@+id/comicDetailListRead" />
+            android:text="@string/comic_detail_box_name_want"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailBoxRead"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailBoxRead" />
 
         <CheckBox
-            android:id="@+id/comicDetailListFavorite"
+            android:id="@+id/comicDetailBoxFavorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/comic_detail_list_name_favorite"
-            app:layout_constraintStart_toStartOf="@+id/comicDetailListWant"
-            app:layout_constraintTop_toBottomOf="@+id/comicDetailListWant" />
+            android:text="@string/comic_detail_box_name_favorite"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailBoxWant"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailBoxWant" />
 
         <View
-            android:id="@+id/comicDetailListsEndContentDivider"
+            android:id="@+id/comicDetailBoxesEndContentDivider"
             style="@style/Divider"
             android:layout_marginBottom="16dp"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@id/comicDetailConstraintLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/comicDetailListFavorite" />
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailBoxFavorite" />
     </android.support.constraint.ConstraintLayout>
 
 </ScrollView>

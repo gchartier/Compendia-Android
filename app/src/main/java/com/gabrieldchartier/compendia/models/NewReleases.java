@@ -59,7 +59,7 @@ public class NewReleases
         return comics;
     }
 
-    public List<Comic> getClosestWeek()
+    public List<Comic> getThisWeek()
     {
         return DateUtilities.getClosestWeek(comics, weeks);
     }

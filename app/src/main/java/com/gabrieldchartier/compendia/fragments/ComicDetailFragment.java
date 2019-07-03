@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -33,7 +32,8 @@ import com.gabrieldchartier.compendia.R;
 import com.gabrieldchartier.compendia.models.Collection;
 import com.gabrieldchartier.compendia.models.Comic;
 import com.gabrieldchartier.compendia.models.ComicCreator;
-import com.gabrieldchartier.compendia.models.ComicList;
+import com.gabrieldchartier.compendia.models.ComicBox;
+import com.gabrieldchartier.compendia.util.TempUtilClass;
 import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,10 +90,10 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     private TextView condition;
     private TextView grade;
     private TextView quantity;
-    private View collectionDetailListsDivider;
-    private CheckBox readList;
-    private CheckBox wantList;
-    private CheckBox favoriteList;
+    private View collectionDetailBoxesDivider;
+    private CheckBox readBox;
+    private CheckBox wantBox;
+    private CheckBox favoriteBox;
     private View endContentDivider;
 
     // Variables
@@ -154,7 +154,7 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
             // Set the widgets to the comic data
             setViewData();
             inflateCreators(view);
-            inflateComicLists(view);
+            inflateComicBoxes(view);
             setWidgetListeners();
         }
         else
@@ -276,15 +276,19 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         condition = view.findViewById(R.id.comicDetailCondition);
         grade = view.findViewById(R.id.comicDetailGrade);
         quantity = view.findViewById(R.id.comicDetailQuantity);
-        collectionDetailListsDivider = view.findViewById(R.id.comicDetailCollectionListsContentDivider);
+        collectionDetailBoxesDivider = view.findViewById(R.id.comicDetailCollectionBoxesContentDivider);
     }
 
     private void setViewData()
     {
         seriesTitle.setText(comic.getSeriesName());
+        //TODO replace the glide load parameter with: Uri.parse(comic.getCover()) and remove the if/else about context
+        if(getActivity() != null)
         Glide.with(this)
-                .load(Uri.parse(comic.getCover()))
+                .load(TempUtilClass.getImage(getActivity(), comic.getCover()))
                 .into(cover);
+        else
+            Log.e(TAG, "Activity context is null for some reason");
         title.setText(comic.getTitle());
         publisher.setText(comic.getPublisherName());
         if(!comic.getImprintName().equals(""))
@@ -345,7 +349,7 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         {
             collectionDetailsGroup.setVisibility(View.GONE);
             constraintSet = new ConstraintSet();
-            constraintSet.connect(collectionDetailListsDivider.getId(),ConstraintSet.TOP,
+            constraintSet.connect(collectionDetailBoxesDivider.getId(),ConstraintSet.TOP,
                     creatorsBarrierBottom.getId(), ConstraintSet.BOTTOM, 0);
             constraintSet.applyTo(constraintLayout);
         }
@@ -411,63 +415,63 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         }
     }
 
-    private void inflateComicLists(View view)
+    private void inflateComicBoxes(View view)
     {
-        // Initialize list views
-        readList = view.findViewById(R.id.comicDetailListRead);
-        wantList = view.findViewById(R.id.comicDetailListWant);
-        favoriteList = view.findViewById(R.id.comicDetailListFavorite);
-        endContentDivider = view.findViewById(R.id.comicDetailListsEndContentDivider);
+        // Initialize box views
+        readBox = view.findViewById(R.id.comicDetailBoxRead);
+        wantBox = view.findViewById(R.id.comicDetailBoxWant);
+        favoriteBox = view.findViewById(R.id.comicDetailBoxFavorite);
+        endContentDivider = view.findViewById(R.id.comicDetailBoxesEndContentDivider);
 
-        // Initialize list checkboxes, and their layout params
-        List<ComicList> customLists = collection.getCustomLists();
-        ArrayList<CheckBox> customListCheckboxes = new ArrayList<>();
+        // Initialize box checkboxes, and their layout params
+        List<ComicBox> customBoxes = collection.getCustomBoxes();
+        ArrayList<CheckBox> customBoxesCheckboxes = new ArrayList<>();
         ConstraintLayout.LayoutParams layoutParams;
-        CheckBox newCustomList;
+        CheckBox newCustomBox;
         layoutParams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(0,8,0,0);
         constraintSet = new ConstraintSet();
 
-        // Build, and inflate the custom checkbox lists
-        for(int i = 1; i <= customLists.size(); i++)
+        // Build, and inflate the custom checkbox boxes
+        for(int i = 1; i <= customBoxes.size(); i++)
         {
-            newCustomList = new CheckBox(getActivity());
-            newCustomList.setTag("customList" + i);
-            newCustomList.setId(View.generateViewId());
-            newCustomList.setLayoutParams(layoutParams);
-            newCustomList.setText(customLists.get(i).getListName());
-            customListCheckboxes.add(newCustomList);
+            newCustomBox = new CheckBox(getActivity());
+            newCustomBox.setTag("customBox" + i);
+            newCustomBox.setId(View.generateViewId());
+            newCustomBox.setLayoutParams(layoutParams);
+            newCustomBox.setText(customBoxes.get(i).getBoxName());
+            customBoxesCheckboxes.add(newCustomBox);
 
-            // If the custom list being built is the first custom list, connect it to favorites list
+            // If the custom box being built is the first custom box, connect it to favorites box
             if(i == 1)
             {
                 constraintSet.clear(endContentDivider.getId(), ConstraintSet.TOP);
-                constraintSet.connect(customListCheckboxes.get(i).getId(), ConstraintSet.START, favoriteList.getId(), ConstraintSet.START);
-                constraintSet.connect(customListCheckboxes.get(i).getId(), ConstraintSet.TOP, favoriteList.getId(), ConstraintSet.BOTTOM);
+                constraintSet.connect(customBoxesCheckboxes.get(i).getId(), ConstraintSet.START, favoriteBox.getId(), ConstraintSet.START);
+                constraintSet.connect(customBoxesCheckboxes.get(i).getId(), ConstraintSet.TOP, favoriteBox.getId(), ConstraintSet.BOTTOM);
             }
-            // Else, connect it to the previous custom list that was built
+            // Else, connect it to the previous custom box that was built
             else
             {
-                constraintSet.connect(customListCheckboxes.get(i).getId(), ConstraintSet.START, customListCheckboxes.get(i - 1).getId(), ConstraintSet.START);
-                constraintSet.connect(customListCheckboxes.get(i).getId(), ConstraintSet.TOP, customListCheckboxes.get(i - 1).getId(), ConstraintSet.BOTTOM);
+                constraintSet.connect(customBoxesCheckboxes.get(i).getId(), ConstraintSet.START, customBoxesCheckboxes.get(i - 1).getId(), ConstraintSet.START);
+                constraintSet.connect(customBoxesCheckboxes.get(i).getId(), ConstraintSet.TOP, customBoxesCheckboxes.get(i - 1).getId(), ConstraintSet.BOTTOM);
             }
 
-            // Constrain the last custom list to the top of the end content divider
-            if(i == customLists.size())
-                constraintSet.connect(endContentDivider.getId(), ConstraintSet.TOP, customListCheckboxes.get(i).getId(), ConstraintSet.BOTTOM);
+            // Constrain the last custom box to the top of the end content divider
+            if(i == customBoxes.size())
+                constraintSet.connect(endContentDivider.getId(), ConstraintSet.TOP, customBoxesCheckboxes.get(i).getId(), ConstraintSet.BOTTOM);
         }
         constraintSet.applyTo(constraintLayout);
 
-        // Set the checked value of the list checkboxes
+        // Set the checked value of the box checkboxes
         if(collection.comicIsRead(comic))
-            readList.setChecked(true);
+            readBox.setChecked(true);
         if(collection.comicIsWanted(comic))
-            wantList.setChecked(true);
-        if(collection.comicIsFavorited(comic))
-            favoriteList.setChecked(true);
-        for(CheckBox list : customListCheckboxes)
-            if(collection.comicIsInCustomList(comic, list.getText().toString()))
-                list.setChecked(true);
+            wantBox.setChecked(true);
+        if(collection.comicIsFavorite(comic))
+            favoriteBox.setChecked(true);
+        for(CheckBox box : customBoxesCheckboxes)
+            if(collection.comicIsInCustomBox(comic, box.getText().toString()))
+                box.setChecked(true);
     }
 
     private void setWidgetListeners()

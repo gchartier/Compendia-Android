@@ -13,6 +13,8 @@ import com.bumptech.glide.Glide;
 import com.gabrieldchartier.compendia.FragmentInterface;
 import com.gabrieldchartier.compendia.R;
 import com.gabrieldchartier.compendia.models.Comic;
+import com.gabrieldchartier.compendia.util.TempUtilClass;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +49,8 @@ public class ComicCoversAdapter extends RecyclerView.Adapter<ComicCoversAdapter.
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i)
     {
         Log.d(TAG, "OnBindViewHolder called");
-        Glide.with(mContext).asBitmap().load(mComics.get(viewHolder.getAdapterPosition()).getCover()).into(viewHolder.image);
+        //TODO replace the glide load parameter with: mComics.get(viewHolder.getAdapterPosition()).getCover()
+        Glide.with(mContext).asBitmap().load(TempUtilClass.getImage(mContext ,mComics.get(viewHolder.getAdapterPosition()).getCover())).into(viewHolder.image);
         viewHolder.image.setOnClickListener(new View.OnClickListener()
         {
             @Override

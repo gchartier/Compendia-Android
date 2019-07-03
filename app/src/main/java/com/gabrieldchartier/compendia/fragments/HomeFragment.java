@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.gabrieldchartier.compendia.R;
+import com.gabrieldchartier.compendia.models.Collection;
 import com.gabrieldchartier.compendia.models.NewReleases;
 import com.gabrieldchartier.compendia.models.PullList;
 import com.gabrieldchartier.compendia.recycler_views.ComicCoversAdapter;
@@ -26,7 +27,9 @@ public class HomeFragment extends Fragment
     //Widgets
     private RecyclerView mNewReleasesRecyclerView;
     private RecyclerView mPullListRecyclerView;
-    private TextView homeNoPullListText;
+    private TextView homeOwnedNum;
+    private TextView homeReadNum;
+    private TextView homeReviewsNum;
 
     //Variables
     private LinearLayoutManager mNewReleasesLayoutManager;
@@ -35,6 +38,9 @@ public class HomeFragment extends Fragment
     private ComicCoversAdapter pullListAdapter;
     private PullList pullList;
     private NewReleases newReleases;
+    private Collection collection;
+    private List<Comic> closestWeekPullList;
+    private List<Comic> thisWeeksNewReleases;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState)
@@ -42,6 +48,10 @@ public class HomeFragment extends Fragment
         super.onCreate(savedInstanceState);
         newReleases = NewReleases.getInstance();
         pullList = PullList.getInstance();
+        collection = Collection.getInstance();
+
+        closestWeekPullList = pullList.getClosestWeek();
+        thisWeeksNewReleases = newReleases.getThisWeek();
     }
 
     @Override
@@ -51,13 +61,21 @@ public class HomeFragment extends Fragment
 
         // Inflate the view and set the widgets
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        mNewReleasesRecyclerView = view.findViewById(R.id.homeNewReleasesRecyclerView);
-        mPullListRecyclerView = view.findViewById(R.id.homePullListRecyclerView);
-        homeNoPullListText = view.findViewById(R.id.homeNoPullListText);
-
+        initializeViews(view);
         initRecyclerView();
+        setViewData();
 
         return view;
+    }
+
+    private void initializeViews(View view)
+    {
+        mNewReleasesRecyclerView = view.findViewById(R.id.homeNewReleasesRecyclerView);
+        mPullListRecyclerView = view.findViewById(R.id.homeFeaturedBoxRecyclerView);
+        //homeNoPullListText = view.findViewById(R.id.homeNoPullListText);
+        homeOwnedNum = view.findViewById(R.id.homeOwnedNum);
+        homeReadNum = view.findViewById(R.id.homeReadNum);
+        homeReviewsNum = view.findViewById(R.id.homeReviewsNum);
     }
 
     // Initialize the recycler views
@@ -69,13 +87,16 @@ public class HomeFragment extends Fragment
         mPullListLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mNewReleasesRecyclerView.setLayoutManager(mNewReleasesLayoutManager);
         mPullListRecyclerView.setLayoutManager(mPullListLayoutManager);
-
-        List<Comic> closestWeekPullList = pullList.getClosestWeek();
-        if(closestWeekPullList.size() < 1)
-            homeNoPullListText.setVisibility(View.VISIBLE);
-        newReleasesAdapter = new ComicCoversAdapter(getActivity(), newReleases.getClosestWeek());
+        newReleasesAdapter = new ComicCoversAdapter(getActivity(), thisWeeksNewReleases);
         pullListAdapter = new ComicCoversAdapter(getActivity(), closestWeekPullList);
         mNewReleasesRecyclerView.setAdapter(newReleasesAdapter);
         mPullListRecyclerView.setAdapter(pullListAdapter);
+    }
+
+    private void setViewData()
+    {
+        homeOwnedNum.setText(String.valueOf(collection.getComics().size()));
+        homeReadNum.setText(String.valueOf(collection.getReadBox().getComicsInBox().size()));
+        homeReviewsNum.setText(String.valueOf(collection.getReviews().size()));
     }
 }

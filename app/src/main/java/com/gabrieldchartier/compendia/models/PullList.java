@@ -65,6 +65,7 @@ public class PullList implements Parcelable
         return comics;
     }
 
+    //TODO test that this method returns the correct comics or none if applicable
     public List<Comic> getClosestWeek()
     {
         return DateUtilities.getClosestWeek(comics, weeks);

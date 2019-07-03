@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.gabrieldchartier.compendia.R;
 import com.gabrieldchartier.compendia.models.Comic;
+import com.gabrieldchartier.compendia.util.TempUtilClass;
 import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 import com.thoughtbot.expandablerecyclerview.viewholders.ChildViewHolder;
 
@@ -50,7 +51,8 @@ public class ComicChildViewHolder extends ChildViewHolder
         Log.d(TAG, "OnBindViewHolder called with comic " + comic.getTitle());
 
         // Set the data for the list item
-        Glide.with(context).asBitmap().load(comic.getCover()).into(comicCover);
+        //TODO replace the glide load parameter with: comic.getCover()
+        Glide.with(context).asBitmap().load(TempUtilClass.getImage(context, comic.getCover())).into(comicCover);
         comicTitle.setText(comic.getTitle());
         comicID.setText(comic.getID().toString());
         comicPublisher.setText(comic.getPublisherName());

@@ -44,6 +44,7 @@ public class Comic implements Parcelable
     private float averageRating;
     private int totalRatings;
     private int totalReviews;
+    private List<ComicReview> reviews;//TODO
     private String seriesName;
     private UUID seriesID;
     private int printing;
