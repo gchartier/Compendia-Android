@@ -27,7 +27,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.gabrieldchartier.compendia.FragmentInterface;
-import com.gabrieldchartier.compendia.MainActivity;
 import com.gabrieldchartier.compendia.R;
 import com.gabrieldchartier.compendia.models.Collection;
 import com.gabrieldchartier.compendia.models.Comic;
@@ -37,6 +36,7 @@ import com.gabrieldchartier.compendia.util.TempUtilClass;
 import com.iarcuschin.simpleratingbar.SimpleRatingBar;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @SuppressWarnings("FieldCanBeLocal")
 public class ComicDetailFragment extends Fragment implements View.OnClickListener
@@ -62,26 +62,30 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     private ImageView hasReadIcon;
     private ImageView inCollectionIcon;
     private TextView averageRating;
-    private TextView numberOfReviews;
+    private TextView reviewsText;
     private ImageView reviewsButton;
     private View descriptionGradient;
     private TextView description;
-    private TextView creator1Name;
-    private TextView creator2Name;
-    private TextView creator3Name;
-    private TextView creator4Name;
-    private TextView creator1Type;
-    private TextView creator2Type;
-    private TextView creator3Type;
-    private TextView creator4Type;
-    private Barrier creatorsBarrierBottom;
-    private TextView noCreators;
     private TextView seeAllCreatorsText;
     private ImageView seeAllCreatorsButton;
+    private TextView creator1Name;
+    private ImageView creator1Button;
+    private TextView creator1Type;
     private Group creator1Group;
+    private TextView creator2Name;
+    private ImageView creator2Button;
+    private TextView creator2Type;
     private Group creator2Group;
+    private TextView creator3Name;
+    private ImageView creator3Button;
+    private TextView creator3Type;
     private Group creator3Group;
+    private TextView creator4Name;
+    private ImageView creator4Button;
+    private TextView creator4Type;
     private Group creator4Group;
+    private Barrier creatorsBarrierBottom;
+    private TextView noCreators;
     private Group collectionDetailsGroup;
     private ImageView editCollectionButton;
     private TextView collectedDate;
@@ -97,12 +101,13 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     private View endContentDivider;
 
     // Variables
-    private Comic comic;
+        private Comic comic;
     private Collection collection;
     private boolean comicIsInCollection;
-    private FragmentInterface mInterface;
+    private FragmentInterface activityFragmentInterface;
     private ConstraintLayout constraintLayout;
     private ConstraintSet constraintSet;
+    private List<ComicCreator> creators;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState)
@@ -124,6 +129,7 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
             {
                 Log.d(TAG, "Retrieved comic bundle " + comic.getTitle());
                 comicIsInCollection = collection.comicIsInCollection(comic);
+                creators = comic.getCreators();
             }
             else
             {
@@ -153,9 +159,9 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
 
             // Set the widgets to the comic data
             setViewData();
-            inflateCreators(view);
+            inflateCreators();
             inflateComicBoxes(view);
-            setWidgetListeners();
+            setViewListeners();
         }
         else
         {
@@ -166,7 +172,7 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
 
                     .setPositiveButton(getString(R.string.alert_dialog_go_back), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            mInterface.onBackPressed();
+                            activityFragmentInterface.onBackPressed();
                         }
                     })
 
@@ -215,7 +221,7 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         switch (item.getItemId())
         {
             case android.R.id.home:
-                mInterface.onBackPressed();
+                activityFragmentInterface.onBackPressed();
                 return true;
             case R.id.subMenuSubmitReport:
                 //TODO submit report
@@ -232,7 +238,7 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     public void onAttach(Context context)
     {
         super.onAttach(context);
-        mInterface = (FragmentInterface) getActivity();
+        activityFragmentInterface = (FragmentInterface) getActivity();
     }
 
     @Override
@@ -264,8 +270,8 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         hasReadIcon = view.findViewById(R.id.comicDetailHasReadIcon);
         inCollectionIcon = view.findViewById(R.id.comicDetailInCollectionIcon);
         averageRating = view.findViewById(R.id.comicDetailAvgReviewText);
-        numberOfReviews = view.findViewById(R.id.comicDetailReviewsText);
-        reviewsButton = view.findViewById(R.id.comicDetailReviewsArrow);
+        reviewsText = view.findViewById(R.id.comicDetailReviewsText);
+        reviewsButton = view.findViewById(R.id.comicDetailReviewsButton);
         descriptionGradient = view.findViewById(R.id.descriptionGradient);
         description = view.findViewById(R.id.comicDetailDescription);
         collectionDetailsGroup = view.findViewById(R.id.comicDetailCollectionDetailsGroup);
@@ -277,6 +283,28 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         grade = view.findViewById(R.id.comicDetailGrade);
         quantity = view.findViewById(R.id.comicDetailQuantity);
         collectionDetailBoxesDivider = view.findViewById(R.id.comicDetailCollectionBoxesContentDivider);
+
+        // Creator-related views
+        creator1Name = view.findViewById(R.id.comicDetailCreatorText1);
+        creator1Button = view.findViewById(R.id.comicDetailCreatorButton1);
+        creator1Type = view.findViewById(R.id.comicDetailCreatorType1);
+        creator1Group = view.findViewById(R.id.comicDetailCreatorGroup);
+        creator2Name = view.findViewById(R.id.comicDetailCreatorText2);
+        creator2Button = view.findViewById(R.id.comicDetailCreatorButton2);
+        creator2Type = view.findViewById(R.id.comicDetailCreatorType2);
+        creator2Group = view.findViewById(R.id.comicDetailCreator2Group);
+        creator3Name = view.findViewById(R.id.comicDetailCreatorText3);
+        creator3Button = view.findViewById(R.id.comicDetailCreatorButton3);
+        creator3Type = view.findViewById(R.id.comicDetailCreatorType3);
+        creator3Group = view.findViewById(R.id.comicDetailCreator3Group);
+        creator4Name = view.findViewById(R.id.comicDetailCreatorText4);
+        creator4Button = view.findViewById(R.id.comicDetailCreatorButton4);
+        creator4Type = view.findViewById(R.id.comicDetailCreatorType4);
+        creator4Group = view.findViewById(R.id.comicDetailCreator4Group);
+        creatorsBarrierBottom = view.findViewById(R.id.comicDetailCreatorsBarrierBottom);
+        noCreators = view.findViewById(R.id.comicDetailNoCreators);
+        seeAllCreatorsText = view.findViewById(R.id.comicDetailSeeAllCreatorsText);
+        seeAllCreatorsButton = view.findViewById(R.id.comicDetailSeeAllCreatorsButton);
     }
 
     private void setViewData()
@@ -312,15 +340,15 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         }
         if(comicIsInCollection)
             inCollectionIcon.setVisibility(View.VISIBLE);
-        if(collection.comicIsRead(comic))
+        if(collection.comicIsInBox(comic, ComicBox.READ_BOX_NAME))
             hasReadIcon.setVisibility(View.VISIBLE);
         if(comic.getUserRating() > 0.0f)
             userRating.setRating(comic.getUserRating());
         averageRating.setText(getString(R.string.common_average_ratings, Float.toString(comic.getAverageRating())));
         if(comic.getTotalReviews() >= 1)
-            numberOfReviews.setText(getString(R.string.common_reviews, Integer.toString(comic.getTotalReviews())));
+            reviewsText.setText(getString(R.string.common_reviews, Integer.toString(comic.getTotalReviews())));
         else
-            numberOfReviews.setText(getString(R.string.comic_detail_no_reviews));
+            reviewsText.setText(getString(R.string.comic_detail_no_reviews));
         if(comic.getDescription().equals(""))
             description.setText(getString(R.string.comic_detail_no_description));
         else
@@ -355,28 +383,9 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         }
     }
 
-    private void inflateCreators(View view)
+    private void inflateCreators()
     {
-        // Set creator views
-        creator1Name = view.findViewById(R.id.comicDetailCreator1);
-        creator2Name = view.findViewById(R.id.comicDetailCreator2);
-        creator3Name = view.findViewById(R.id.comicDetailCreator3);
-        creator4Name = view.findViewById(R.id.comicDetailCreator4);
-        creator1Type = view.findViewById(R.id.comicDetailCreatorType1);
-        creator2Type = view.findViewById(R.id.comicDetailCreatorType2);
-        creator3Type = view.findViewById(R.id.comicDetailCreatorType3);
-        creator4Type = view.findViewById(R.id.comicDetailCreatorType4);
-        creator1Group = view.findViewById(R.id.comicDetailCreatorGroup);
-        creator2Group = view.findViewById(R.id.comicDetailCreator2Group);
-        creator3Group = view.findViewById(R.id.comicDetailCreator3Group);
-        creator4Group = view.findViewById(R.id.comicDetailCreator4Group);
-        creatorsBarrierBottom = view.findViewById(R.id.comicDetailCreatorsBarrierBottom);
-        noCreators = view.findViewById(R.id.comicDetailNoCreators);
-        seeAllCreatorsText = view.findViewById(R.id.comicDetailSeeAllCreatorsText);
-        seeAllCreatorsButton = view.findViewById(R.id.comicDetailSeeAllCreatorsButton);
-
         // Initialize creators
-        List<ComicCreator> creators = comic.getCreators();
         int numberOfCreators = creators.size();
 
         // Set text and visibility of creators
@@ -384,21 +393,25 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         {
             creator1Group.setVisibility(View.VISIBLE);
             creator1Name.setText(creators.get(0).getName());
+            creator1Name.setTag(creators.get(0).getID());
             creator1Type.setText(creators.get(0).getCreatorTypes());
             if(numberOfCreators >= 2)
             {
                 creator2Group.setVisibility(View.VISIBLE);
                 creator2Name.setText(creators.get(1).getName());
+                creator2Name.setTag(creators.get(1).getID());
                 creator2Type.setText(creators.get(1).getCreatorTypes());
                 if(numberOfCreators >= 3)
                 {
                     creator3Group.setVisibility(View.VISIBLE);
                     creator3Name.setText(creators.get(2).getName());
+                    creator3Name.setTag(creators.get(2).getID());
                     creator3Type.setText(creators.get(2).getCreatorTypes());
                     if(numberOfCreators >= 4)
                     {
                         creator4Group.setVisibility(View.VISIBLE);
                         creator4Name.setText(creators.get(3).getName());
+                        creator4Name.setTag(creators.get(3).getID());
                         creator4Type.setText(creators.get(3).getCreatorTypes());
                         if(numberOfCreators > 4)
                         {
@@ -424,73 +437,83 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         endContentDivider = view.findViewById(R.id.comicDetailBoxesEndContentDivider);
 
         // Initialize box checkboxes, and their layout params
-        List<ComicBox> customBoxes = collection.getCustomBoxes();
-        ArrayList<CheckBox> customBoxesCheckboxes = new ArrayList<>();
+        List<ComicBox> comicBoxes = collection.getCustomComicBoxes();
+        ArrayList<CheckBox> comicBoxesCheckboxes = new ArrayList<>();
         ConstraintLayout.LayoutParams layoutParams;
-        CheckBox newCustomBox;
+        CheckBox tempComicBox;
         layoutParams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
         layoutParams.setMargins(0,8,0,0);
         constraintSet = new ConstraintSet();
 
         // Build, and inflate the custom checkbox boxes
-        for(int i = 1; i <= customBoxes.size(); i++)
+        for(int i = 0; i < comicBoxes.size() - 1; i++)
         {
-            newCustomBox = new CheckBox(getActivity());
-            newCustomBox.setTag("customBox" + i);
-            newCustomBox.setId(View.generateViewId());
-            newCustomBox.setLayoutParams(layoutParams);
-            newCustomBox.setText(customBoxes.get(i).getBoxName());
-            customBoxesCheckboxes.add(newCustomBox);
+            Log.d(TAG, "Comic Box " + (i+1));
+            tempComicBox = new CheckBox(getActivity());
+            //tempComicBox.setTag("box" + i);
+            tempComicBox.setId(View.generateViewId());
+            tempComicBox.setLayoutParams(layoutParams);
+            tempComicBox.setText(comicBoxes.get(i).getBoxName());
+            comicBoxesCheckboxes.add(tempComicBox);
 
             // If the custom box being built is the first custom box, connect it to favorites box
-            if(i == 1)
+            if(i == 0)
             {
                 constraintSet.clear(endContentDivider.getId(), ConstraintSet.TOP);
-                constraintSet.connect(customBoxesCheckboxes.get(i).getId(), ConstraintSet.START, favoriteBox.getId(), ConstraintSet.START);
-                constraintSet.connect(customBoxesCheckboxes.get(i).getId(), ConstraintSet.TOP, favoriteBox.getId(), ConstraintSet.BOTTOM);
+                constraintSet.connect(comicBoxesCheckboxes.get(i).getId(), ConstraintSet.START, favoriteBox.getId(), ConstraintSet.START);
+                constraintSet.connect(comicBoxesCheckboxes.get(i).getId(), ConstraintSet.TOP, favoriteBox.getId(), ConstraintSet.BOTTOM);
             }
             // Else, connect it to the previous custom box that was built
             else
             {
-                constraintSet.connect(customBoxesCheckboxes.get(i).getId(), ConstraintSet.START, customBoxesCheckboxes.get(i - 1).getId(), ConstraintSet.START);
-                constraintSet.connect(customBoxesCheckboxes.get(i).getId(), ConstraintSet.TOP, customBoxesCheckboxes.get(i - 1).getId(), ConstraintSet.BOTTOM);
+                constraintSet.connect(comicBoxesCheckboxes.get(i).getId(), ConstraintSet.START, comicBoxesCheckboxes.get(i).getId(), ConstraintSet.START);
+                constraintSet.connect(comicBoxesCheckboxes.get(i).getId(), ConstraintSet.TOP, comicBoxesCheckboxes.get(i).getId(), ConstraintSet.BOTTOM);
             }
 
             // Constrain the last custom box to the top of the end content divider
-            if(i == customBoxes.size())
-                constraintSet.connect(endContentDivider.getId(), ConstraintSet.TOP, customBoxesCheckboxes.get(i).getId(), ConstraintSet.BOTTOM);
+            if(i == comicBoxes.size() - 1)
+                constraintSet.connect(endContentDivider.getId(), ConstraintSet.TOP, comicBoxesCheckboxes.get(i).getId(), ConstraintSet.BOTTOM);
         }
         constraintSet.applyTo(constraintLayout);
 
         // Set the checked value of the box checkboxes
-        if(collection.comicIsRead(comic))
+        if(collection.comicIsInBox(comic, ComicBox.READ_BOX_NAME))
             readBox.setChecked(true);
-        if(collection.comicIsWanted(comic))
+        if(collection.comicIsInBox(comic, ComicBox.WANT_BOX_NAME))
             wantBox.setChecked(true);
-        if(collection.comicIsFavorite(comic))
+        if(collection.comicIsInBox(comic, ComicBox.FAVORITE_BOX_NAME))
             favoriteBox.setChecked(true);
-        for(CheckBox box : customBoxesCheckboxes)
-            if(collection.comicIsInCustomBox(comic, box.getText().toString()))
+        for(CheckBox box : comicBoxesCheckboxes)
+            if(collection.comicIsInBox(comic, box.getText().toString()))
                 box.setChecked(true);
     }
 
-    private void setWidgetListeners()
+    private void setViewListeners()
     {
         // Top detail listeners
         if(comic.getOtherVersions().size() >= 1)
+        {
             otherVersionsText.setOnClickListener(this);
-        otherVersionsButton.setOnClickListener(this);
+            otherVersionsButton.setOnClickListener(this);
+        }
+        reviewsText.setOnClickListener(this);
         reviewsButton.setOnClickListener(this);
-        description.setOnClickListener(this);
+        if(!description.getText().equals(""))
+            description.setOnClickListener(this);
+        cover.setOnClickListener(this);
 
         // Collection details listeners
         editCollectionButton.setOnClickListener(this);
 
         // Creator related listeners
-        creator1Group.setOnClickListener(this);
-        creator2Group.setOnClickListener(this);
-        creator3Group.setOnClickListener(this);
-        creator4Group.setOnClickListener(this);
+        creator1Name.setOnClickListener(this);
+        creator1Button.setOnClickListener(this);
+        creator2Name.setOnClickListener(this);
+        creator2Button.setOnClickListener(this);
+        creator3Name.setOnClickListener(this);
+        creator3Button.setOnClickListener(this);
+        creator4Name.setOnClickListener(this);
+        creator4Button.setOnClickListener(this);
         seeAllCreatorsText.setOnClickListener(this);
         seeAllCreatorsButton.setOnClickListener(this);
     }
@@ -500,14 +523,13 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     {
         if(view.getId() == R.id.comicDetailOtherVersionArrow || view.getId() == R.id.comicDetailOtherVersionText)
         {
-            Log.d(TAG, "OtherVersionsStringArray = " + comic.getOtherVersionsAsStringArray()[0]);
             Log.d(TAG, "Comic detail other versions clicked");
-            if(getActivity() != null)
-                ((MainActivity)getActivity()).inflateOtherVersionsFragment(comic.getOtherVersionsAsStringArray(), comic.getTitle());
+            activityFragmentInterface.inflateOtherVersionsFragment(comic.getOtherVersionsAsStringArray(), comic.getTitle());
         }
-        else if(view.getId() == R.id.comicDetailReviewsArrow)
+        else if(view.getId() == R.id.comicDetailReviewsText || view.getId() == R.id.comicDetailReviewsButton)
         {
             Log.d(TAG, "Comic detail reviews clicked");
+            activityFragmentInterface.inflateReviewsFragment(comic.getID());
         }
         else if(view.getId() == R.id.comicDetailDescription)
         {
@@ -541,6 +563,36 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         else if(view.getId() == R.id.comicDetailEditCollectionButton)
         {
             Log.d(TAG, "Comic detail edit collection clicked");
+        }
+        else if(view.getId() == R.id.comicDetailCreatorText1 || view.getId() == R.id.comicDetailCreatorButton1)
+        {
+            Log.d(TAG, "Comic detail creator " + creator1Name.getText() + " clicked");
+            activityFragmentInterface.inflateCreatorDetailFragment(UUID.fromString(creator1Name.getTag().toString()));
+        }
+        else if(view.getId() == R.id.comicDetailCreatorText2 || view.getId() == R.id.comicDetailCreatorButton2)
+        {
+            Log.d(TAG, "Comic detail creator " + creator2Name.getText() + " clicked");
+            activityFragmentInterface.inflateCreatorDetailFragment(UUID.fromString(creator2Name.getTag().toString()));
+        }
+        else if(view.getId() == R.id.comicDetailCreatorText3 || view.getId() == R.id.comicDetailCreatorButton3)
+        {
+            Log.d(TAG, "Comic detail creator " + creator3Name.getText() + " clicked");
+            activityFragmentInterface.inflateCreatorDetailFragment(UUID.fromString(creator3Name.getTag().toString()));
+        }
+        else if(view.getId() == R.id.comicDetailCreatorText4 || view.getId() == R.id.comicDetailCreatorButton4)
+        {
+            Log.d(TAG, "Comic detail creator " + creator4Name.getText() + " clicked");
+            activityFragmentInterface.inflateCreatorDetailFragment(UUID.fromString(creator4Name.getTag().toString()));
+        }
+        else if(view.getId() == R.id.comicDetailSeeAllCreatorsText || view.getId() == R.id.comicDetailSeeAllCreatorsButton)
+        {
+            Log.d(TAG, "See all creators clicked");
+            activityFragmentInterface.inflateCreatorsListFragment(creators);
+        }
+        else if(view.getId() == R.id.comicDetailCover)
+        {
+            Log.d(TAG, "Comic cover clicked");
+            activityFragmentInterface.inflateFullCoverFragment(comic.getCover());
         }
     }
 }

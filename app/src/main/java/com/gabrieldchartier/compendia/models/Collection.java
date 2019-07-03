@@ -3,25 +3,19 @@ package com.gabrieldchartier.compendia.models;
 import android.support.annotation.Nullable;
 import com.gabrieldchartier.compendia.util.TempCollection;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 public class Collection
 {
-    // Constants
-    private static final String READ_BOX_NAME = "Read";
-    private static final String WANT_BOX_NAME = "Want";
-    private static final String FAVORITE_BOX_NAME = "Favorite";
-
     // Singleton Instance
     private static Collection instance = null;
 
     // Variables
     private List<Comic> comics;
-    private List<ComicBox> customBoxes;
-    private ComicBox readBox;
-    private ComicBox wantBox;
-    private ComicBox favoriteBox;
+    private List<ComicBox> comicBoxes;
     private List<ComicReview> reviews;//todo
 
     public static Collection getInstance()
@@ -45,6 +39,7 @@ public class Collection
         tempWant = new ArrayList<>();
         tempFavorite = new ArrayList<>();
         reviews = new ArrayList<>();
+        comicBoxes = new ArrayList<>();
         tempRead.add(comics.get(0));
         tempRead.add(comics.get(1));
         tempRead.add(comics.get(2));
@@ -58,9 +53,10 @@ public class Collection
         tempFavorite.add(comics.get(2));
         tempFavorite.add(comics.get(3));
 
-        readBox = new ComicBox(READ_BOX_NAME, tempRead);
-        wantBox = new ComicBox(WANT_BOX_NAME, tempWant);
-        favoriteBox = new ComicBox(FAVORITE_BOX_NAME, tempFavorite);
+        // TODO get actual times from db
+        comicBoxes.add(new ComicBox(ComicBox.READ_BOX_NAME, tempRead, Calendar.getInstance().getTime()));
+        comicBoxes.add(new ComicBox(ComicBox.WANT_BOX_NAME, tempWant, Calendar.getInstance().getTime()));
+        comicBoxes.add(new ComicBox(ComicBox.FAVORITE_BOX_NAME, tempFavorite, Calendar.getInstance().getTime()));
 
         reviews.add(new ComicReview(UUID.randomUUID(), comics.get(0).getID(),
                 "Great read! I loved how this one wadha adkhwhd ajw hjwhwjawdhawkjd  j wdak h wjkdhkj ah!",
@@ -71,6 +67,9 @@ public class Collection
         reviews.add(new ComicReview(UUID.randomUUID(), comics.get(0).getID(),
                 "I can't believe my favorite character died in an annoying way! The writers suck.",
                 "BOOOO!", true, 1));
+
+        // Sort the comic boxes by last updated
+        Collections.sort(comicBoxes);
     }
 
     public List<Comic> getComics()
@@ -103,90 +102,52 @@ public class Collection
         return false;
     }
 
-    public boolean comicIsInCustomBox(Comic comic, String boxName)
+    public boolean comicIsInBox(Comic comic, String boxName)
     {
-        ComicBox box = getCustomListByName(boxName);
-        if(box != null && box.comicIsInBox(comic))
-            return true;
-        else
-            return false;
+        ComicBox box = getComicBoxByName(boxName);
+        return box != null && box.containsComic(comic);
     }
 
-    public List<ComicBox> getCustomBoxes()
+    public List<ComicBox> getComicBoxes()
     {
-        if(customBoxes == null)
+        if(comicBoxes == null)
             return new ArrayList<>();
         else
-            return customBoxes;
+            return comicBoxes;
     }
 
-    public void setCustomBoxes(List<ComicBox> customBoxes)
+    public void setComicBoxes(List<ComicBox> comicBoxes)
     {
-        this.customBoxes = customBoxes;
+        this.comicBoxes = comicBoxes;
+    }
+
+    public List<ComicBox> getCustomComicBoxes()
+    {
+        List<ComicBox> customBoxes = comicBoxes;
+        customBoxes.remove(getComicBoxByName(ComicBox.READ_BOX_NAME));
+        customBoxes.remove(getComicBoxByName(ComicBox.FAVORITE_BOX_NAME));
+        customBoxes.remove(getComicBoxByName(ComicBox.WANT_BOX_NAME));
+
+        return customBoxes;
     }
 
     @Nullable
-    private ComicBox getCustomListByName(String boxName)
+    public ComicBox getComicBoxByName(String boxName)
     {
         ComicBox box = null;
-        for(ComicBox l : customBoxes)
-            if(l.getBoxName().equals(boxName))
-                box = l;
+        for(ComicBox b : comicBoxes)
+            if(b.getBoxName().equals(boxName))
+                box = b;
         return box;
     }
 
-    public ArrayList<ComicBox> getCustomBoxesComicIsIn(Comic comic)
+    public ArrayList<ComicBox> getBoxesComicIsIn(Comic comic)
     {
         ArrayList<ComicBox> boxesComicIsIn = new ArrayList<>();
-        for(ComicBox box : customBoxes)
-            if(comicIsInCustomBox(comic, box.getBoxName()))
+        for(ComicBox box : comicBoxes)
+            if(comicIsInBox(comic, box.getBoxName()))
                 boxesComicIsIn.add(box);
         return boxesComicIsIn;
-    }
-
-    public ComicBox getReadBox()
-    {
-        return readBox;
-    }
-
-    public void setReadBox(ComicBox readBox)
-    {
-        this.readBox = readBox;
-    }
-
-    public ComicBox getWantBox()
-    {
-        return wantBox;
-    }
-
-    public void setWantBox(ComicBox wantBox)
-    {
-        this.wantBox = wantBox;
-    }
-
-    public ComicBox getFavoriteBox()
-    {
-        return favoriteBox;
-    }
-
-    public void setFavoriteBox(ComicBox favoriteBox)
-    {
-        this.favoriteBox = favoriteBox;
-    }
-
-    public boolean comicIsRead(Comic comic)
-    {
-        return readBox.comicIsInBox(comic);
-    }
-
-    public boolean comicIsWanted(Comic comic)
-    {
-        return wantBox.comicIsInBox(comic);
-    }
-
-    public boolean comicIsFavorite(Comic comic)
-    {
-        return favoriteBox.comicIsInBox(comic);
     }
 
     public List<ComicReview> getReviews()

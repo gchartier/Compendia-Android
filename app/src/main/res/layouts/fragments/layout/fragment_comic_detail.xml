@@ -315,14 +315,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             app:layout_constraintBottom_toBottomOf="@+id/comicDetailRatingReviewSeparator"
-            app:layout_constraintEnd_toStartOf="@+id/comicDetailReviewsArrow"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailReviewsButton"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/comicDetailRatingReviewSeparator"
             app:layout_constraintTop_toTopOf="@+id/comicDetailRatingReviewSeparator"
             tools:text="12 Reviews" />
 
         <ImageView
-            android:id="@+id/comicDetailReviewsArrow"
+            android:id="@+id/comicDetailReviewsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -371,7 +371,6 @@
             style="@style/detail_text_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/comic_detail_creators_header"
             app:layout_constraintStart_toStartOf="@+id/comicDetailGuidelineLeft"
@@ -384,6 +383,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/comic_detail_see_all_creators_text"
+            android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@+id/comicDetailSeeAllCreatorsButton"
             app:layout_constraintTop_toBottomOf="@+id/comicDetailDescriptionCreatorsContentDivider" />
 
@@ -393,13 +393,14 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:contentDescription="@string/content_description_comic_detail_see_all_creators"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/comicDetailSeeAllCreatorsText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/comicDetailSeeAllCreatorsText"
             app:srcCompat="@drawable/navigate_in" />
 
         <TextView
-            android:id="@+id/comicDetailCreator1"
+            android:id="@+id/comicDetailCreatorText1"
             style="@style/detail_text_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -416,8 +417,8 @@
             android:id="@+id/comicDetailCreatorType1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/comicDetailCreator1"
-            app:layout_constraintTop_toBottomOf="@+id/comicDetailCreator1"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailCreatorText1"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailCreatorText1"
             tools:text="Writer, Artist, Penciler, Inker" />
 
         <ImageView
@@ -425,15 +426,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/content_description_comic_detail_creator_button"
-            app:layout_constraintBottom_toBottomOf="@+id/comicDetailCreator1"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailCreatorText1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/comicDetailCreator1"
-            app:layout_constraintTop_toTopOf="@+id/comicDetailCreator1"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailCreatorText1"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailCreatorText1"
             app:srcCompat="@drawable/navigate_in" />
 
         <TextView
-            android:id="@+id/comicDetailCreator2"
+            android:id="@+id/comicDetailCreatorText2"
             style="@style/detail_text_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -442,7 +443,7 @@
             app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@id/comicDetailCreator1Barrier"
-            app:layout_constraintTop_toTopOf="@id/comicDetailCreator1"
+            app:layout_constraintTop_toTopOf="@id/comicDetailCreatorText1"
             tools:text="Brian K. Vaughan" />
 
         <TextView
@@ -450,8 +451,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@id/comicDetailCreatorType1"
-            app:layout_constraintStart_toStartOf="@+id/comicDetailCreator2"
-            app:layout_constraintTop_toBottomOf="@+id/comicDetailCreator2"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailCreatorText2"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailCreatorText2"
             tools:text="Writer, Artist" />
 
         <ImageView
@@ -459,15 +460,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/content_description_comic_detail_creator_button"
-            app:layout_constraintBottom_toBottomOf="@+id/comicDetailCreator2"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailCreatorText2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/comicDetailCreator2"
-            app:layout_constraintTop_toTopOf="@+id/comicDetailCreator2"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailCreatorText2"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailCreatorText2"
             app:srcCompat="@drawable/navigate_in" />
 
         <TextView
-            android:id="@+id/comicDetailCreator3"
+            android:id="@+id/comicDetailCreatorText3"
             style="@style/detail_text_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -484,8 +485,8 @@
             android:id="@+id/comicDetailCreatorType3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/comicDetailCreator3"
-            app:layout_constraintTop_toBottomOf="@+id/comicDetailCreator3"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailCreatorText3"
+            app:layout_constraintTop_toBottomOf="@+id/comicDetailCreatorText3"
             tools:text="Artist, Cover Artist" />
 
         <ImageView
@@ -493,15 +494,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/content_description_comic_detail_creator_button"
-            app:layout_constraintBottom_toBottomOf="@+id/comicDetailCreator3"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailCreatorText3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/comicDetailCreator3"
-            app:layout_constraintTop_toTopOf="@+id/comicDetailCreator3"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailCreatorText3"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailCreatorText3"
             app:srcCompat="@drawable/navigate_in" />
 
         <TextView
-            android:id="@+id/comicDetailCreator4"
+            android:id="@+id/comicDetailCreatorText4"
             style="@style/detail_text_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -510,7 +511,7 @@
             app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@id/comicDetailCreator3Barrier"
-            app:layout_constraintTop_toTopOf="@id/comicDetailCreator3"
+            app:layout_constraintTop_toTopOf="@id/comicDetailCreatorText3"
             tools:text="Jeff Lemire" />
 
         <TextView
@@ -518,7 +519,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@+id/comicDetailCreatorType3"
-            app:layout_constraintStart_toStartOf="@+id/comicDetailCreator4"
+            app:layout_constraintStart_toStartOf="@+id/comicDetailCreatorText4"
             tools:text="Writer, Artist" />
 
         <ImageView
@@ -526,11 +527,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/content_description_comic_detail_creator_button"
-            app:layout_constraintBottom_toBottomOf="@+id/comicDetailCreator4"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailCreatorText4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/comicDetailCreator4"
-            app:layout_constraintTop_toTopOf="@+id/comicDetailCreator4"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailCreatorText4"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailCreatorText4"
             app:srcCompat="@drawable/navigate_in" />
 
         <TextView
@@ -622,7 +623,6 @@
             style="@style/detail_text_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/comic_detail_collection_details_header"
             app:layout_constraintStart_toStartOf="@+id/comicDetailGuidelineLeft"
@@ -791,7 +791,6 @@
             style="@style/detail_text_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/comic_detail_boxes_header"
             app:layout_constraintStart_toStartOf="@id/comicDetailGuidelineLeft"

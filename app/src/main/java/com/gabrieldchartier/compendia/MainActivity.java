@@ -13,21 +13,32 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
+import com.gabrieldchartier.compendia.fragments.BoxDetailFragment;
+import com.gabrieldchartier.compendia.fragments.BoxesFragment;
 import com.gabrieldchartier.compendia.fragments.CollectionFragment;
 import com.gabrieldchartier.compendia.fragments.ComicDetailFragment;
+import com.gabrieldchartier.compendia.fragments.CreatorDetailFragment;
+import com.gabrieldchartier.compendia.fragments.CreatorsListFragment;
+import com.gabrieldchartier.compendia.fragments.FullCoverFragment;
 import com.gabrieldchartier.compendia.fragments.HomeFragment;
+import com.gabrieldchartier.compendia.fragments.NewReleasesFragment;
 import com.gabrieldchartier.compendia.fragments.OtherVersionsFragment;
 import com.gabrieldchartier.compendia.fragments.PullListFragment;
+import com.gabrieldchartier.compendia.fragments.ReviewsFragment;
 import com.gabrieldchartier.compendia.fragments.SearchFragment;
+import com.gabrieldchartier.compendia.fragments.SettingsFragment;
 import com.gabrieldchartier.compendia.models.Comic;
+import com.gabrieldchartier.compendia.models.ComicBox;
+import com.gabrieldchartier.compendia.models.ComicCreator;
 import com.gabrieldchartier.compendia.models.FragmentTag;
 import com.gabrieldchartier.compendia.util.PreferenceKeys;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity
+        extends AppCompatActivity
         implements FragmentInterface, BottomNavigationViewEx.OnNavigationItemSelectedListener
 {
     // Constants
@@ -37,7 +48,7 @@ public class MainActivity extends AppCompatActivity
     private static final int BOTTOM_NAV_SEARCH = 3;
     private static final String TAG = "MainActivity";
 
-    // Widgets
+    // Views
     private BottomNavigationViewEx bottomNav;
 
     // Fragments
@@ -47,6 +58,14 @@ public class MainActivity extends AppCompatActivity
     SearchFragment searchFragment;
     List<ComicDetailFragment> comicDetailFragments = new ArrayList<>();
     OtherVersionsFragment otherVersionsFragment;
+    NewReleasesFragment newReleasesFragment;
+    SettingsFragment settingsFragment;
+    BoxesFragment boxesFragment;
+    BoxDetailFragment boxDetailFragment;
+    CreatorDetailFragment creatorDetailFragment;
+    CreatorsListFragment creatorsListFragment;
+    FullCoverFragment fullCoverFragment;
+    ReviewsFragment reviewsFragment;
 
     // Variables
     private ArrayList<String> fragmentTags = new ArrayList<>();
@@ -61,6 +80,14 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         hideNavBarFragments.add(getString(R.string.tag_fragment_comic_detail));
         hideNavBarFragments.add(getString(R.string.tag_fragment_other_versions));
+        hideNavBarFragments.add(getString(R.string.tag_fragment_new_releases));
+        hideNavBarFragments.add(getString(R.string.tag_fragment_box_detail));
+        hideNavBarFragments.add(getString(R.string.tag_fragment_boxes));
+        hideNavBarFragments.add(getString(R.string.tag_fragment_settings));
+        hideNavBarFragments.add(getString(R.string.tag_fragment_creators_list));
+        hideNavBarFragments.add(getString(R.string.tag_fragment_creator_detail));
+        hideNavBarFragments.add(getString(R.string.tag_fragment_reviews));
+        hideNavBarFragments.add(getString(R.string.tag_fragment_full_cover));
         isFirstLogin();
         initBottomNav();
         inflateHomeFragment();
@@ -79,7 +106,7 @@ public class MainActivity extends AppCompatActivity
     public void hideBottomNav()
     {
         if(bottomNav != null)
-            bottomNav.setVisibility(View.INVISIBLE);
+            bottomNav.setVisibility(View.GONE);
     }
 
     // Show the bottom navigation view
@@ -194,6 +221,7 @@ public class MainActivity extends AppCompatActivity
             bottomMenu.getItem(BOTTOM_NAV_SEARCH).setChecked(true);
     }
 
+    // Fragment inflation methods
     // Inflate the comic detail fragment and pass in the comic data
     @Override
     public void inflateComicDetailFragment(Comic comic)
@@ -240,6 +268,174 @@ public class MainActivity extends AppCompatActivity
         fragmentTags.add(getString(R.string.tag_fragment_other_versions));
         fragments.add(new FragmentTag(otherVersionsFragment, getString(R.string.tag_fragment_other_versions)));
         setFragmentVisibility(getString(R.string.tag_fragment_other_versions));
+    }
+
+    @Override
+    public void inflateSettingsFragment()
+    {
+        // If the fragment does not exist, create it and add it to the stack, otherwise re-add it
+        if(settingsFragment == null)
+        {
+            settingsFragment = new SettingsFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.main_content_frame, settingsFragment, getString(R.string.tag_fragment_settings));
+            transaction.commit();
+            fragmentTags.add(getString(R.string.tag_fragment_settings));
+            fragments.add(new FragmentTag(settingsFragment, getString(R.string.tag_fragment_settings)));
+        }
+        else
+        {
+            fragmentTags.remove(getString(R.string.tag_fragment_settings));
+            fragmentTags.add(getString(R.string.tag_fragment_settings));
+        }
+        setFragmentVisibility(getString(R.string.tag_fragment_settings));
+    }
+
+    @Override
+    public void inflateBoxesFragment()
+    {
+        // If the fragment does not exist, create it and add it to the stack, otherwise re-add it
+        if(boxesFragment == null)
+        {
+            boxesFragment = new BoxesFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.main_content_frame, boxesFragment, getString(R.string.tag_fragment_boxes));
+            transaction.commit();
+            fragmentTags.add(getString(R.string.tag_fragment_boxes));
+            fragments.add(new FragmentTag(boxesFragment, getString(R.string.tag_fragment_boxes)));
+        }
+        else
+        {
+            fragmentTags.remove(getString(R.string.tag_fragment_boxes));
+            fragmentTags.add(getString(R.string.tag_fragment_boxes));
+        }
+        setFragmentVisibility(getString(R.string.tag_fragment_boxes));
+    }
+
+    @Override
+    public void inflateBoxDetailFragment(ComicBox box)
+    {
+        // If the fragment does not exist, create it and add it to the stack, otherwise re-add it
+        if(boxDetailFragment == null)
+        {
+            boxDetailFragment = new BoxDetailFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.main_content_frame, boxDetailFragment, getString(R.string.tag_fragment_box_detail));
+            transaction.commit();
+            fragmentTags.add(getString(R.string.tag_fragment_box_detail));
+            fragments.add(new FragmentTag(boxDetailFragment, getString(R.string.tag_fragment_box_detail)));
+        }
+        else
+        {
+            fragmentTags.remove(getString(R.string.tag_fragment_box_detail));
+            fragmentTags.add(getString(R.string.tag_fragment_box_detail));
+        }
+        setFragmentVisibility(getString(R.string.tag_fragment_box_detail));
+    }
+
+    @Override
+    public void inflateNewReleasesFragment()
+    {
+        // If the fragment does not exist, create it and add it to the stack, otherwise re-add it
+        if(newReleasesFragment == null)
+        {
+            newReleasesFragment = new NewReleasesFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.main_content_frame, newReleasesFragment, getString(R.string.tag_fragment_new_releases));
+            transaction.commit();
+            fragmentTags.add(getString(R.string.tag_fragment_new_releases));
+            fragments.add(new FragmentTag(newReleasesFragment, getString(R.string.tag_fragment_new_releases)));
+        }
+        else
+        {
+            fragmentTags.remove(getString(R.string.tag_fragment_new_releases));
+            fragmentTags.add(getString(R.string.tag_fragment_new_releases));
+        }
+        setFragmentVisibility(getString(R.string.tag_fragment_new_releases));
+    }
+
+    @Override
+    public void inflateCreatorDetailFragment(UUID creatorID)
+    {
+        // If the fragment does not exist, create it and add it to the stack, otherwise re-add it
+        if(creatorDetailFragment == null)
+        {
+            creatorDetailFragment = new CreatorDetailFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.main_content_frame, creatorDetailFragment, getString(R.string.tag_fragment_creator_detail));
+            transaction.commit();
+            fragmentTags.add(getString(R.string.tag_fragment_creator_detail));
+            fragments.add(new FragmentTag(creatorDetailFragment, getString(R.string.tag_fragment_creator_detail)));
+        }
+        else
+        {
+            fragmentTags.remove(getString(R.string.tag_fragment_creator_detail));
+            fragmentTags.add(getString(R.string.tag_fragment_creator_detail));
+        }
+        setFragmentVisibility(getString(R.string.tag_fragment_creator_detail));
+    }
+
+    @Override
+    public void inflateCreatorsListFragment(List<ComicCreator> creators)
+    {
+        // If the fragment does not exist, create it and add it to the stack, otherwise re-add it
+        if(creatorsListFragment == null)
+        {
+            creatorsListFragment = new CreatorsListFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.main_content_frame, creatorsListFragment, getString(R.string.tag_fragment_creators_list));
+            transaction.commit();
+            fragmentTags.add(getString(R.string.tag_fragment_creators_list));
+            fragments.add(new FragmentTag(creatorsListFragment, getString(R.string.tag_fragment_creators_list)));
+        }
+        else
+        {
+            fragmentTags.remove(getString(R.string.tag_fragment_creators_list));
+            fragmentTags.add(getString(R.string.tag_fragment_creators_list));
+        }
+        setFragmentVisibility(getString(R.string.tag_fragment_creators_list));
+    }
+
+    @Override
+    public void inflateReviewsFragment(UUID comicID)
+    {
+        // If the fragment does not exist, create it and add it to the stack, otherwise re-add it
+        if(reviewsFragment == null)
+        {
+            reviewsFragment = new ReviewsFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.main_content_frame, reviewsFragment, getString(R.string.tag_fragment_reviews));
+            transaction.commit();
+            fragmentTags.add(getString(R.string.tag_fragment_reviews));
+            fragments.add(new FragmentTag(reviewsFragment, getString(R.string.tag_fragment_reviews)));
+        }
+        else
+        {
+            fragmentTags.remove(getString(R.string.tag_fragment_reviews));
+            fragmentTags.add(getString(R.string.tag_fragment_reviews));
+        }
+        setFragmentVisibility(getString(R.string.tag_fragment_reviews));
+    }
+
+    @Override
+    public void inflateFullCoverFragment(String cover)
+    {
+        // If the fragment does not exist, create it and add it to the stack, otherwise re-add it
+        if(fullCoverFragment == null)
+        {
+            fullCoverFragment = new FullCoverFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.main_content_frame, fullCoverFragment, getString(R.string.tag_fragment_full_cover));
+            transaction.commit();
+            fragmentTags.add(getString(R.string.tag_fragment_full_cover));
+            fragments.add(new FragmentTag(fullCoverFragment, getString(R.string.tag_fragment_full_cover)));
+        }
+        else
+        {
+            fragmentTags.remove(getString(R.string.tag_fragment_full_cover));
+            fragmentTags.add(getString(R.string.tag_fragment_full_cover));
+        }
+        setFragmentVisibility(getString(R.string.tag_fragment_full_cover));
     }
 
     // Inflate the home fragment

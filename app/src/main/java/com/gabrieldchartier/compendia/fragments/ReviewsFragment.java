@@ -9,17 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.gabrieldchartier.compendia.R;
 
-public class SearchFragment extends Fragment
+public class ReviewsFragment extends Fragment
 {
     // Constants
-    private static final String TAG = "SearchFragment";
+    private static final String TAG = "ReviewsFragment";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        Log.d(TAG, "onCreateView: started");
+        Log.d(TAG, "onCreateView started");
 
-        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        View view = inflater.inflate(R.layout.fragment_reviews_list, container, false);
 
         return view;
     }

@@ -12,8 +12,8 @@
 
         <View
             android:id="@+id/homeHeaderBackground"
-            android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:background="@color/colorPrimary"
             android:elevation="3dp"
             app:layout_constraintBottom_toTopOf="@+id/homeContentGuidelineTop"
@@ -50,17 +50,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="40dp" />
+            app:layout_constraintGuide_begin="64dp" />
 
         <android.support.constraint.Guideline
             android:id="@+id/homeHeaderGuidelineTop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="41dp" />
+            app:layout_constraintGuide_begin="16dp" />
 
         <TextView
-            android:id="@+id/homeOwnedNum"
+            android:id="@+id/homeCollectedNum"
             style="@style/detail_text_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -72,15 +72,15 @@
             tools:text="123" />
 
         <TextView
-            android:id="@+id/homeOwnedHeader"
+            android:id="@+id/homeCollectedHeader"
             style="@style/detail_text_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="4dp"
             android:text="@string/home_collected_header"
-            app:layout_constraintEnd_toEndOf="@+id/homeOwnedNum"
-            app:layout_constraintStart_toStartOf="@+id/homeOwnedNum"
-            app:layout_constraintTop_toBottomOf="@+id/homeOwnedNum" />
+            app:layout_constraintEnd_toEndOf="@+id/homeCollectedNum"
+            app:layout_constraintStart_toStartOf="@+id/homeCollectedNum"
+            app:layout_constraintTop_toBottomOf="@+id/homeCollectedNum" />
 
         <TextView
             android:id="@+id/homeReadNum"
@@ -88,10 +88,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="4dp"
-            app:layout_constraintBottom_toBottomOf="@+id/homeOwnedNum"
+            app:layout_constraintBottom_toBottomOf="@+id/homeCollectedNum"
             app:layout_constraintEnd_toStartOf="@+id/homeReviewsNum"
-            app:layout_constraintStart_toEndOf="@+id/homeOwnedNum"
-            app:layout_constraintTop_toTopOf="@+id/homeOwnedNum"
+            app:layout_constraintStart_toEndOf="@+id/homeCollectedNum"
+            app:layout_constraintTop_toTopOf="@+id/homeCollectedNum"
             tools:text="250" />
 
         <TextView
@@ -134,13 +134,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@+id/homeOwnedHeader"
-            app:layout_constraintGuide_begin="140dp"
+            app:layout_constraintBottom_toBottomOf="@+id/homeCollectedHeader"
+            app:layout_constraintGuide_begin="94dp"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/homeNewReleasesHeader"
-            style="@style/detail_text_1"
+            style="@style/home_header_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -176,7 +176,7 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/homeNewReleasesRecyclerView"
-            android:layout_width="411dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:orientation="horizontal"
@@ -188,7 +188,7 @@
 
         <TextView
             android:id="@+id/homeBoxesHeader"
-            style="@style/detail_text_1"
+            style="@style/home_header_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -197,19 +197,6 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/homeNewReleasesRecyclerView" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/homeFeaturedBoxRecyclerView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/homeBoxesHeader"
-            app:layout_constraintTop_toBottomOf="@+id/homeFeaturedBoxHeader">
-
-        </android.support.v7.widget.RecyclerView>
 
         <TextView
             android:id="@+id/homeSeeAllBoxesText"
@@ -228,6 +215,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:importantForAccessibility="no"
             android:src="@drawable/navigate_in"
             app:layout_constraintBottom_toBottomOf="@+id/homeSeeAllBoxesText"
             app:layout_constraintEnd_toEndOf="parent"
@@ -239,10 +227,120 @@
             style="@style/detail_text_2_medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="@+id/homeFeaturedBoxRecyclerView"
+            app:layout_constraintEnd_toStartOf="@+id/homeFeaturedBoxButton"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/homeBoxesHeader"
             app:layout_constraintTop_toBottomOf="@+id/homeBoxesHeader"
             tools:text="Favorites" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/homeFeaturedBoxRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/homeFeaturedBoxHeader"
+            app:layout_constraintTop_toBottomOf="@+id/homeFeaturedBoxHeader">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <android.support.constraint.Barrier
+            android:id="@+id/homeFeaturedBoxBoxesBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids=" homeFeaturedBoxRecyclerView"
+            tools:layout_editor_absoluteY="424dp" />
+
+        <TextView
+            android:id="@+id/homeComicBoxText1"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/homeComicBoxButton1"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@id/homeFeaturedBoxHeader"
+            app:layout_constraintTop_toBottomOf="@+id/homeFeaturedBoxBoxesBarrier"
+            tools:text="Want" />
+
+        <TextView
+            android:id="@+id/homeComicBoxText2"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/homeComicBoxButton2"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/homeComicBoxText1"
+            app:layout_constraintTop_toBottomOf="@+id/homeComicBoxText1"
+            tools:text="Read" />
+
+        <TextView
+            android:id="@+id/homeComicBoxText3"
+            style="@style/detail_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/homeComicBoxButton3"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/homeComicBoxText2"
+            app:layout_constraintTop_toBottomOf="@+id/homeComicBoxText2"
+            tools:text="Missing Issues" />
+
+        <ImageView
+            android:id="@+id/homeComicBoxButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
+            android:src="@drawable/navigate_in"
+            app:layout_constraintBottom_toBottomOf="@+id/homeComicBoxText1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/homeComicBoxText1"
+            app:layout_constraintTop_toTopOf="@+id/homeComicBoxText1" />
+
+        <ImageView
+            android:id="@+id/homeComicBoxButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:importantForAccessibility="no"
+            android:src="@drawable/navigate_in"
+            app:layout_constraintBottom_toBottomOf="@+id/homeComicBoxText2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/homeComicBoxText2"
+            app:layout_constraintTop_toTopOf="@+id/homeComicBoxText2" />
+
+        <ImageView
+            android:id="@+id/homeComicBoxButton3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/content_description_home_view_box_button"
+            android:src="@drawable/navigate_in"
+            app:layout_constraintBottom_toBottomOf="@+id/homeComicBoxText3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/homeComicBoxText3"
+            app:layout_constraintTop_toTopOf="@+id/homeComicBoxText3" />
+
+        <ImageView
+            android:id="@+id/homeFeaturedBoxButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/navigate_in"
+            app:layout_constraintBottom_toBottomOf="@+id/homeFeaturedBoxHeader"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/homeFeaturedBoxHeader"
+            app:layout_constraintTop_toTopOf="@+id/homeFeaturedBoxHeader" />
 
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

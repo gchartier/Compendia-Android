@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <FrameLayout
         android:id="@+id/main_content_frame"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
+        app:layout_constraintBottom_toTopOf="@+id/mainContentBottomNavBarrier"
         app:layout_constraintTop_toTopOf="parent"></FrameLayout>
 
     <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
@@ -22,5 +22,12 @@
         app:menu="@menu/bottom_nav">
 
     </com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx>
+
+    <android.support.constraint.Barrier
+        android:id="@+id/mainContentBottomNavBarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="top"
+        app:constraint_referenced_ids="bottom_nav"/>
 
 </android.support.constraint.ConstraintLayout>

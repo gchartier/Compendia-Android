@@ -18,6 +18,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets
+    {
+        main
+        {
+            res.srcDirs = ['src/main/res/layouts/fragments',
+                           'src/main/res/layouts/recycler-views',
+                           'src/main/res/layouts/toolbars',
+                           'src/main/res/layouts/main-content',
+                           'src/main/res/layouts',
+                           'src/main/res']
+        }
+    }
 }
 
 dependencies {

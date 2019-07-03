@@ -16,7 +16,15 @@
     <string name="tag_fragment_collection">Collection</string>
     <string name="tag_fragment_search">Search</string>
     <string name="tag_fragment_comic_detail">Comic Detail</string>
+    <string name="tag_fragment_settings">Settings</string>
+    <string name="tag_fragment_new_releases">New Releases</string>
+    <string name="tag_fragment_boxes">Boxes</string>
+    <string name="tag_fragment_box_detail">Box Detail</string>
     <string name="tag_fragment_other_versions">Other Versions</string>
+    <string name="tag_fragment_reviews">Reviews</string>
+    <string name="tag_fragment_full_cover">Full Cover</string>
+    <string name="tag_fragment_creators_list">Creators List</string>
+    <string name="tag_fragment_creator_detail">Creator Detail</string>
 
     <!-- Intent Tags -->
     <string name="intent_comic">intent_comic</string>
@@ -44,10 +52,11 @@
     <string name="common_average_ratings">Avg. %1$s</string>
     <string name="common_reviews">%1$s Reviews</string>
     <string name="common_see_all">See All</string>
+    <string name="common_no_comics_in_box">There are no comics in this box&#8230;</string>
 
     <!-- Home -->
     <string name="home_new_releases_header">New Releases This Week</string>
-    <string name="home_boxes_header">My Boxes</string>
+    <string name="home_boxes_header">My Comic Boxes</string>
     <string name="home_collected_header">Collected</string>
     <string name="home_read_header">Read</string>
     <string name="home_reviews_header">Reviewed</string>
@@ -88,7 +97,7 @@
 
     <!-- Home Fragment Layout -->
     <string name="content_description_home_see_all_new_releases_button">Navigate to full New Releases list</string>
-    <string name="content_description_home_see_all_pull_list_button">Navigate to full pull list</string>
+    <string name="content_description_home_view_box_button">See comics in box</string>
     <string name="content_description_home_settings_button">Open Settings</string>
 
     <!-- Comic Detail Fragment Layout -->
