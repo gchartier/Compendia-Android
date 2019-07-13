@@ -22,7 +22,7 @@ public class NewReleases
     private static NewReleases instance = null;
     private ArrayList<String> weeks;
 
-    private ArrayList<Comic> comics;
+    private List<Comic> comics;
 
     public static NewReleases getInstance()
     {
@@ -36,7 +36,7 @@ public class NewReleases
     //TODO retrieve from repository
     private NewReleases()
     {
-        comics = new TempCollection().getTempCollection();
+        comics = new TempCollection().comics;
         weeks = new ArrayList<>();
         for(Comic c : comics)
             if(!weeks.contains(c.getReleaseDate()))
@@ -54,7 +54,7 @@ public class NewReleases
         return null;
     }
 
-    public ArrayList<Comic> getComics()
+    public List<Comic> getComics()
     {
         return comics;
     }

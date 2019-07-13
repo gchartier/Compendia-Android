@@ -1,5 +1,8 @@
 package com.gabrieldchartier.compendia.models;
 
+import com.gabrieldchartier.compendia.util.DateUtilities;
+
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -66,5 +69,17 @@ public class ComicBox implements Comparable<ComicBox>
     public void setLastUpdated(Date lastUpdated)
     {
         this.lastUpdated = lastUpdated;
+    }
+
+    public void addComic(Comic comic)
+    {
+        comicsInBox.add(comic);
+        lastUpdated = DateUtilities.getCurrentDateTime();
+    }
+
+    public void removeComic(Comic comic)
+    {
+        comicsInBox.remove(comic);
+        lastUpdated = DateUtilities.getCurrentDateTime();
     }
 }

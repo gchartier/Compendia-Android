@@ -2,12 +2,12 @@ package com.gabrieldchartier.compendia.models;
 
 import android.support.v4.app.Fragment;
 
-public class FragmentTag
+public class CreatedFragment
 {
     private Fragment fragment;
     private String tag;
 
-    public FragmentTag(Fragment fragment, String tag)
+    public CreatedFragment(Fragment fragment, String tag)
     {
         this.fragment = fragment;
         this.tag = tag;

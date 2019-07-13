@@ -66,11 +66,9 @@ public class DateUtilities
         Log.d(TAG, closestWeeksComics.toString());
         return closestWeeksComics;
     }
-    //TODO return todays date
+
     public static Date getCurrentDateTime()
     {
-        Calendar currentCalendar = Calendar.getInstance();
-        Date today = new Date();
-        return today;
+        return Calendar.getInstance().getTime();
     }
 }

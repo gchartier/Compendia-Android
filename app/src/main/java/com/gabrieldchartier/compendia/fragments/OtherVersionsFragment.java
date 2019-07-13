@@ -63,7 +63,7 @@ public class OtherVersionsFragment extends Fragment
 
         // Variables
         Bundle bundle = this.getArguments();
-        collection = Collection.getInstance();
+        collection = new Collection();
 
         // Retrieve bundle if it is not null
         if(otherVersionComics != null)

@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
@@ -39,12 +40,12 @@ import java.util.List;
 import java.util.UUID;
 
 @SuppressWarnings("FieldCanBeLocal")
-public class ComicDetailFragment extends Fragment implements View.OnClickListener
+public class ComicDetailFragment extends Fragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener
 {
     // Constants
     private static final String TAG = "ComicDetailFragment";
 
-    // Widgets
+    // Views
     private TextView title;
     private TextView seriesTitle;
     private ImageView cover;
@@ -95,23 +96,30 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     private TextView grade;
     private TextView quantity;
     private View collectionDetailBoxesDivider;
-    private CheckBox readBox;
-    private CheckBox wantBox;
-    private CheckBox favoriteBox;
+    private CheckBox readBoxCheckbox;
+    private CheckBox wantBoxCheckbox;
+    private CheckBox favoriteBoxCheckbox;
+    private List<CheckBox> customComicBoxCheckboxes;
     private View endContentDivider;
 
     // Variables
-        private Comic comic;
+    private Comic comic;
     private Collection collection;
     private boolean comicIsInCollection;
     private FragmentInterface activityFragmentInterface;
     private ConstraintLayout constraintLayout;
     private ConstraintSet constraintSet;
     private List<ComicCreator> creators;
+    private List<ComicBox> customComicBoxes;
+    private ComicBox readBox;
+    private ComicBox wantBox;
+    private ComicBox favoriteBox;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState)
     {
+        Log.d(TAG, "Calling onCreate");
         super.onCreate(savedInstanceState);
 
         // Toolbar Menu
@@ -119,7 +127,14 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
 
         // Variables
         Bundle bundle = this.getArguments();
-        collection = Collection.getInstance();
+        collection = new Collection();
+
+        Log.d(TAG, "collection: " + collection);
+        List<ComicBox> boxes = collection.getComicBoxes();
+        for(ComicBox c : boxes)
+            Log.d(TAG, "Boxes: " + c.getBoxName());
+
+        Log.d(TAG, "Bundle == " + bundle);
 
         // Retrieve bundle if it is not null
         if(bundle != null)
@@ -130,6 +145,10 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
                 Log.d(TAG, "Retrieved comic bundle " + comic.getTitle());
                 comicIsInCollection = collection.comicIsInCollection(comic);
                 creators = comic.getCreators();
+                readBox = collection.getComicBoxByName(ComicBox.READ_BOX_NAME);
+                Log.d(TAG, "Read Box " + readBox);
+                wantBox = collection.getComicBoxByName(ComicBox.WANT_BOX_NAME);
+                favoriteBox = collection.getComicBoxByName(ComicBox.FAVORITE_BOX_NAME);
             }
             else
             {
@@ -288,7 +307,7 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         creator1Name = view.findViewById(R.id.comicDetailCreatorText1);
         creator1Button = view.findViewById(R.id.comicDetailCreatorButton1);
         creator1Type = view.findViewById(R.id.comicDetailCreatorType1);
-        creator1Group = view.findViewById(R.id.comicDetailCreatorGroup);
+        creator1Group = view.findViewById(R.id.comicDetailCreator1Group);
         creator2Name = view.findViewById(R.id.comicDetailCreatorText2);
         creator2Button = view.findViewById(R.id.comicDetailCreatorButton2);
         creator2Type = view.findViewById(R.id.comicDetailCreatorType2);
@@ -431,14 +450,14 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
     private void inflateComicBoxes(View view)
     {
         // Initialize box views
-        readBox = view.findViewById(R.id.comicDetailBoxRead);
-        wantBox = view.findViewById(R.id.comicDetailBoxWant);
-        favoriteBox = view.findViewById(R.id.comicDetailBoxFavorite);
+        readBoxCheckbox = view.findViewById(R.id.comicDetailBoxRead);
+        wantBoxCheckbox = view.findViewById(R.id.comicDetailBoxWant);
+        favoriteBoxCheckbox = view.findViewById(R.id.comicDetailBoxFavorite);
         endContentDivider = view.findViewById(R.id.comicDetailBoxesEndContentDivider);
 
         // Initialize box checkboxes, and their layout params
-        List<ComicBox> comicBoxes = collection.getCustomComicBoxes();
-        ArrayList<CheckBox> comicBoxesCheckboxes = new ArrayList<>();
+        customComicBoxes = collection.getCustomComicBoxes();
+        customComicBoxCheckboxes = new ArrayList<>();
         ConstraintLayout.LayoutParams layoutParams;
         CheckBox tempComicBox;
         layoutParams = new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
@@ -446,44 +465,44 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         constraintSet = new ConstraintSet();
 
         // Build, and inflate the custom checkbox boxes
-        for(int i = 0; i < comicBoxes.size() - 1; i++)
+        for(int i = 0; i < customComicBoxes.size() - 1; i++)
         {
             Log.d(TAG, "Comic Box " + (i+1));
             tempComicBox = new CheckBox(getActivity());
             //tempComicBox.setTag("box" + i);
             tempComicBox.setId(View.generateViewId());
             tempComicBox.setLayoutParams(layoutParams);
-            tempComicBox.setText(comicBoxes.get(i).getBoxName());
-            comicBoxesCheckboxes.add(tempComicBox);
+            tempComicBox.setText(customComicBoxes.get(i).getBoxName());
+            customComicBoxCheckboxes.add(tempComicBox);
 
             // If the custom box being built is the first custom box, connect it to favorites box
             if(i == 0)
             {
                 constraintSet.clear(endContentDivider.getId(), ConstraintSet.TOP);
-                constraintSet.connect(comicBoxesCheckboxes.get(i).getId(), ConstraintSet.START, favoriteBox.getId(), ConstraintSet.START);
-                constraintSet.connect(comicBoxesCheckboxes.get(i).getId(), ConstraintSet.TOP, favoriteBox.getId(), ConstraintSet.BOTTOM);
+                constraintSet.connect(customComicBoxCheckboxes.get(i).getId(), ConstraintSet.START, favoriteBoxCheckbox.getId(), ConstraintSet.START);
+                constraintSet.connect(customComicBoxCheckboxes.get(i).getId(), ConstraintSet.TOP, favoriteBoxCheckbox.getId(), ConstraintSet.BOTTOM);
             }
             // Else, connect it to the previous custom box that was built
             else
             {
-                constraintSet.connect(comicBoxesCheckboxes.get(i).getId(), ConstraintSet.START, comicBoxesCheckboxes.get(i).getId(), ConstraintSet.START);
-                constraintSet.connect(comicBoxesCheckboxes.get(i).getId(), ConstraintSet.TOP, comicBoxesCheckboxes.get(i).getId(), ConstraintSet.BOTTOM);
+                constraintSet.connect(customComicBoxCheckboxes.get(i).getId(), ConstraintSet.START, customComicBoxCheckboxes.get(i).getId(), ConstraintSet.START);
+                constraintSet.connect(customComicBoxCheckboxes.get(i).getId(), ConstraintSet.TOP, customComicBoxCheckboxes.get(i).getId(), ConstraintSet.BOTTOM);
             }
 
             // Constrain the last custom box to the top of the end content divider
-            if(i == comicBoxes.size() - 1)
-                constraintSet.connect(endContentDivider.getId(), ConstraintSet.TOP, comicBoxesCheckboxes.get(i).getId(), ConstraintSet.BOTTOM);
+            if(i == customComicBoxes.size() - 1)
+                constraintSet.connect(endContentDivider.getId(), ConstraintSet.TOP, customComicBoxCheckboxes.get(i).getId(), ConstraintSet.BOTTOM);
         }
         constraintSet.applyTo(constraintLayout);
 
         // Set the checked value of the box checkboxes
         if(collection.comicIsInBox(comic, ComicBox.READ_BOX_NAME))
-            readBox.setChecked(true);
+            readBoxCheckbox.setChecked(true);
         if(collection.comicIsInBox(comic, ComicBox.WANT_BOX_NAME))
-            wantBox.setChecked(true);
+            wantBoxCheckbox.setChecked(true);
         if(collection.comicIsInBox(comic, ComicBox.FAVORITE_BOX_NAME))
-            favoriteBox.setChecked(true);
-        for(CheckBox box : comicBoxesCheckboxes)
+            favoriteBoxCheckbox.setChecked(true);
+        for(CheckBox box : customComicBoxCheckboxes)
             if(collection.comicIsInBox(comic, box.getText().toString()))
                 box.setChecked(true);
     }
@@ -516,6 +535,15 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         creator4Button.setOnClickListener(this);
         seeAllCreatorsText.setOnClickListener(this);
         seeAllCreatorsButton.setOnClickListener(this);
+
+        // Box checkbox listeners
+        readBoxCheckbox.setOnCheckedChangeListener(this);
+        wantBoxCheckbox.setOnCheckedChangeListener(this);
+        favoriteBoxCheckbox.setOnCheckedChangeListener(this);
+        for(CheckBox box : customComicBoxCheckboxes)
+        {
+            box.setOnCheckedChangeListener(this);
+        }
     }
 
     @Override
@@ -593,6 +621,52 @@ public class ComicDetailFragment extends Fragment implements View.OnClickListene
         {
             Log.d(TAG, "Comic cover clicked");
             activityFragmentInterface.inflateFullCoverFragment(comic.getCover());
+        }
+    }
+
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+    {
+        if(buttonView.getId() == R.id.comicDetailBoxRead)
+        {
+            Log.d(TAG, "setting check on read box to " + isChecked);
+            if(isChecked && !readBox.containsComic(comic))
+                readBox.addComic(comic);
+            else if(!isChecked && readBox.containsComic(comic))
+                readBox.removeComic(comic);
+        }
+        else if(buttonView.getId() == R.id.comicDetailBoxWant)
+        {
+            Log.d(TAG, "setting check on want box to " + isChecked);
+            if(isChecked && !wantBox.containsComic(comic))
+                wantBox.addComic(comic);
+            else if(!isChecked && wantBox.containsComic(comic))
+                wantBox.removeComic(comic);
+        }
+        else if(buttonView.getId() == R.id.comicDetailBoxFavorite)
+        {
+            Log.d(TAG, "setting check on favorite box to " + isChecked);
+            if(isChecked && !favoriteBox.containsComic(comic))
+                favoriteBox.addComic(comic);
+            else if(!isChecked && favoriteBox.containsComic(comic))
+                favoriteBox.removeComic(comic);
+        }
+        else if(customComicBoxCheckboxes.contains((CheckBox)buttonView))
+        {
+            for(CheckBox checkBox : customComicBoxCheckboxes)
+            {
+                if(checkBox.getId() == buttonView.getId())
+                {
+                    Log.d(TAG, "setting check on " + checkBox.getText() + " box to " + isChecked);
+                    ComicBox boxToBeToggled = collection.getComicBoxByName(checkBox.getText().toString());
+                    if(boxToBeToggled != null)
+                        if(isChecked && !boxToBeToggled.containsComic(comic))
+                            boxToBeToggled.addComic(comic);
+                        else if(!isChecked && boxToBeToggled.containsComic(comic))
+                            boxToBeToggled.removeComic(comic);
+                }
+            }
         }
     }
 }

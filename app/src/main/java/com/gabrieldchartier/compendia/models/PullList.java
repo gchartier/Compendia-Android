@@ -27,7 +27,7 @@ public class PullList implements Parcelable
     // Singleton Instance
     private static PullList instance = null;
 
-    private ArrayList<Comic> comics;
+    private List<Comic> comics;
     private ArrayList<String> weeks;
 
     public static PullList getInstance()
@@ -42,7 +42,7 @@ public class PullList implements Parcelable
     //TODO retrieve from repository
     private PullList()
     {
-        comics = new TempCollection().getTempCollection();
+        comics = new TempCollection().comics;
         weeks = new ArrayList<>();
         for(Comic c : comics)
             if(!weeks.contains(c.getReleaseDate()))
@@ -60,7 +60,7 @@ public class PullList implements Parcelable
         return null;
     }
 
-    public ArrayList<Comic> getComics()
+    public List<Comic> getComics()
     {
         return comics;
     }

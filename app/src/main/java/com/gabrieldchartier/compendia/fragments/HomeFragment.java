@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener
         super.onCreate(savedInstanceState);
 
         newReleases = NewReleases.getInstance();
-        collection = Collection.getInstance();
+        collection = new Collection();
         user = User.getInstance();
         thisWeeksNewReleases = newReleases.getThisWeek();
         featuredBox = collection.getComicBoxByName(user.getFeaturedBoxName());

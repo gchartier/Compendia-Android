@@ -1,72 +1,30 @@
 package com.gabrieldchartier.compendia.models;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 import com.gabrieldchartier.compendia.util.TempCollection;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import static android.support.constraint.Constraints.TAG;
+
 public class Collection
 {
-    // Singleton Instance
-    private static Collection instance = null;
 
     // Variables
     private List<Comic> comics;
     private List<ComicBox> comicBoxes;
-    private List<ComicReview> reviews;//todo
-
-    public static Collection getInstance()
-    {
-        if(instance == null)
-        {
-            instance = new Collection();
-        }
-        return instance;
-    }
+    private List<ComicReview> reviews;
 
     //TODO retrieve from repository
-    private Collection()
+    public Collection()
     {
-        List<Comic> tempRead;
-        List<Comic> tempWant;
-        List<Comic> tempFavorite;
-
-        comics = new TempCollection().getTempCollection();
-        tempRead = new ArrayList<>();
-        tempWant = new ArrayList<>();
-        tempFavorite = new ArrayList<>();
-        reviews = new ArrayList<>();
-        comicBoxes = new ArrayList<>();
-        tempRead.add(comics.get(0));
-        tempRead.add(comics.get(1));
-        tempRead.add(comics.get(2));
-        tempRead.add(comics.get(3));
-        tempWant.add(comics.get(0));
-        tempWant.add(comics.get(1));
-        tempWant.add(comics.get(2));
-        tempWant.add(comics.get(3));
-        tempFavorite.add(comics.get(0));
-        tempFavorite.add(comics.get(1));
-        tempFavorite.add(comics.get(2));
-        tempFavorite.add(comics.get(3));
-
-        // TODO get actual times from db
-        comicBoxes.add(new ComicBox(ComicBox.READ_BOX_NAME, tempRead, Calendar.getInstance().getTime()));
-        comicBoxes.add(new ComicBox(ComicBox.WANT_BOX_NAME, tempWant, Calendar.getInstance().getTime()));
-        comicBoxes.add(new ComicBox(ComicBox.FAVORITE_BOX_NAME, tempFavorite, Calendar.getInstance().getTime()));
-
-        reviews.add(new ComicReview(UUID.randomUUID(), comics.get(0).getID(),
-                "Great read! I loved how this one wadha adkhwhd ajw hjwhwjawdhawkjd  j wdak h wjkdhkj ah!",
-                "Loved it!", false, 6));
-        reviews.add(new ComicReview(UUID.randomUUID(), comics.get(1).getID(),
-                "I'm really starting to love this series. Great character development in this issue.",
-                "Can't wait for more", false, 10));
-        reviews.add(new ComicReview(UUID.randomUUID(), comics.get(0).getID(),
-                "I can't believe my favorite character died in an annoying way! The writers suck.",
-                "BOOOO!", true, 1));
+        TempCollection tempCollection = new TempCollection();
+        comics = tempCollection.comics;
+        comicBoxes = tempCollection.comicBoxes;
+        reviews = tempCollection.comicReviews;
 
         // Sort the comic boxes by last updated
         Collections.sort(comicBoxes);

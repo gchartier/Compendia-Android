@@ -546,32 +546,36 @@
             app:layout_constraintTop_toBottomOf="@id/comicDetailCreatorsHeader" />
 
         <android.support.constraint.Group
-            android:id="@+id/comicDetailCreatorGroup"
+            android:id="@+id/comicDetailCreator1Group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="comicDetailCreator1, comicDetailCreatorType1, comicDetailCreatorButton1" />
+            app:constraint_referenced_ids="comicDetailCreatorText1, comicDetailCreatorType1, comicDetailCreatorButton1"
+            tools:visibility="visible" />
 
         <android.support.constraint.Group
             android:id="@+id/comicDetailCreator2Group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="comicDetailCreator2, comicDetailCreatorType2, comicDetailCreatorButton2" />
+            app:constraint_referenced_ids="comicDetailCreatorText2, comicDetailCreatorType2, comicDetailCreatorButton2"
+            tools:visibility="visible" />
 
         <android.support.constraint.Group
             android:id="@+id/comicDetailCreator3Group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="comicDetailCreator3, comicDetailCreatorType3, comicDetailCreatorButton3" />
+            app:constraint_referenced_ids="comicDetailCreatorText3, comicDetailCreatorType3, comicDetailCreatorButton3"
+            tools:visibility="visible" />
 
         <android.support.constraint.Group
             android:id="@+id/comicDetailCreator4Group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="comicDetailCreator4, comicDetailCreatorType4, comicDetailCreatorButton4" />
+            app:constraint_referenced_ids="comicDetailCreatorText4, comicDetailCreatorType4, comicDetailCreatorButton4"
+            tools:visibility="visible" />
 
         <android.support.constraint.Barrier
             android:id="@+id/comicDetailCreatorsBarrierBottom"
