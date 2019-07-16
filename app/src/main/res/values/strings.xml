@@ -30,6 +30,10 @@
     <string name="intent_comic">intent_comic</string>
     <string name="intent_other_versions">intent_other_versions</string>
     <string name="intent_comic_title">intent_comic_title</string>
+    <string name="intent_comic_id">intent_comic_id</string>
+    <string name="intent_creators">intent_creators</string>
+    <string name="intent_creator_id">intent_creator_id</string>
+    <string name="intent_comic_cover">intent_comic_cover</string>
 
     <!-- Image names -->
     <string name="comic_image">Comic</string>
@@ -42,8 +46,7 @@
     <!-- Toolbar -->
     <string name="toolbar_submit_report_text">Submit a Correction</string>
     <string name="toolbar_share_comic_text">Share Comic</string>
-
-
+    <string name="search_hint">Search,&#8320;</string>
 
     <!-- ### Layout Content Strings ### -->
 

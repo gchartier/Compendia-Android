@@ -2,23 +2,12 @@ package com.gabrieldchartier.compendia.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.Nullable;
-import android.util.Log;
-
+import androidx.annotation.Nullable;
 import com.gabrieldchartier.compendia.util.DateUtilities;
 import com.gabrieldchartier.compendia.util.TempCollection;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
-
-import static android.support.constraint.Constraints.TAG;
 
 public class PullList implements Parcelable
 {

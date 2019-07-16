@@ -1,8 +1,12 @@
 package com.gabrieldchartier.compendia.recycler_views;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +19,6 @@ import com.gabrieldchartier.compendia.R;
 import com.gabrieldchartier.compendia.models.Comic;
 import com.gabrieldchartier.compendia.util.TempUtilClass;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ComicCoversAdapter extends RecyclerView.Adapter<ComicCoversAdapter.ViewHolder>
@@ -27,6 +30,8 @@ public class ComicCoversAdapter extends RecyclerView.Adapter<ComicCoversAdapter.
     private List<Comic> mComics;
     private Context mContext;
     private FragmentInterface fragmentRelay;
+    private NavController navController;
+    private Bundle bundle;
 
     public ComicCoversAdapter(Context mContext, List<Comic> mComics)
     {
@@ -51,15 +56,9 @@ public class ComicCoversAdapter extends RecyclerView.Adapter<ComicCoversAdapter.
         Log.d(TAG, "OnBindViewHolder called");
         //TODO replace the glide load parameter with: mComics.get(viewHolder.getAdapterPosition()).getCover()
         Glide.with(mContext).asBitmap().load(TempUtilClass.getImage(mContext ,mComics.get(viewHolder.getAdapterPosition()).getCover())).into(viewHolder.image);
-        viewHolder.image.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Log.d(TAG, "onClick: clicked on a comic " + mComics.get(viewHolder.getAdapterPosition()).getTitle());
-                fragmentRelay.inflateComicDetailFragment(mComics.get(viewHolder.getAdapterPosition()));
-            }
-        });
+        bundle = new Bundle();
+        bundle.putParcelable(mContext.getString(R.string.intent_comic), mComics.get(viewHolder.getAdapterPosition()));
+        viewHolder.image.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_comicDetailFragment, bundle));
     }
 
     @Override

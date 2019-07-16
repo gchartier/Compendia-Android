@@ -1,8 +1,11 @@
 package com.gabrieldchartier.compendia.recycler_views;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,13 +47,16 @@ public class ComicRecordRecyclerAdapter extends RecyclerView.Adapter<ComicRecord
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.comic_list_item, viewGroup, false);
 
         ComicRecordRecyclerAdapter.ViewHolder holder = new ViewHolder(view);
-        holder.itemView.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view) {
-                mClickListener.onClick(view);
-            }
-        });
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(context.getString(R.string.intent_comic), otherVersionComics.get(holder.getAdapterPosition()));
+        //TODO holder.itemView.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_otherVersionsFragment_to_comicDetailFragment, bundle));
+//        holder.itemView.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view) {
+//                mClickListener.onClick(view);
+//            }
+//        });
 
         return holder;
     }

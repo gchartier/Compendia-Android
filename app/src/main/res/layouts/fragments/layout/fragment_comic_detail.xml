@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/comicDetailConstraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -14,14 +14,14 @@
             android:id="@+id/comicDetailToolbar"
             layout="@layout/detail_toolbar" />
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/comicDetailGuidelineLeft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_begin="16dp" />
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/comicDetailGuidelineCover"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -545,7 +545,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/comicDetailCreatorsHeader" />
 
-        <android.support.constraint.Group
+        <androidx.constraintlayout.widget.Group
             android:id="@+id/comicDetailCreator1Group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -553,7 +553,7 @@
             app:constraint_referenced_ids="comicDetailCreatorText1, comicDetailCreatorType1, comicDetailCreatorButton1"
             tools:visibility="visible" />
 
-        <android.support.constraint.Group
+        <androidx.constraintlayout.widget.Group
             android:id="@+id/comicDetailCreator2Group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -561,7 +561,7 @@
             app:constraint_referenced_ids="comicDetailCreatorText2, comicDetailCreatorType2, comicDetailCreatorButton2"
             tools:visibility="visible" />
 
-        <android.support.constraint.Group
+        <androidx.constraintlayout.widget.Group
             android:id="@+id/comicDetailCreator3Group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -569,7 +569,7 @@
             app:constraint_referenced_ids="comicDetailCreatorText3, comicDetailCreatorType3, comicDetailCreatorButton3"
             tools:visibility="visible" />
 
-        <android.support.constraint.Group
+        <androidx.constraintlayout.widget.Group
             android:id="@+id/comicDetailCreator4Group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -577,7 +577,7 @@
             app:constraint_referenced_ids="comicDetailCreatorText4, comicDetailCreatorType4, comicDetailCreatorButton4"
             tools:visibility="visible" />
 
-        <android.support.constraint.Barrier
+        <androidx.constraintlayout.widget.Barrier
             android:id="@+id/comicDetailCreatorsBarrierBottom"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -586,7 +586,7 @@
             comicDetailCreatorType3, comicDetailCreatorType4, comicDetailNoCreators"
             tools:layout_editor_absoluteY="452dp" />
 
-        <android.support.constraint.Barrier
+        <androidx.constraintlayout.widget.Barrier
             android:id="@+id/comicDetailCreator1Barrier"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -594,7 +594,7 @@
             app:constraint_referenced_ids="comicDetailCreatorType1, comicDetailCreatorButton1"
             tools:layout_editor_absoluteX="21dp" />
 
-        <android.support.constraint.Barrier
+        <androidx.constraintlayout.widget.Barrier
             android:id="@+id/comicDetailCreator3Barrier"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -610,7 +610,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/comicDetailCreatorsBarrierBottom" />
 
-        <android.support.constraint.Group
+        <androidx.constraintlayout.widget.Group
             android:id="@+id/comicDetailCollectionDetailsGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -728,7 +728,7 @@
             app:layout_constraintTop_toBottomOf="@+id/comicDetailConditionHeader"
             tools:text="Mint" />
 
-        <android.support.constraint.Barrier
+        <androidx.constraintlayout.widget.Barrier
             android:id="@+id/comicDetailConditionBarrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -755,7 +755,7 @@
             app:layout_constraintTop_toBottomOf="@+id/comicDetailGradeHeader"
             tools:text="CGC 9.2" />
 
-        <android.support.constraint.Barrier
+        <androidx.constraintlayout.widget.Barrier
             android:id="@+id/comicDetailGradeBarrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -836,6 +836,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/comicDetailBoxFavorite" />
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

@@ -28,7 +28,7 @@ public class TempCollection
     private static final Comic Thumbs1 = new Comic("5cf99e46-1fc1-313f-9471-dca900000000",
             "Thumbs #1 (Of 5)", "comic1",
             new ArrayList<ComicCreator>(){{this.add(newCreator1);}}, "Image Comics", "19284758-9282-9282-9282-102948573645", "",
-            "", null, "July 03, 2019", "$4.99", "Imagine someone like, say, Mark Zuckerberg createdhis own army of tech-obsessed teens and directed them to take on the government. What would the fallout be? Charley “Thumbs” Fellows is a member of just such an army. Poor and raised by the influential MOM™ app, he finds himself in the center of a war. The Social Network meets Blade Runner in this big event book from the team that brought you the hit series THE FEW!",
+            "", null, "July 13, 2019", "$4.99", "Imagine someone like, say, Mark Zuckerberg createdhis own army of tech-obsessed teens and directed them to take on the government. What would the fallout be? Charley “Thumbs” Fellows is a member of just such an army. Poor and raised by the influential MOM™ app, he finds himself in the center of a war. The Social Network meets Blade Runner in this big event book from the team that brought you the hit series THE FEW!",
             0, "", "", 4, "", "", 15, 2, 22, 22, 3.8f, 25, 12, "Thumbs", UUID.randomUUID().toString(),
             1, "", 1, true, false, false, 5, 1, 1, 0, new ArrayList<String>(){{this.add("5cf99e4d-1fc1-313f-9471-dcb200000000"); this.add("5cf99e54-1fc1-313f-9471-dcbb00000000");}}, 3.5f, "June 9th, 2019", "$4.99",
             "Titan Games And Comics", "Near Mint", "", 0, 1, "", false);
@@ -36,7 +36,7 @@ public class TempCollection
             "Birthright #36", "comic2",
             new ArrayList<ComicCreator>(){{this.add(newCreator2);
                 this.add(newCreator1);}}, "Image Comics", "19284758-9282-9282-9282-102948573645", "",
-            "", null, "July 03, 2019", "$4.99", "Imagine someone like, say, Mark Zuckerberg createdhis own army of tech-obsessed teens and directed them to take on the government. What would the fallout be? Charley “Thumbs” Fellows is a member of just such an army. Poor and raised by the influential MOM™ app, he finds himself in the center of a war. The Social Network meets Blade Runner in this big event book from the team that brought you the hit series THE FEW!",
+            "", null, "July 13, 2019", "$4.99", "Imagine someone like, say, Mark Zuckerberg createdhis own army of tech-obsessed teens and directed them to take on the government. What would the fallout be? Charley “Thumbs” Fellows is a member of just such an army. Poor and raised by the influential MOM™ app, he finds himself in the center of a war. The Social Network meets Blade Runner in this big event book from the team that brought you the hit series THE FEW!",
             0, "", "", 4, "", "", 15, 2, 22, 22, 3.8f, 25, 12, "Birthright", UUID.randomUUID().toString(),
             1, "", 1, true, true, false, 5, 1, 1, 0, null, 3.5f, "June 9th, 2019", "$4.99",
             "Titan Games And Comics", "Near Mint", "", 0, 1, "", false);
@@ -45,7 +45,7 @@ public class TempCollection
             new ArrayList<ComicCreator>(){{this.add(newCreator1);
                 this.add(newCreator2);
                 this.add(newCreator3);}}, "Image Comics", "19284758-9282-9282-9282-102948573645", "",
-            "", null, "July 03, 2019", "$4.99", "Imagine someone like, say, Mark Zuckerberg createdhis own army of tech-obsessed teens and directed them to take on the government. What would the fallout be? Charley “Thumbs” Fellows is a member of just such an army. Poor and raised by the influential MOM™ app, he finds himself in the center of a war. The Social Network meets Blade Runner in this big event book from the team that brought you the hit series THE FEW!",
+            "", null, "July 13, 2019", "$4.99", "Imagine someone like, say, Mark Zuckerberg createdhis own army of tech-obsessed teens and directed them to take on the government. What would the fallout be? Charley “Thumbs” Fellows is a member of just such an army. Poor and raised by the influential MOM™ app, he finds himself in the center of a war. The Social Network meets Blade Runner in this big event book from the team that brought you the hit series THE FEW!",
             0, "", "", 4, "", "", 15, 2, 22, 22, 3.8f, 25, 12, "Cemetery Beach", UUID.randomUUID().toString(),
             1, "", 0, true, false, false, 5, 1, 1, 0, null, 3.5f, "June 9th, 2019", "$4.99",
             "Titan Games And Comics", "Near Mint", "", 0, 1, "", false);
@@ -55,7 +55,7 @@ public class TempCollection
                 this.add(newCreator3);
                 this.add(newCreator1);
                 this.add(newCreator2);}}, "Image Comics", "19284758-9282-9282-9282-102948573645", "",
-            "", null, "July 10, 2019", "$4.99", "Imagine someone like, say, Mark Zuckerberg createdhis own army of tech-obsessed teens and directed them to take on the government. What would the fallout be? Charley “Thumbs” Fellows is a member of just such an army. Poor and raised by the influential MOM™ app, he finds himself in the center of a war. The Social Network meets Blade Runner in this big event book from the team that brought you the hit series THE FEW!",
+            "", null, "July 13, 2019", "$4.99", "Imagine someone like, say, Mark Zuckerberg createdhis own army of tech-obsessed teens and directed them to take on the government. What would the fallout be? Charley “Thumbs” Fellows is a member of just such an army. Poor and raised by the influential MOM™ app, he finds himself in the center of a war. The Social Network meets Blade Runner in this big event book from the team that brought you the hit series THE FEW!",
             0, "", "", 4, "", "", 15, 2, 22, 22, 3.8f, 25, 12, "Criminal", UUID.randomUUID().toString(),
             1, "", 0, true, false, false, 5, 1, 1, 0, null, 3.5f, "June 9th, 2019", "$4.99",
             "Titan Games And Comics", "Near Mint", "", 0, 1, "", false);
@@ -66,7 +66,7 @@ public class TempCollection
                 this.add(newCreator1);
                 this.add(newCreator2);
                 this.add(newCreator5);}}, "Image Comics", "19284758-9282-9282-9282-102948573645", "",
-            "", null, "July 10, 2019", "$4.99", "Imagine someone like, say, Mark Zuckerberg createdhis own army of tech-obsessed teens and directed them to take on the government. What would the fallout be? Charley “Thumbs” Fellows is a member of just such an army. Poor and raised by the influential MOM™ app, he finds himself in the center of a war. The Social Network meets Blade Runner in this big event book from the team that brought you the hit series THE FEW!",
+            "", null, "July 13, 2019", "$4.99", "Imagine someone like, say, Mark Zuckerberg createdhis own army of tech-obsessed teens and directed them to take on the government. What would the fallout be? Charley “Thumbs” Fellows is a member of just such an army. Poor and raised by the influential MOM™ app, he finds himself in the center of a war. The Social Network meets Blade Runner in this big event book from the team that brought you the hit series THE FEW!",
             0, "", "", 4, "", "", 15, 2, 22, 22, 3.8f, 25, 12, "Die", UUID.randomUUID().toString(),
             1, "", 1, true, false, false, 5, 1, 1, 0, null, 3.5f, "June 9th, 2019", "$4.99",
             "Titan Games And Comics", "Near Mint", "", 0, 1, "", false);

@@ -1,9 +1,12 @@
 package com.gabrieldchartier.compendia.recycler_views;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.navigation.Navigation;
 
 import com.gabrieldchartier.compendia.R;
 import com.gabrieldchartier.compendia.models.Comic;
@@ -33,13 +36,13 @@ public class PullListExpandableRecyclerAdapter extends ExpandableRecyclerViewAda
     {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.comic_list_item, parent, false);
         ComicChildViewHolder holder = new ComicChildViewHolder(view);
-        holder.itemView.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view) {
-                mClickListener.onClick(view);
-            }
-        });
+//        holder.itemView.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view) {
+//                mClickListener.onClick(view);
+//            }
+//        });
         return holder;
     }
 
@@ -47,6 +50,9 @@ public class PullListExpandableRecyclerAdapter extends ExpandableRecyclerViewAda
     public void onBindChildViewHolder(ComicChildViewHolder holder, int flatPosition, ExpandableGroup group, int childIndex)
     {
         final Comic comic = ((PullListRecyclerWeek) group).getItems().get(childIndex);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(context.getString(R.string.intent_comic), comic);
+        holder.itemView.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_bottom_nav_pull_list_to_comicDetailFragment, bundle));
         holder.onBind(comic, context);
     }
 

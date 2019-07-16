@@ -1,8 +1,11 @@
 package com.gabrieldchartier.compendia.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.UUID;
 
-public class ComicCreator
+public class ComicCreator implements Parcelable
 {
     private UUID ID;
     private String name;
@@ -50,5 +53,17 @@ public class ComicCreator
     public void setCreatorType(String[] creatorTypes)
     {
         this.creatorTypes = creatorTypes;
+    }
+
+    @Override
+    public int describeContents()
+    {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags)
+    {
+
     }
 }

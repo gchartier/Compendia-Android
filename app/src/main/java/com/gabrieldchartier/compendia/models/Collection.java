@@ -1,14 +1,11 @@
 package com.gabrieldchartier.compendia.models;
 
-import android.support.annotation.Nullable;
-import android.util.Log;
+import androidx.annotation.Nullable;
 import com.gabrieldchartier.compendia.util.TempCollection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
-
-import static android.support.constraint.Constraints.TAG;
 
 public class Collection
 {

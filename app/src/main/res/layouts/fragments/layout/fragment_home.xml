@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.HomeFragment">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -45,14 +45,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/homeHeaderGuidelineLeft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_begin="64dp" />
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/homeHeaderGuidelineTop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -129,7 +129,7 @@
             app:layout_constraintStart_toStartOf="@+id/homeReviewsNum"
             app:layout_constraintTop_toBottomOf="@+id/homeReviewsNum" />
 
-        <android.support.constraint.Guideline
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/homeContentGuidelineTop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -174,7 +174,7 @@
             app:layout_constraintTop_toTopOf="@+id/homeSeeAllNewReleasesText"
             app:srcCompat="@drawable/navigate_in" />
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/homeNewReleasesRecyclerView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -184,7 +184,7 @@
             app:layout_constraintStart_toStartOf="@+id/homeNewReleasesHeader"
             app:layout_constraintTop_toBottomOf="@+id/homeNewReleasesHeader">
 
-        </android.support.v7.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
 
         <TextView
             android:id="@+id/homeBoxesHeader"
@@ -236,7 +236,7 @@
             app:layout_constraintTop_toBottomOf="@+id/homeBoxesHeader"
             tools:text="Favorites" />
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/homeFeaturedBoxRecyclerView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -246,9 +246,9 @@
             app:layout_constraintStart_toStartOf="@+id/homeFeaturedBoxHeader"
             app:layout_constraintTop_toBottomOf="@+id/homeFeaturedBoxHeader">
 
-        </android.support.v7.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
 
-        <android.support.constraint.Barrier
+        <androidx.constraintlayout.widget.Barrier
             android:id="@+id/homeFeaturedBoxBoxesBarrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -342,5 +342,5 @@
             app:layout_constraintStart_toEndOf="@+id/homeFeaturedBoxHeader"
             app:layout_constraintTop_toTopOf="@+id/homeFeaturedBoxHeader" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
