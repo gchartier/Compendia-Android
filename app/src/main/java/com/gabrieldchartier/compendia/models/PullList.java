@@ -43,7 +43,7 @@ public class PullList implements Parcelable
     {
         for(Comic c : comics)
         {
-            if(c.getID().equals(ID))
+            if(c.getComicID().equals(ID))
                 return c;
         }
         return null;

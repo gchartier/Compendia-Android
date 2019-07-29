@@ -2,7 +2,6 @@ package com.gabrieldchartier.compendia.models;
 
 import com.gabrieldchartier.compendia.util.DateUtilities;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -50,7 +49,7 @@ public class ComicBox implements Comparable<ComicBox>
     public boolean containsComic(Comic comic)
     {
         for(Comic c : comicsInBox)
-            if(c.getID() == comic.getID())
+            if(c.getComicID() == comic.getComicID())
                 return true;
         return false;
     }

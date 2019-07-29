@@ -1,16 +1,20 @@
 package com.gabrieldchartier.compendia.models;
 
 import android.os.Parcel;
-import android.os.ParcelUuid;
 import android.os.Parcelable;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
-import java.util.Currency;
-import java.util.Date;
-import java.util.Dictionary;
 import java.util.List;
 import java.util.UUID;
 
+@Entity(tableName="comics")
 public class Comic implements Parcelable
 {
     private static final String MODERN_AGE_COMIC = "Modern Age";
@@ -19,84 +23,133 @@ public class Comic implements Parcelable
     private static final int MATURE_RATING_CODE = 1;
     private static final String MATURE_RATING_TEXT = "MA";
 
-    private UUID ID;
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+    @ColumnInfo(name="comicID")
+    private UUID comicID;
+    @ColumnInfo(name="title")
     private String title;
+    @ColumnInfo(name="cover")
     private String cover;
-    private ArrayList<ComicCreator> creators;
+    @ColumnInfo(name="creators")
+    private List<ComicCreator> creators;
+    @ColumnInfo(name="publisherName")
     private String publisherName;
+    @ColumnInfo(name="publisherID")
     private UUID publisherID;
+    @ColumnInfo(name="imprintName")
     private String imprintName;
+    @ColumnInfo(name="imprintID")
     private UUID imprintID;
-    private Dictionary characters;
+    @Ignore
+    private List<ComicCharacter> characters;
+    @ColumnInfo(name="releaseDate")
     private String releaseDate;
+    @ColumnInfo(name="coverPrice")
     private String coverPrice;
+    @ColumnInfo(name="description")
     private String description;
+    @ColumnInfo(name="pageCount")
     private int pageCount;
+    @ColumnInfo(name="arc")
     private String arc;
+    @ColumnInfo(name="arcID")
     private UUID arcID;
+    @ColumnInfo(name="age")
     private int age;
+    @ColumnInfo(name="synopsis")
     private String synopsis;
+    @ColumnInfo(name="barcode")
     private String barcode;
+    @ColumnInfo(name="totalWant")
     private int totalWant;
+    @ColumnInfo(name="totalFavorited")
     private int totalFavorited;
+    @ColumnInfo(name="totalOwned")
     private int totalOwned;
+    @ColumnInfo(name="totalRead")
     private int totalRead;
+    @ColumnInfo(name="averageRating")
     private float averageRating;
+    @ColumnInfo(name="totalRatings")
     private int totalRatings;
+    @ColumnInfo(name="totalReviews")
     private int totalReviews;
+    @Ignore
     private List<ComicReview> reviews;//TODO
+    @ColumnInfo(name="seriesName")
     private String seriesName;
+    @ColumnInfo(name="seriesID")
     private UUID seriesID;
+    @ColumnInfo(name="printing")
     private int printing;
+    @ColumnInfo(name="isVariant")
     private boolean isVariant;
+    @ColumnInfo(name="variant")
     private String variant;
+    @ColumnInfo(name="ageRating")
     private String ageRating;
+    @ColumnInfo(name="isMiniSeries")
     private boolean isMiniSeries;
+    @ColumnInfo(name="isReprint")
     private boolean isReprint;
+    @ColumnInfo(name="isOneShot")
     private boolean isOneShot;
+    @ColumnInfo(name="miniSeriesLimit")
     private int miniSeriesLimit;
+    @ColumnInfo(name="format")
     private String format;
+    @ColumnInfo(name="itemNumber")
     private int itemNumber;
+    @ColumnInfo(name="collectionType")
     private int collectionType;
+    @ColumnInfo(name="otherVersions")
     private List<UUID> otherVersions;
+    @ColumnInfo(name="userRating")
     private float userRating;
+    @ColumnInfo(name="dateCollected")
     private String dateCollected;
+    @ColumnInfo(name="purchasePrice")
     private String purchasePrice;
+    @ColumnInfo(name="boughtAt")
     private String boughtAt;
+    @ColumnInfo(name="condition")
     private String condition;
+    @ColumnInfo(name="gradingAgency")
     private String gradingAgency;
+    @ColumnInfo(name="grade")
     private float grade;
+    @ColumnInfo(name="quantity")
     private int quantity;
+    @ColumnInfo(name="notes")
     private String notes;
 
-    public Comic(String ID, String title, String cover, ArrayList<ComicCreator> creators, String publisherName,
-                 String publisherID, String imprintName, String imprintID, Dictionary characters,
+    public Comic(@NotNull UUID comicID, String title, String cover, List<ComicCreator> creators, String publisherName,
+                 UUID publisherID, String imprintName, UUID imprintID, List<ComicCharacter> characters,
                  String releaseDate, String coverPrice, String description, int pageCount, String arc,
-                 String arcID, int age, String synopsis, String barcode, int totalWant, int totalFavorited,
+                 UUID arcID, int age, String synopsis, String barcode, int totalWant, int totalFavorited,
                  int totalOwned, int totalRead, float averageRating, int totalRatings, int totalReviews,
-                 String seriesName, String seriesID, int printing, String variant, int ageRating,
-                 boolean isMiniSeries, boolean isReprint, boolean isOneShot, int miniSeriesLimit,
-                 int format, int itemNumber, int collectionType, ArrayList<String> otherVersions, float userRating,
-                 String dateCollected, String purchasePrice, String boughtAt, String condition,
+                 List<ComicReview> reviews, String seriesName, UUID seriesID, int printing,
+                 String variant, String ageRating, boolean isMiniSeries, boolean isReprint, boolean isOneShot, int miniSeriesLimit,
+                 String format, int itemNumber, int collectionType, List<UUID> otherVersions,
+                 float userRating, String dateCollected, String purchasePrice, String boughtAt, String condition,
                  String gradingAgency, float grade, int quantity, String notes, boolean isVariant)
     {
-        this.ID = UUID.fromString(ID);
+        this.comicID = comicID;
         this.title = title;
         this.cover = cover;
-        this.creators = new ArrayList<>(creators);
+        this.creators = new ArrayList<ComicCreator>(creators);
         this.publisherName = publisherName;
-        this.publisherID = UUID.fromString(publisherID);
+        this.publisherID = publisherID;
         this.imprintName = imprintName;
-        if(!imprintID.equals(""))
-            this.imprintID = UUID.fromString(imprintID);
+        this.imprintID = imprintID;
         this.characters = characters;
         this.releaseDate = releaseDate;
         this.coverPrice = coverPrice;
         this.description = description;
         this.pageCount = pageCount;
         this.arc = arc;
-        if(!arcID.equals(""))
-            this.arcID = UUID.fromString(arcID);
+        this.arcID = arcID;
         this.age = age;
         this.synopsis = synopsis;
         this.barcode = barcode;
@@ -107,35 +160,21 @@ public class Comic implements Parcelable
         this.averageRating = averageRating;
         this.totalRatings = totalRatings;
         this.totalReviews = totalReviews;
+        this.reviews = reviews;
         this.seriesName = seriesName;
-        this.seriesID = UUID.fromString(seriesID);
+        this.seriesID = seriesID;
         this.printing = printing;
         this.isVariant = isVariant;
         this.variant = variant;
-        if(ageRating == MATURE_RATING_CODE)
-            this.ageRating = MATURE_RATING_TEXT;
-        else
-            this.ageRating = "All Ages";
+        this.ageRating = ageRating;
         this.isMiniSeries = isMiniSeries;
         this.isReprint = isReprint;
         this.isOneShot = isOneShot;
         this.miniSeriesLimit = miniSeriesLimit;
-        if(format == SINGLE_ISSUE_FORMAT_CODE)
-            this.format = SINGLE_ISSUE_FORMAT_TEXT;
-        else
-            this.format = "Something Else";
+        this.format = format;
         this.itemNumber = itemNumber;
         this.collectionType = collectionType;
-        if(otherVersions != null)
-        {
-            this.otherVersions = new ArrayList<>();
-
-            for(String s : otherVersions)
-                this.otherVersions.add(UUID.fromString(s));
-        }
-        else
-            this.otherVersions = new ArrayList<>();
-
+        this.otherVersions = otherVersions;
         this.userRating = userRating;
         this.dateCollected = dateCollected;
         this.purchasePrice = purchasePrice;
@@ -147,9 +186,73 @@ public class Comic implements Parcelable
         this.notes = notes;
     }
 
-    public Comic()
+    public Comic(@NotNull UUID comicID, String title, String cover, String publisherName, UUID publisherID,
+                 String imprintName, UUID imprintID, String releaseDate, String coverPrice,
+                 String description, int pageCount, String arc, UUID arcID, int age, String synopsis,
+                 String barcode, int totalWant, int totalFavorited, int totalOwned, int totalRead,
+                 float averageRating, int totalRatings, int totalReviews, String seriesName,
+                 UUID seriesID, int printing, boolean isVariant, String variant, String ageRating,
+                 boolean isMiniSeries, boolean isReprint, boolean isOneShot, int miniSeriesLimit,
+                 String format, int itemNumber, int collectionType, List<UUID> otherVersions,
+                 float userRating, String dateCollected, String purchasePrice, String boughtAt,
+                 String condition, String gradingAgency, float grade, int quantity, String notes)
     {
-        //assign new stuff;
+        this.comicID = comicID;
+        this.title = title;
+        this.cover = cover;
+        this.publisherName = publisherName;
+        this.publisherID = publisherID;
+        this.imprintName = imprintName;
+        this.imprintID = imprintID;
+        this.releaseDate = releaseDate;
+        this.coverPrice = coverPrice;
+        this.description = description;
+        this.pageCount = pageCount;
+        this.arc = arc;
+        this.arcID = arcID;
+        this.age = age;
+        this.synopsis = synopsis;
+        this.barcode = barcode;
+        this.totalWant = totalWant;
+        this.totalFavorited = totalFavorited;
+        this.totalOwned = totalOwned;
+        this.totalRead = totalRead;
+        this.averageRating = averageRating;
+        this.totalRatings = totalRatings;
+        this.totalReviews = totalReviews;
+        this.seriesName = seriesName;
+        this.seriesID = seriesID;
+        this.printing = printing;
+        this.isVariant = isVariant;
+        this.variant = variant;
+        this.ageRating = ageRating;
+        this.isMiniSeries = isMiniSeries;
+        this.isReprint = isReprint;
+        this.isOneShot = isOneShot;
+        this.miniSeriesLimit = miniSeriesLimit;
+        this.format = format;
+        this.itemNumber = itemNumber;
+        this.collectionType = collectionType;
+        this.otherVersions = otherVersions;
+        this.userRating = userRating;
+        this.dateCollected = dateCollected;
+        this.purchasePrice = purchasePrice;
+        this.boughtAt = boughtAt;
+        this.condition = condition;
+        this.gradingAgency = gradingAgency;
+        this.grade = grade;
+        this.quantity = quantity;
+        this.notes = notes;
+    }
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
     }
 
     public String getCover()
@@ -172,22 +275,23 @@ public class Comic implements Parcelable
         this.title = title;
     }
 
-    public UUID getID()
+    @NotNull
+    public UUID getComicID()
     {
-        return ID;
+        return comicID;
     }
 
-    public void setID(UUID ID)
+    public void setComicID(@NotNull UUID comicID)
     {
-        this.ID = ID;
+        this.comicID = comicID;
     }
 
-    public ArrayList<ComicCreator> getCreators()
+    public List<ComicCreator> getCreators()
     {
         return creators;
     }
 
-    public void setCreators(ArrayList<ComicCreator> creators)
+    public void setCreators(List<ComicCreator> creators)
     {
         this.creators = creators;
     }
@@ -232,12 +336,12 @@ public class Comic implements Parcelable
         this.imprintID = imprintID;
     }
 
-    public Dictionary getCharacters()
+    public List<ComicCharacter> getCharacters()
     {
         return characters;
     }
 
-    public void setCharacters(Dictionary characters)
+    public void setCharacters(List<ComicCharacter> characters)
     {
         this.characters = characters;
     }
@@ -303,12 +407,17 @@ public class Comic implements Parcelable
     }
 
     //TODO
-    public String getAge()
+    public String getAgeAsString()
     {
         if(age == 4)
             return MODERN_AGE_COMIC;
         else
             return "Not Modern";
+    }
+
+    public int getAge()
+    {
+        return age;
     }
 
     public void setAge(int age)
@@ -668,7 +777,7 @@ public class Comic implements Parcelable
 
     protected Comic(Parcel in)
     {
-        ID =  (UUID) in.readSerializable();
+        comicID =  (UUID) in.readSerializable();
         title = in.readString();
         cover = in.readString();
     }
@@ -697,7 +806,7 @@ public class Comic implements Parcelable
     @Override
     public void writeToParcel(Parcel dest, int flags)
     {
-        dest.writeSerializable(ID);
+        dest.writeSerializable(comicID);
         dest.writeString(title);
         dest.writeString(cover);
     }

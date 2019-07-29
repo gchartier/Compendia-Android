@@ -3,7 +3,6 @@ package com.gabrieldchartier.compendia.fragments
 import android.animation.ObjectAnimator
 import android.app.AlertDialog
 import android.content.Context
-import android.media.Image
 import android.os.Bundle
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
@@ -25,7 +24,6 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.Barrier
 import androidx.constraintlayout.widget.Group
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.gabrieldchartier.compendia.FragmentInterface
 import com.gabrieldchartier.compendia.R
@@ -35,7 +33,6 @@ import com.gabrieldchartier.compendia.models.ComicCreator
 import com.gabrieldchartier.compendia.models.ComicBox
 import com.gabrieldchartier.compendia.util.TempUtilClass
 import com.iarcuschin.simpleratingbar.SimpleRatingBar
-import kotlinx.android.synthetic.main.detail_toolbar.*
 import kotlinx.android.synthetic.main.fragment_comic_detail.*
 import kotlin.collections.ArrayList
 import java.util.UUID
@@ -319,7 +316,7 @@ class ComicDetailFragment : Fragment(), View.OnClickListener, CompoundButton.OnC
         format!!.text = comic!!.format
         coverDate!!.text = comic!!.releaseDate
         coverPrice!!.text = comic!!.coverPrice
-        age!!.text = comic!!.age
+        age!!.text = comic!!.ageAsString
         ageRating!!.text = comic!!.ageRating
         if (comic!!.otherVersions.size >= 1)
             otherVersionText!!.text = getString(R.string.comic_detail_other_versions_text, Integer.toString(comic!!.otherVersions.size))
@@ -510,7 +507,7 @@ class ComicDetailFragment : Fragment(), View.OnClickListener, CompoundButton.OnC
         {
             Log.d(TAG, "Comic detail reviews clicked")
             activityFragmentInterface!!.inflateReviewsFragment(Navigation.findNavController(view),
-                    R.id.action_comicDetailFragment_to_reviewsFragment, comic!!.id)
+                    R.id.action_comicDetailFragment_to_reviewsFragment, comic!!.comicID)
         }
         else if (view.id == R.id.comicDetailDescription)
         {

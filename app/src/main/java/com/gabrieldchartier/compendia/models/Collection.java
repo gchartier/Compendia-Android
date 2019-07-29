@@ -37,7 +37,7 @@ public class Collection
     {
         for(Comic c : comics)
         {
-            if(c.getID().equals(ID))
+            if(c.getComicID().equals(ID))
                 return c;
         }
         return null;
@@ -51,7 +51,7 @@ public class Collection
     public boolean comicIsInCollection(Comic comic)
     {
         for(Comic c : comics)
-            if(comic.getID().equals(c.getID()))
+            if(comic.getComicID().equals(c.getComicID()))
                 return true;
 
         return false;

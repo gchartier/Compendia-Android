@@ -3,29 +3,49 @@ package com.gabrieldchartier.compendia.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.util.UUID;
 
+@Entity(tableName="creators")
 public class ComicCreator implements Parcelable
 {
-    private UUID ID;
+    @PrimaryKey
+    private int id;
+    @ColumnInfo(name="creatorID")
+    private UUID creatorID;
+    @ColumnInfo(name="name")
     private String name;
+    @ColumnInfo(name="creatorTypes")
     private String[] creatorTypes;
 
-    public ComicCreator(UUID ID, String name, String[] creatorTypes)
+    public ComicCreator(UUID creatorID, String name, String[] creatorTypes)
     {
-        this.ID = ID;
+        this.creatorID = creatorID;
         this.name = name;
         this.creatorTypes = creatorTypes;
     }
 
-    public UUID getID()
+    public int getId()
     {
-        return ID;
+        return id;
     }
 
-    public void setID(UUID ID)
+    public void setId(int id)
     {
-        this.ID = ID;
+        this.id = id;
+    }
+
+    public UUID getCreatorID()
+    {
+        return creatorID;
+    }
+
+    public void setCreatorID(UUID creatorID)
+    {
+        this.creatorID = creatorID;
     }
 
     public String getName()
@@ -64,6 +84,28 @@ public class ComicCreator implements Parcelable
     @Override
     public void writeToParcel(Parcel dest, int flags)
     {
-
+        dest.writeString(name);
+        dest.writeStringArray(creatorTypes);
     }
+
+    protected ComicCreator(Parcel in)
+    {
+        name = in.readString();
+        creatorTypes = in.createStringArray();
+    }
+
+    public static final Creator<ComicCreator> CREATOR = new Creator<ComicCreator>()
+    {
+        @Override
+        public ComicCreator createFromParcel(Parcel in)
+        {
+            return new ComicCreator(in);
+        }
+
+        @Override
+        public ComicCreator[] newArray(int size)
+        {
+            return new ComicCreator[size];
+        }
+    };
 }

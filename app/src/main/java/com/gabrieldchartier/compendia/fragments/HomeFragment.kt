@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
@@ -20,6 +21,9 @@ import com.gabrieldchartier.compendia.models.NewReleases
 import com.gabrieldchartier.compendia.models.User
 import com.gabrieldchartier.compendia.recycler_views.ComicCoversAdapter
 import com.gabrieldchartier.compendia.models.Comic
+import com.gabrieldchartier.compendia.persistence.NewReleaseRepository
+import com.gabrieldchartier.compendia.util.TempCollection
+import kotlinx.android.synthetic.main.fragment_collection.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment(), View.OnClickListener
@@ -34,8 +38,7 @@ class HomeFragment : Fragment(), View.OnClickListener
     private var activityFragmentInterface: FragmentInterface? = null
     private var user: User? = null
     private var collection: Collection? = null
-    private var newReleases: NewReleases? = null
-    private var thisWeeksNewReleases: List<Comic>? = null
+    private var thisWeeksNewReleases: ArrayList<Comic>? = null
     private var newReleasesLayoutManager: LinearLayoutManager? = null
     private var newReleasesAdapter: ComicCoversAdapter? = null
     private var comicBoxes: MutableList<ComicBox>? = null
@@ -43,6 +46,7 @@ class HomeFragment : Fragment(), View.OnClickListener
     private var readBox: ComicBox? = null
     private var featuredBoxLayoutManager: LinearLayoutManager? = null
     private var featuredBoxAdapter: ComicCoversAdapter? = null
+    private var newReleaseRepository : NewReleaseRepository? = null
 
     override fun onAttach(context: Context)
     {
@@ -56,14 +60,18 @@ class HomeFragment : Fragment(), View.OnClickListener
         Log.d(TAG, "onCreate started")
         super.onCreate(savedInstanceState)
 
-        newReleases = NewReleases.getInstance()
+        newReleaseRepository = NewReleaseRepository(context!!)
+
+        //newReleases = NewReleases.getInstance()
         collection = Collection()
         user = User.getInstance()
-        thisWeeksNewReleases = newReleases!!.thisWeek
+        //TODO thisWeeksNewReleases = newReleases!!.thisWeek
+        thisWeeksNewReleases = ArrayList()
         featuredBox = collection!!.getComicBoxByName(user!!.featuredBoxName)
         comicBoxes = collection!!.comicBoxes
         comicBoxes!!.remove(featuredBox)
         readBox = collection!!.getComicBoxByName(ComicBox.READ_BOX_NAME)
+        //repository?.insertNewReleasesTask()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -79,6 +87,7 @@ class HomeFragment : Fragment(), View.OnClickListener
         initRecyclerViews()
         setViewListeners()
         setViewData()
+        retrieveNewReleases()
     }
 
     // Initialize the recycler views
@@ -187,5 +196,16 @@ class HomeFragment : Fragment(), View.OnClickListener
                 findNavController(v).navigate(R.id.action_homeFragment_to_boxDetailFragment)
             }
         }
+    }
+
+    private fun retrieveNewReleases()
+    {
+        Log.d(TAG, "Retrieving New Releases")
+
+        newReleaseRepository?.retrieveNewReleasesTask()?.observe(this, Observer { newReleases ->
+            thisWeeksNewReleases?.clear()
+            thisWeeksNewReleases?.addAll(newReleases)
+            newReleasesAdapter?.notifyDataSetChanged()
+        })
     }
 }

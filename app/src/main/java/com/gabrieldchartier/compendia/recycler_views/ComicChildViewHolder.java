@@ -54,7 +54,7 @@ public class ComicChildViewHolder extends ChildViewHolder
         //TODO replace the glide load parameter with: comic.getCover()
         Glide.with(context).asBitmap().load(TempUtilClass.getImage(context, comic.getCover())).into(comicCover);
         comicTitle.setText(comic.getTitle());
-        comicID.setText(comic.getID().toString());
+        comicID.setText(comic.getComicID().toString());
         comicPublisher.setText(comic.getPublisherName());
         if(comic.getImprintName() != null && !comic.getImprintName().equals(""))
             comicImprint.setText(comic.getImprintName());

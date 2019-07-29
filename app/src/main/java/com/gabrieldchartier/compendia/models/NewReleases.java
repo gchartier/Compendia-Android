@@ -13,20 +13,8 @@ public class NewReleases
 {
     private static final String TAG = "NewReleases";
 
-    // Singleton Instance
-    private static NewReleases instance = null;
     private ArrayList<String> weeks;
-
     private List<Comic> comics;
-
-    public static NewReleases getInstance()
-    {
-        if(instance == null)
-        {
-            instance = new NewReleases();
-        }
-        return instance;
-    }
 
     //TODO retrieve from repository
     private NewReleases()
@@ -43,7 +31,7 @@ public class NewReleases
     {
         for(Comic c : comics)
         {
-            if(c.getID().equals(ID))
+            if(c.getComicID().equals(ID))
                 return c;
         }
         return null;
