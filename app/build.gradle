@@ -23,6 +23,11 @@ android {
         }
     }
 
+    // Added to fix some weird coroutine bug : "More than one file was found with OS independent path 'META-INF/atomicfu.kotlin_module'"
+    packagingOptions {
+        pickFirst("META-INF/atomicfu.kotlin_module")
+    }
+
     androidExtensions {
         experimental = true
     }

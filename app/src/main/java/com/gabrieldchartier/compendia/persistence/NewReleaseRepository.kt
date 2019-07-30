@@ -42,9 +42,8 @@ class NewReleaseRepository(context : Context)
 //    }
 
     suspend fun retrieveNewReleasesTask() : LiveData<List<Comic>>?
-    { // TODO do couroutine here to make this if else actually work
-        //TODO delete next line when you figure out coroutines
-        //thread{comicDatabase?.getNewReleaseDao()?.nukeTable()}
+    { // TODO fix cahceing and remove next line when done so
+        thread{comicDatabase?.getNewReleaseDao()?.nukeTable()}
         val newReleases : LiveData<List<Comic>>? = slowFetch()
         Log.d(TAG, "OYYY $newReleases.value")
         if(newReleases?.value.isNullOrEmpty()) //TODO Add cache timeout condition here as well

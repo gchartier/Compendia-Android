@@ -1,6 +1,5 @@
 package com.gabrieldchartier.compendia.fragments
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,25 +8,28 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
 import com.gabrieldchartier.compendia.FragmentInterface
 import com.gabrieldchartier.compendia.R
 import com.gabrieldchartier.compendia.models.Collection
 import com.gabrieldchartier.compendia.models.ComicBox
-import com.gabrieldchartier.compendia.models.NewReleases
 import com.gabrieldchartier.compendia.models.User
 import com.gabrieldchartier.compendia.recycler_views.ComicCoversAdapter
 import com.gabrieldchartier.compendia.models.Comic
 import com.gabrieldchartier.compendia.persistence.NewReleaseRepository
-import com.gabrieldchartier.compendia.util.TempCollection
-import kotlinx.android.synthetic.main.fragment_collection.*
+import kotlinx.coroutines.launch
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 
 class HomeFragment : Fragment(), View.OnClickListener
 {
+    private val viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+
     companion object
     {
         //Constants
@@ -47,6 +49,7 @@ class HomeFragment : Fragment(), View.OnClickListener
     private var featuredBoxLayoutManager: LinearLayoutManager? = null
     private var featuredBoxAdapter: ComicCoversAdapter? = null
     private var newReleaseRepository : NewReleaseRepository? = null
+    private var newReleases : LiveData<List<Comic>>? = null
 
     override fun onAttach(context: Context)
     {
@@ -202,10 +205,18 @@ class HomeFragment : Fragment(), View.OnClickListener
     {
         Log.d(TAG, "Retrieving New Releases")
 
-        newReleaseRepository?.retrieveNewReleasesTask()?.observe(this, Observer { newReleases ->
+        // Create the observer which updates the UI.
+        val newReleasesObserver = Observer<List<Comic>> { newReleases ->
             thisWeeksNewReleases?.clear()
             thisWeeksNewReleases?.addAll(newReleases)
             newReleasesAdapter?.notifyDataSetChanged()
-        })
+        }
+
+        val lifecycleOwner = this
+
+        uiScope.launch {
+            newReleases = newReleaseRepository?.retrieveNewReleasesTask()
+            newReleases?.observe(lifecycleOwner, newReleasesObserver)
+        }
     }
 }

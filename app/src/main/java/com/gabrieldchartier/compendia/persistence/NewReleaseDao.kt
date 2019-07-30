@@ -1,6 +1,7 @@
 package com.gabrieldchartier.compendia.persistence
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 import com.gabrieldchartier.compendia.models.Comic
 
