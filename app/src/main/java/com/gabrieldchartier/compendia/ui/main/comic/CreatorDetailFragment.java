@@ -1,4 +1,4 @@
-package com.gabrieldchartier.compendia.fragments;
+package com.gabrieldchartier.compendia.ui.main.comic;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -9,17 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.gabrieldchartier.compendia.R;
 
-public class CreatorsListFragment extends Fragment
+public class CreatorDetailFragment extends Fragment
 {
     // Constants
-    private static final String TAG = "CreatorsListFragment";
+    private static final String TAG = "CreatorDetailFragment";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         Log.d(TAG, "onCreateView started");
 
-        View view = inflater.inflate(R.layout.fragment_creators_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_creator_detail, container, false);
 
         return view;
     }

@@ -1,4 +1,4 @@
-package com.gabrieldchartier.compendia.fragments
+package com.gabrieldchartier.compendia.ui.main.comic
 
 import android.animation.ObjectAnimator
 import android.app.AlertDialog

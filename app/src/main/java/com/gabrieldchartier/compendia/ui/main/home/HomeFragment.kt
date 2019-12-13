@@ -1,4 +1,4 @@
-package com.gabrieldchartier.compendia.fragments
+package com.gabrieldchartier.compendia.ui.main.home
 
 import android.content.Context
 import android.os.Bundle

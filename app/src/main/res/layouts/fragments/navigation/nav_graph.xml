@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/bottom_nav_collection"
-        android:name="com.gabrieldchartier.compendia.fragments.CollectionFragment"
+        android:name="com.gabrieldchartier.compendia.ui.main.collection.CollectionFragment"
         android:label="fragment_collection"
         tools:layout="@layout/fragment_collection">
     </fragment>
     <fragment
         android:id="@+id/bottom_nav_pull_list"
-        android:name="com.gabrieldchartier.compendia.fragments.PullListFragment"
+        android:name="com.gabrieldchartier.compendia.ui.main.pull_list.PullListFragment"
         android:label="fragment_pull_list"
         tools:layout="@layout/fragment_pull_list" >
         <action
@@ -26,18 +26,18 @@
     </fragment>
     <fragment
         android:id="@+id/bottom_nav_search"
-        android:name="com.gabrieldchartier.compendia.fragments.SearchFragment"
+        android:name="com.gabrieldchartier.compendia.ui.main.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/bottom_nav_home"
-        android:name="com.gabrieldchartier.compendia.fragments.HomeFragment"
+        android:name="com.gabrieldchartier.compendia.ui.main.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.gabrieldchartier.compendia.fragments.HomeFragment"
+        android:name="com.gabrieldchartier.compendia.ui.main.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -79,7 +79,7 @@
 
     <fragment
         android:id="@+id/comicDetailFragment"
-        android:name="com.gabrieldchartier.compendia.fragments.ComicDetailFragment"
+        android:name="com.gabrieldchartier.compendia.ui.main.comic.ComicDetailFragment"
         android:label="fragment_comic_detail"
         tools:layout="@layout/fragment_comic_detail" >
         <argument
@@ -124,7 +124,7 @@
 
     <fragment
         android:id="@+id/boxesFragment"
-        android:name="com.gabrieldchartier.compendia.fragments.BoxesFragment"
+        android:name="com.gabrieldchartier.compendia.ui.main.collection.BoxesFragment"
         android:label="fragment_boxes"
         tools:layout="@layout/fragment_boxes" >
         <action
@@ -138,7 +138,7 @@
 
     <fragment
         android:id="@+id/boxDetailFragment"
-        android:name="com.gabrieldchartier.compendia.fragments.BoxDetailFragment"
+        android:name="com.gabrieldchartier.compendia.ui.main.collection.BoxDetailFragment"
         android:label="fragment_box_detail"
         tools:layout="@layout/fragment_box_detail">
 
@@ -153,27 +153,27 @@
 
     <fragment
         android:id="@+id/creatorDetailFragment"
-        android:name="com.gabrieldchartier.compendia.fragments.CreatorDetailFragment"
+        android:name="com.gabrieldchartier.compendia.ui.main.comic.CreatorDetailFragment"
         android:label="fragment_creator_detail"
         tools:layout="@layout/fragment_creator_detail" />
     <fragment
         android:id="@+id/creatorsListFragment"
-        android:name="com.gabrieldchartier.compendia.fragments.CreatorsListFragment"
+        android:name="com.gabrieldchartier.compendia.ui.main.comic.CreatorsListFragment"
         android:label="fragment_creators_list"
         tools:layout="@layout/fragment_creators_list" />
     <fragment
         android:id="@+id/fullCoverFragment"
-        android:name="com.gabrieldchartier.compendia.fragments.FullCoverFragment"
+        android:name="com.gabrieldchartier.compendia.ui.main.comic.FullCoverFragment"
         android:label="fragment_full_cover"
         tools:layout="@layout/fragment_full_cover" />
     <fragment
         android:id="@+id/newReleasesFragment"
-        android:name="com.gabrieldchartier.compendia.fragments.NewReleasesFragment"
+        android:name="com.gabrieldchartier.compendia.ui.main.home.NewReleasesFragment"
         android:label="fragment_new_releases"
         tools:layout="@layout/fragment_new_releases" />
     <fragment
         android:id="@+id/otherVersionsFragment"
-        android:name="com.gabrieldchartier.compendia.fragments.OtherVersionsFragment"
+        android:name="com.gabrieldchartier.compendia.ui.main.comic.OtherVersionsFragment"
         android:label="fragment_other_versions"
         tools:layout="@layout/fragment_other_versions" >
         <action
@@ -186,12 +186,12 @@
     </fragment>
     <fragment
         android:id="@+id/reviewsFragment"
-        android:name="com.gabrieldchartier.compendia.fragments.ReviewsFragment"
+        android:name="com.gabrieldchartier.compendia.ui.main.comic.ReviewsFragment"
         android:label="fragment_reviews_list"
         tools:layout="@layout/fragment_reviews_list" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.gabrieldchartier.compendia.fragments.SettingsFragment"
+        android:name="com.gabrieldchartier.compendia.ui.main.home.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>

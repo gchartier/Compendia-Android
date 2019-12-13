@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:name="androidx.navigation.fragment.NavHostFragment"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/authentication_nav_graph"
+            app:navGraph="@navigation/auth_nav_graph"
             android:id="@+id/authentication_nav_host_fragment"/>
 
     </FrameLayout>

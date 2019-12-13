@@ -1,4 +1,4 @@
-package com.gabrieldchartier.compendia.fragments;
+package com.gabrieldchartier.compendia.ui.main.home;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;

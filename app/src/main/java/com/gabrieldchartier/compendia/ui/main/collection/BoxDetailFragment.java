@@ -1,4 +1,4 @@
-package com.gabrieldchartier.compendia.fragments;
+package com.gabrieldchartier.compendia.ui.main.collection;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -9,17 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.gabrieldchartier.compendia.R;
 
-public class FullCoverFragment extends Fragment
+public class BoxDetailFragment extends Fragment
 {
     // Constants
-    private static final String TAG = "FullCoverFragment";
+    private static final String TAG = "BoxDetailFragment";
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         Log.d(TAG, "onCreateView started");
 
-        View view = inflater.inflate(R.layout.fragment_full_cover, container, false);
+        View view = inflater.inflate(R.layout.fragment_box_detail, container, false);
 
         return view;
     }
