@@ -1,18 +1,22 @@
 package com.gabrieldchartier.compendia.ui.authentication.state
 
-sealed class AuthenticationStateEvent {
+sealed class AuthStateEvent {
 
-    data class LoginAttemptEvent(
+    data class LoginEvent(
             val email: String,
             val password: String
-    ): AuthenticationStateEvent()
+    ): AuthStateEvent()
 
-    data class RegisterAttemptEvent(
+    data class RegisterAccountEvent(
             val email: String,
             val username: String,
             val password: String,
             val password_confirmation: String
-    ): AuthenticationStateEvent()
+    ): AuthStateEvent()
 
-    class ReauthenticateEvent: AuthenticationStateEvent()
+    data class ResetPasswordEvent(
+            val email: String
+    ): AuthStateEvent()
+
+    class AutoAuthenticateEvent: AuthStateEvent()
 }

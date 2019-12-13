@@ -3,26 +3,23 @@ package com.gabrieldchartier.compendia.repository.authentication
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.switchMap
-import com.gabrieldchartier.compendia.api.authentication.AuthenticationService
+import com.gabrieldchartier.compendia.api.authentication.AuthService
 import com.gabrieldchartier.compendia.api.authentication.network_responses.LoginResponse
 import com.gabrieldchartier.compendia.api.authentication.network_responses.RegistrationResponse
 import com.gabrieldchartier.compendia.models.AccountProperties
-import com.gabrieldchartier.compendia.models.AuthenticationToken
+import com.gabrieldchartier.compendia.models.AuthToken
 import com.gabrieldchartier.compendia.persistence.authentication.AccountPropertiesDAO
-import com.gabrieldchartier.compendia.persistence.authentication.AuthenticationTokenDAO
+import com.gabrieldchartier.compendia.persistence.authentication.AuthTokenDAO
 import com.gabrieldchartier.compendia.repository.NetworkBoundResource
 import com.gabrieldchartier.compendia.session.SessionManager
-import com.gabrieldchartier.compendia.ui.Data
 import com.gabrieldchartier.compendia.ui.DataState
 import com.gabrieldchartier.compendia.ui.Response
 import com.gabrieldchartier.compendia.ui.ResponseType
-import com.gabrieldchartier.compendia.ui.authentication.state.AuthenticationViewState
+import com.gabrieldchartier.compendia.ui.authentication.state.AuthViewState
 import com.gabrieldchartier.compendia.ui.authentication.state.LoginFields
 import com.gabrieldchartier.compendia.ui.authentication.state.RegistrationFields
 import com.gabrieldchartier.compendia.util.AbsentLiveData
 import com.gabrieldchartier.compendia.util.ErrorHandling.Companion.ERROR_SAVE_AUTH_TOKEN
-import com.gabrieldchartier.compendia.util.ErrorHandling.Companion.ERROR_UNKNOWN
 import com.gabrieldchartier.compendia.util.ErrorHandling.Companion.GENERIC_AUTH_ERROR
 import com.gabrieldchartier.compendia.util.GenericAPIResponse
 import com.gabrieldchartier.compendia.util.GenericAPIResponse.*
@@ -30,11 +27,11 @@ import com.gabrieldchartier.compendia.util.PreferenceKeys
 import com.gabrieldchartier.compendia.util.SuccessHandling.Companion.RESPONSE_CHECK_PREVIOUS_AUTH_USER_DONE
 import kotlinx.coroutines.Job
 
-class AuthenticationRepository
+class AuthRepository
 constructor(
-        val authTokenDAO: AuthenticationTokenDAO,
+        val authTokenDAO: AuthTokenDAO,
         val accountPropertiesDAO: AccountPropertiesDAO,
-        val authenticationService: AuthenticationService,
+        val authenticationService: AuthService,
         val sessionManager: SessionManager,
         val sharedPreferences: SharedPreferences,
         val sharedPrefsEditor: SharedPreferences.Editor
@@ -42,13 +39,13 @@ constructor(
 {
     private var repositoryJob: Job? = null
 
-    fun attemptLogin(email: String, password: String): LiveData<DataState<AuthenticationViewState>> {
-        val loginFieldErrors = LoginFields(email, password).isValidForLogin()
-        if(!loginFieldErrors.equals(LoginFields.LoginError.none())) {
+    fun attemptLogin(email: String, password: String): LiveData<DataState<AuthViewState>> {
+        val loginFieldErrors = LoginFields(email, password).validateLogin()
+        if(loginFieldErrors != LoginFields.LoginError.none()) {
             return returnErrorResponse(loginFieldErrors, ResponseType.Dialog())
         }
 
-        return object: NetworkBoundResource<LoginResponse, AuthenticationViewState>(
+        return object: NetworkBoundResource<LoginResponse, AuthViewState>(
                 sessionManager.isConnectedToInternet(), true
         ){
             override suspend fun handleAPISuccessResponse(response: APISuccessResponse<LoginResponse>) {
@@ -67,7 +64,7 @@ constructor(
                 )
 
                 val result = authTokenDAO.insert(
-                        AuthenticationToken(
+                        AuthToken(
                                 response.body.pk,
                                 response.body.token
                         )
@@ -82,8 +79,8 @@ constructor(
                 saveAuthenticatedUserToSharedPrefs(email)
 
                 onCompleteJob(DataState.data(data =
-                    AuthenticationViewState(authenticationToken =
-                        AuthenticationToken(response.body.pk, response.body.token))))
+                    AuthViewState(authToken =
+                        AuthToken(response.body.pk, response.body.token))))
             }
 
             override fun createCall(): LiveData<GenericAPIResponse<LoginResponse>> {
@@ -105,14 +102,14 @@ constructor(
             email: String,
             username: String,
             password: String,
-            passwordConfirmation: String): LiveData<DataState<AuthenticationViewState>> {
+            passwordConfirmation: String): LiveData<DataState<AuthViewState>> {
         val registrationFieldErrors = RegistrationFields(
-                email, username, password, passwordConfirmation).isValidForRegistration()
+                email, username, password, passwordConfirmation).validateRegistration()
         if(!registrationFieldErrors.equals(RegistrationFields.RegistrationError.none())) {
             return returnErrorResponse(registrationFieldErrors, ResponseType.Dialog())
         }
 
-        return object: NetworkBoundResource<RegistrationResponse, AuthenticationViewState> (
+        return object: NetworkBoundResource<RegistrationResponse, AuthViewState> (
                 sessionManager.isConnectedToInternet(), true
         ){
             override suspend fun handleAPISuccessResponse(response: APISuccessResponse<RegistrationResponse>) {
@@ -129,7 +126,7 @@ constructor(
                 )
 
                 val result = authTokenDAO.insert(
-                        AuthenticationToken(
+                        AuthToken(
                                 response.body.pk,
                                 response.body.token
                         )
@@ -144,8 +141,8 @@ constructor(
                 saveAuthenticatedUserToSharedPrefs(email)
 
                 onCompleteJob(DataState.data(data =
-                    AuthenticationViewState(authenticationToken =
-                        AuthenticationToken(response.body.pk, response.body.token))))
+                    AuthViewState(authToken =
+                        AuthToken(response.body.pk, response.body.token))))
             }
 
             override fun createCall(): LiveData<GenericAPIResponse<RegistrationResponse>> {
@@ -163,9 +160,9 @@ constructor(
         }.asLiveData()
     }
 
-    private fun returnErrorResponse(errorMessage: String, responseType: ResponseType): LiveData<DataState<AuthenticationViewState>> {
+    private fun returnErrorResponse(errorMessage: String, responseType: ResponseType): LiveData<DataState<AuthViewState>> {
         Log.d("AuthenticationRepositor", "returnErrorResponse (line 107): $errorMessage")
-        return object: LiveData<DataState<AuthenticationViewState>>() {
+        return object: LiveData<DataState<AuthViewState>>() {
             override fun onActive() {
                 super.onActive()
                 value = DataState.error(
@@ -188,7 +185,7 @@ constructor(
         sharedPrefsEditor.apply()
     }
 
-    fun checkPreviouslyAuthenticatedUser(): LiveData<DataState<AuthenticationViewState>> {
+    fun checkPreviouslyAuthenticatedUser(): LiveData<DataState<AuthViewState>> {
         val previousAuthUserEmail: String? =
                 sharedPreferences.getString(PreferenceKeys.PREVIOUS_AUTH_USER, null)
 
@@ -197,7 +194,7 @@ constructor(
             return returnNoTokenFound()
         }
         else {
-            return object: NetworkBoundResource<Void, AuthenticationViewState> (
+            return object: NetworkBoundResource<Void, AuthViewState> (
                     sessionManager.isConnectedToInternet(), false
             ){
                 override suspend fun createCacheRequestAndReturn() {
@@ -207,7 +204,7 @@ constructor(
                             if(accountProperties.pk > -1) {
                                 authTokenDAO.searchByPk(accountProperties.pk).let { authToken ->
                                     if(authToken != null) {
-                                        onCompleteJob(DataState.data(data= AuthenticationViewState(authenticationToken = authToken)))
+                                        onCompleteJob(DataState.data(data= AuthViewState(authToken = authToken)))
                                         return
                                     }
                                 }
@@ -237,8 +234,8 @@ constructor(
 
     }
 
-    private fun returnNoTokenFound(): LiveData<DataState<AuthenticationViewState>> {
-        return object: LiveData<DataState<AuthenticationViewState>>() {
+    private fun returnNoTokenFound(): LiveData<DataState<AuthViewState>> {
+        return object: LiveData<DataState<AuthViewState>>() {
             override fun onActive() {
                 super.onActive()
                 value = DataState.data(

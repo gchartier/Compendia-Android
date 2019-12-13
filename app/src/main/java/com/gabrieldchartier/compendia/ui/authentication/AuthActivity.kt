@@ -11,27 +11,32 @@ import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import com.gabrieldchartier.compendia.BaseActivity
 import com.gabrieldchartier.compendia.R
-import com.gabrieldchartier.compendia.ui.authentication.state.AuthenticationStateEvent
+import com.gabrieldchartier.compendia.ui.authentication.state.AuthStateEvent
 import com.gabrieldchartier.compendia.ui.main.MainActivity
 import com.gabrieldchartier.compendia.view_models.ViewModelProviderFactory
 import kotlinx.android.synthetic.main.activity_authentication.*
 import javax.inject.Inject
 
-class AuthenticationActivity : BaseActivity(), NavController.OnDestinationChangedListener {
+class AuthActivity : BaseActivity(), NavController.OnDestinationChangedListener {
+
     @Inject
     lateinit var providerFactory: ViewModelProviderFactory
 
-    lateinit var viewModel: AuthenticationViewModel
+    lateinit var viewModel: AuthViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_authentication)
 
-        viewModel = ViewModelProvider(this, providerFactory).get(AuthenticationViewModel::class.java)
+        // Inject the view model, get the nav controller, subscribe the live data observers, and handle auto-authentication
+        viewModel = ViewModelProvider(this, providerFactory).get(AuthViewModel::class.java)
         findNavController(R.id.authentication_nav_host_fragment).addOnDestinationChangedListener(this)
-
         subscribeObservers()
-        checkPreviouslyAuthenticatedUser()
+        triggerAutoAuthenticateEvent()
+    }
+
+    override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
+        viewModel.cancelActiveJobs()
     }
 
     private fun subscribeObservers() {
@@ -41,8 +46,8 @@ class AuthenticationActivity : BaseActivity(), NavController.OnDestinationChange
             dataState.data?.let { data ->
                 data.data?.let { event ->
                     event.getContentIfNotHandled()?.let {
-                        it.authenticationToken?.let { token ->
-                            Log.d("AuthenticationActivity", "subscribeObservers (line 36): $token")
+                        it.authToken?.let { token ->
+                            Log.d("AuthenticationActivity", "subscribeObservers (line 50): $token")
                             viewModel.setAuthenticationToken(token)
                         }
                     }
@@ -51,14 +56,14 @@ class AuthenticationActivity : BaseActivity(), NavController.OnDestinationChange
         })
 
         viewModel.viewState.observe(this, Observer {
-            it.authenticationToken?.let { token ->
+            it.authToken?.let { token ->
                 sessionManager.login(token)
             }
         })
 
         sessionManager.cachedToken.observe(this, Observer {
-            Log.d("AuthenticationActivity", "subscribeObservers (line 28): AuthToken $it")
-            if(it != null && it.account_pk != -1 && it.token != null) {
+            Log.d("AuthActivity", "subscribeObservers (line 65): AuthToken $it")
+            if(it.account_pk != -1 && it.token != null) {
                 navMainActivity()
                 finish()
             }
@@ -71,10 +76,7 @@ class AuthenticationActivity : BaseActivity(), NavController.OnDestinationChange
         finish()
     }
 
-    override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
-        viewModel.cancelActiveJobs()
-    }
-
+    // Overridden from BaseActivity. Toggles the progress bar when necessary
     override fun displayProgressBar(bool: Boolean) {
         if(bool)
             progress_bar.visibility = View.VISIBLE
@@ -82,7 +84,7 @@ class AuthenticationActivity : BaseActivity(), NavController.OnDestinationChange
             progress_bar.visibility = View.GONE
     }
 
-    fun checkPreviouslyAuthenticatedUser() {
-        viewModel.setStateEvent(AuthenticationStateEvent.ReauthenticateEvent())
+    private fun triggerAutoAuthenticateEvent() {
+        viewModel.setStateEvent(AuthStateEvent.AutoAuthenticateEvent())
     }
 }

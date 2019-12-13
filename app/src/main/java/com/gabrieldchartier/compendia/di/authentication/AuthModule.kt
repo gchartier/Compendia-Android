@@ -1,43 +1,41 @@
 package com.gabrieldchartier.compendia.di.authentication
 
 import android.content.SharedPreferences
-import com.gabrieldchartier.compendia.api.authentication.AuthenticationService
+import com.gabrieldchartier.compendia.api.authentication.AuthService
 import com.gabrieldchartier.compendia.persistence.authentication.AccountPropertiesDAO
-import com.gabrieldchartier.compendia.persistence.authentication.AuthenticationTokenDAO
-import com.gabrieldchartier.compendia.repository.authentication.AuthenticationRepository
+import com.gabrieldchartier.compendia.persistence.authentication.AuthTokenDAO
+import com.gabrieldchartier.compendia.repository.authentication.AuthRepository
 import com.gabrieldchartier.compendia.session.SessionManager
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
 
 @Module
-class AuthenticationModule {
+class AuthModule {
 
-    @AuthenticationScope
+    @AuthScope
     @Provides
-    fun provideFakeApiService(retrofitBuilder: Retrofit.Builder): AuthenticationService{
+    fun provideAuthService(retrofitBuilder: Retrofit.Builder): AuthService{
         return retrofitBuilder
                 .build()
-                .create(AuthenticationService::class.java)
+                .create(AuthService::class.java)
     }
 
-    @AuthenticationScope
+    @AuthScope
     @Provides
     fun provideAuthRepository(
             sessionManager: SessionManager,
-            authTokenDao: AuthenticationTokenDAO,
+            authTokenDao: AuthTokenDAO,
             accountPropertiesDao: AccountPropertiesDAO,
-            authenticationService: AuthenticationService,
+            authService: AuthService,
             sharedPreferences: SharedPreferences,
-            sharedPrefsEditor: SharedPreferences.Editor
-    ): AuthenticationRepository {
-        return AuthenticationRepository(
+            sharedPrefsEditor: SharedPreferences.Editor): AuthRepository {
+        return AuthRepository(
                 authTokenDao,
                 accountPropertiesDao,
-                authenticationService,
+                authService,
                 sessionManager,
                 sharedPreferences,
-                sharedPrefsEditor
-        )
+                sharedPrefsEditor)
     }
 }

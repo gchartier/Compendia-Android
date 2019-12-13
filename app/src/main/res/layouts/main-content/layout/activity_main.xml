@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f2f2f2"
-    tools:context=".MainActivity">
+    tools:context=".ui.main.MainActivity">
 
     <fragment
         android:layout_width="0dp"
@@ -38,5 +38,15 @@
         android:layout_height="wrap_content"
         app:barrierDirection="top"
         app:constraint_referenced_ids="bottom_nav"/>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/nav_host_fragment" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

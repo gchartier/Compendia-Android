@@ -1,22 +1,27 @@
-package com.gabrieldchartier.compendia
+package com.gabrieldchartier.compendia.ui.main
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.navigation.ui.setupWithNavController
+import com.gabrieldchartier.compendia.BaseActivity
+import com.gabrieldchartier.compendia.FragmentInterface
+import com.gabrieldchartier.compendia.R
 import com.gabrieldchartier.compendia.models.Comic
 import com.gabrieldchartier.compendia.models.ComicBox
 import com.gabrieldchartier.compendia.models.ComicCreator
+import com.gabrieldchartier.compendia.ui.authentication.AuthActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomnavigation.LabelVisibilityMode
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.UUID
 
-class MainActivity : AppCompatActivity(), FragmentInterface, BottomNavigationView.OnNavigationItemSelectedListener
+class MainActivity : BaseActivity(), FragmentInterface, BottomNavigationView.OnNavigationItemSelectedListener
 {
     companion object
     {
@@ -31,8 +36,27 @@ class MainActivity : AppCompatActivity(), FragmentInterface, BottomNavigationVie
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        subscribeObservers()
         // TODO isFirstLogin()
         initBottomNav(Navigation.findNavController(this, R.id.nav_host_fragment))
+    }
+
+    fun subscribeObservers() {
+        sessionManager.cachedToken.observe(this, Observer {
+            Log.d("MainActivity", "subscribeObservers (line 44): AuthToken $it")
+            if(it == null || it.account_pk == -1 || it.token == null) {
+                Log.d("MainActivity", "subscribeObservers (line 50): TESTEEs")
+                navAuthActivity()
+                finish()
+            }
+        })
+    }
+
+    private fun navAuthActivity() {
+        val intent = Intent(this, AuthActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     // Initialize the bottom navigation view
@@ -189,6 +213,13 @@ class MainActivity : AppCompatActivity(), FragmentInterface, BottomNavigationVie
         val bundle = Bundle()
         bundle.putString(getString(R.string.intent_comic_cover), cover)
         navController.navigate(actionID, bundle)
+    }
+
+    override fun displayProgressBar(bool: Boolean) {
+        if(bool)
+            progress_bar.visibility = View.VISIBLE
+        else
+            progress_bar.visibility = View.GONE
     }
 
     //TODO Run first login tutorial and welcome information

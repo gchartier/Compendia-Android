@@ -8,7 +8,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
-interface AuthenticationService {
+interface AuthService {
     @POST("accounts/login")
     @FormUrlEncoded
     fun login(

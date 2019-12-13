@@ -1,81 +1,72 @@
 package com.gabrieldchartier.compendia.ui.authentication
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import com.gabrieldchartier.compendia.api.authentication.network_responses.LoginResponse
-import com.gabrieldchartier.compendia.api.authentication.network_responses.RegistrationResponse
-import com.gabrieldchartier.compendia.models.AuthenticationToken
-import com.gabrieldchartier.compendia.repository.authentication.AuthenticationRepository
+import com.gabrieldchartier.compendia.models.AuthToken
+import com.gabrieldchartier.compendia.repository.authentication.AuthRepository
 import com.gabrieldchartier.compendia.ui.BaseViewModel
 import com.gabrieldchartier.compendia.ui.DataState
-import com.gabrieldchartier.compendia.ui.authentication.state.AuthenticationStateEvent
-import com.gabrieldchartier.compendia.ui.authentication.state.AuthenticationStateEvent.*
-import com.gabrieldchartier.compendia.ui.authentication.state.AuthenticationViewState
-import com.gabrieldchartier.compendia.ui.authentication.state.LoginFields
-import com.gabrieldchartier.compendia.ui.authentication.state.RegistrationFields
+import com.gabrieldchartier.compendia.ui.authentication.state.*
+import com.gabrieldchartier.compendia.ui.authentication.state.AuthStateEvent.*
 import com.gabrieldchartier.compendia.util.AbsentLiveData
-import com.gabrieldchartier.compendia.util.GenericAPIResponse
 import javax.inject.Inject
 
-class AuthenticationViewModel
+class AuthViewModel
 @Inject
-constructor(val authenticationRepository: AuthenticationRepository):
-        BaseViewModel<AuthenticationStateEvent, AuthenticationViewState>()
+constructor(private val authRepository: AuthRepository):
+        BaseViewModel<AuthStateEvent, AuthViewState>()
 {
-    override fun initNewViewState(): AuthenticationViewState {
-        return AuthenticationViewState()
+    override fun initNewViewState(): AuthViewState {
+        return AuthViewState()
     }
 
-    override fun handleStateEvent(stateEvent: AuthenticationStateEvent): LiveData<DataState<AuthenticationViewState>> {
+    override fun handleStateEvent(stateEvent: AuthStateEvent): LiveData<DataState<AuthViewState>> {
+
         when(stateEvent) {
-            is LoginAttemptEvent -> {
-                return authenticationRepository.attemptLogin(stateEvent.email, stateEvent.password)
-            }
 
-            is RegisterAttemptEvent -> {
-                return authenticationRepository.attemptRegistration(
-                        stateEvent.email,
-                        stateEvent.username,
-                        stateEvent.password,
-                        stateEvent.password_confirmation
-                )
-            }
+            is LoginEvent -> return authRepository.attemptLogin(stateEvent.email, stateEvent.password)
 
-            is ReauthenticateEvent -> {
-                return authenticationRepository.checkPreviouslyAuthenticatedUser()
-            }
+            is RegisterAccountEvent -> return authRepository.attemptRegistration( stateEvent.email,
+                        stateEvent.username, stateEvent.password, stateEvent.password_confirmation )
+
+            is AutoAuthenticateEvent -> return authRepository.checkPreviouslyAuthenticatedUser()
         }
+
+        //todo handle this properly
+        return AbsentLiveData.create()
     }
 
     fun setRegistrationFields(registrationFields: RegistrationFields) {
         val update = getCurrentViewStateOrNew()
-        if(update.registrationFields == registrationFields) {
+        if(update.registrationFields == registrationFields)
             return
+        else {
+            update.registrationFields = registrationFields
+            _viewState.value = update
         }
-        update.registrationFields = registrationFields
-        _viewState.value = update
     }
 
     fun setLoginFields(loginFields: LoginFields) {
         val update = getCurrentViewStateOrNew()
-        if(update.loginFields == loginFields) {
+        if(update.loginFields == loginFields)
             return
+        else {
+            update.loginFields = loginFields
+            _viewState.value = update
         }
-        update.loginFields = loginFields
-        _viewState.value = update
     }
 
-    fun setAuthenticationToken(authenticationToken: AuthenticationToken) {
+    fun setAuthenticationToken(authenticationToken: AuthToken) {
         val update = getCurrentViewStateOrNew()
-        if(update.authenticationToken == authenticationToken) {
+        if(update.authToken == authenticationToken)
             return
+        else {
+            update.authToken = authenticationToken
+            _viewState.value = update
         }
-        update.authenticationToken = authenticationToken
-        _viewState.value = update
     }
 
     fun cancelActiveJobs() {
-        authenticationRepository.cancelActiveJobs()
+        authRepository.cancelActiveJobs()
     }
 
     override fun onCleared() {

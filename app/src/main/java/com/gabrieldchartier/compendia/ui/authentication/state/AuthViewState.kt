@@ -1,25 +1,25 @@
 package com.gabrieldchartier.compendia.ui.authentication.state
 
-import com.gabrieldchartier.compendia.models.AuthenticationToken
+import com.gabrieldchartier.compendia.models.AuthToken
 
-data class AuthenticationViewState(var registrationFields: RegistrationFields? = RegistrationFields(),
-                                   var loginFields: LoginFields? = LoginFields(),
-                                   var authenticationToken: AuthenticationToken? = null)
+data class AuthViewState(var registrationFields: RegistrationFields? = RegistrationFields(),
+                         var loginFields: LoginFields? = LoginFields(),
+                         var authToken: AuthToken? = null)
 
 data class RegistrationFields(
-        var registration_email: String? = null,
-        var registration_username: String? = null,
-        var registration_password: String? = null,
-        var registration_password_confirmation: String? = null
-)  {
+        var email: String? = null,
+        var username: String? = null,
+        var password: String? = null,
+        var password_confirmation: String? = null
+) {
     class RegistrationError {
         companion object {
             fun mustFillAllFields(): String {
                 return "All fields are required."
             }
 
-            fun passwordDoNotMatch(): String {
-                return "PAsswords must match."
+            fun passwordsDoNotMatch(): String {
+                return "Passwords must match."
             }
 
             fun none(): String {
@@ -28,16 +28,13 @@ data class RegistrationFields(
         }
     }
 
-    fun isValidForRegistration(): String {
-        if(registration_email.isNullOrEmpty() ||
-                registration_username.isNullOrEmpty() ||
-                registration_password.isNullOrEmpty() ||
-                registration_password_confirmation.isNullOrEmpty()) {
+    fun validateRegistration(): String {
+        if(email.isNullOrEmpty() || username.isNullOrEmpty() ||
+                password.isNullOrEmpty() || password_confirmation.isNullOrEmpty())
             return RegistrationError.mustFillAllFields()
-        }
 
-        if (!registration_password.equals(registration_password_confirmation)) {
-            return RegistrationError.passwordDoNotMatch()
+        if (!password.equals(password_confirmation)) {
+            return RegistrationError.passwordsDoNotMatch()
         }
 
         return RegistrationError.none()
@@ -46,31 +43,28 @@ data class RegistrationFields(
 }
 
 data class LoginFields(
-        var login_email: String? = null,
-        var login_password: String? = null
+        var email: String? = null,
+        var password: String? = null
 ) {
     class LoginError {
 
         companion object {
 
             fun mustFillAllFields(): String {
-                return "You can't login without an email and password."
+                return "Please enter an email and a password."
             }
 
             fun none(): String {
                 return "None"
             }
-
         }
     }
 
-    fun isValidForLogin(): String {
+    fun validateLogin(): String {
 
-        if (login_email.isNullOrEmpty()
-                || login_password.isNullOrEmpty()) {
-
+        if (email.isNullOrEmpty() || password.isNullOrEmpty())
             return LoginError.mustFillAllFields()
-        }
+
         return LoginError.none()
     }
 }

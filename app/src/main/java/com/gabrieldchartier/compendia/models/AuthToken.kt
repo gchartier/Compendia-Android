@@ -19,7 +19,7 @@ import com.google.gson.annotations.SerializedName
         )
     ]
 )
-data class AuthenticationToken (
+data class AuthToken (
         @PrimaryKey
         @ColumnInfo(name="account_pk")
         var account_pk: Int? = -1,

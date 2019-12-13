@@ -4,16 +4,16 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.gabrieldchartier.compendia.models.AuthenticationToken
+import com.gabrieldchartier.compendia.models.AuthToken
 
 @Dao
-interface AuthenticationTokenDAO {
+interface AuthTokenDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(authenticationToken: AuthenticationToken): Long
+    fun insert(authenticationToken: AuthToken): Long
 
     @Query("UPDATE authentication_token SET token = null WHERE account_pk = :pk")
     fun nullifyToken(pk: Int): Int
 
     @Query("SELECT * FROM authentication_token WHERE account_pk = :pk")
-    suspend fun searchByPk(pk: Int): AuthenticationToken?
+    suspend fun searchByPk(pk: Int): AuthToken?
 }

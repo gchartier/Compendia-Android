@@ -10,6 +10,11 @@
     <string name="title_collection">Collection</string>
     <string name="title_search">Search</string>
 
+    <!-- Dialog / Toast Messages -->
+    <string name="dialog_success_header">Success!</string>
+    <string name="dialog_error_header">Error</string>
+    <string name="dialog_confirm">Ok</string>
+
     <!-- Fragment Tags -->
     <string name="tag_fragment_home">Home</string>
     <string name="tag_fragment_pull_list">Pull List</string>
@@ -90,6 +95,25 @@
     <!-- Other Versions -->
     <string name="other_versions_list_item_cover">Comic Cover Image</string>
 
+    <!-- Authentication -->
+    <string name="register">Register</string>
+    <string name="confirm_password_hint">Confirm Password</string>
+    <string name="password_hint">Password</string>
+    <string name="username_hint">Username</string>
+    <string name="email_hint">Email</string>
+    <string name="password_reset_info">We\'ve emailed you instructions for setting your password. If an account exists
+        with the email you entered.
+        You should receive them shortly.If you don\'t receive an email, please make sure you\'ve entered the address you
+        registered with,
+        and check your spam folder.
+    </string>
+    <string name="password_reset_email_sent">Password reset email sent</string>
+    <string name="login">Login</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="new_user">New User?</string>
+    <string name="sign_up">Sign Up!</string>
+
 
     <!-- ### Accessibility Content Descriptions ### -->
 
@@ -97,6 +121,7 @@
     <string name="content_description_back_arrow">Go back to previous screen</string>
     <string name="content_description_kabob_menu">Open additional options sub menu</string>
     <string name="content_description_reviews_button">Go to reviews of this comic</string>
+    <string name="compendia_icon">Compendia Icon</string>
 
     <!-- Home Fragment Layout -->
     <string name="content_description_home_see_all_new_releases_button">Navigate to full New Releases list</string>
