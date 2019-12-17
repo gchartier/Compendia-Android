@@ -163,7 +163,7 @@ class ComicDetailFragment : Fragment(), View.OnClickListener, CompoundButton.OnC
             inflateCreators()
             inflateComicBoxes()
             setViewListeners()
-            activityFragmentInterface!!.hideBottomNav()
+            activityFragmentInterface!!.displayBottomNav(false)
         }
         else
         {
@@ -238,7 +238,7 @@ class ComicDetailFragment : Fragment(), View.OnClickListener, CompoundButton.OnC
         constraintSet = ConstraintSet()
         constraintLayout = view.findViewById(R.id.comicDetailConstraintLayout)
         constraintSet!!.clone(constraintLayout!!)
-        fragmentHeader = view.findViewById(R.id.comicDetailFragmentHeader)
+        fragmentHeader = view.findViewById(R.id.fragmentHeader)
         cover = view.findViewById(R.id.comicDetailCover)
         title = view.findViewById(R.id.comicDetailTitle)
         publisher = view.findViewById(R.id.comicDetailPublisher)

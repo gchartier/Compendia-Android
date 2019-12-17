@@ -3,12 +3,11 @@ package com.gabrieldchartier.compendia.ui.main
 import android.content.Intent
 import android.os.Bundle
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.ui.setupWithNavController
 import com.gabrieldchartier.compendia.BaseActivity
 import com.gabrieldchartier.compendia.FragmentInterface
 import com.gabrieldchartier.compendia.R
@@ -16,37 +15,60 @@ import com.gabrieldchartier.compendia.models.Comic
 import com.gabrieldchartier.compendia.models.ComicBox
 import com.gabrieldchartier.compendia.models.ComicCreator
 import com.gabrieldchartier.compendia.ui.authentication.AuthActivity
+import com.gabrieldchartier.compendia.ui.main.collection.BoxDetailFragment
+import com.gabrieldchartier.compendia.ui.main.collection.BoxesFragment
+import com.gabrieldchartier.compendia.ui.main.comic.*
+import com.gabrieldchartier.compendia.ui.main.home.NewReleasesFragment
+import com.gabrieldchartier.compendia.ui.main.home.SettingsFragment
+import com.gabrieldchartier.compendia.util.BottomNavController
+import com.gabrieldchartier.compendia.util.BottomNavController.*
+import com.gabrieldchartier.compendia.util.setUpNavigation
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomnavigation.LabelVisibilityMode
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.UUID
 
-class MainActivity : BaseActivity(), FragmentInterface, BottomNavigationView.OnNavigationItemSelectedListener
+class MainActivity : BaseActivity(), FragmentInterface, NavGraphProvider, OnNavigationGraphChanged, OnNavigationReselectedListener
 {
-    companion object
-    {
-        // Constants
-        private const val BOTTOM_NAV_HOME = 0
-        private const val BOTTOM_NAV_PULL_LIST = 1
-        private const val BOTTOM_NAV_COLLECTION = 2
-        private const val BOTTOM_NAV_SEARCH = 3
-        private const val TAG = "MainActivity"
+    private lateinit var bottomNavigationView: BottomNavigationView
+    private val bottomNavController by lazy(LazyThreadSafetyMode.NONE) {
+        BottomNavController(
+                this,
+                R.id.main_nav_host_fragment,
+                R.id.bottom_nav_home,
+                this,
+                this
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        subscribeObservers()
         // TODO isFirstLogin()
-        initBottomNav(Navigation.findNavController(this, R.id.nav_host_fragment))
+        setupActionBar()
+        bottomNavigationView = findViewById(R.id.bottom_nav)
+        bottomNavigationView.setUpNavigation(bottomNavController, this)
+        if(savedInstanceState == null)
+            bottomNavController.onNavigationItemSelected()
+        subscribeObservers()
+        displayBottomNav(true)
     }
 
-    fun subscribeObservers() {
+    private fun setupActionBar() {
+        setSupportActionBar(tool_bar)
+    }
+
+    override fun onBackPressed() = bottomNavController.onBackPressed()
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item?.itemId) {
+            android.R.id.home -> onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun subscribeObservers() {
         sessionManager.cachedToken.observe(this, Observer {
-            Log.d("MainActivity", "subscribeObservers (line 44): AuthToken $it")
             if(it == null || it.account_pk == -1 || it.token == null) {
-                Log.d("MainActivity", "subscribeObservers (line 50): TESTEEs")
                 navAuthActivity()
                 finish()
             }
@@ -59,160 +81,154 @@ class MainActivity : BaseActivity(), FragmentInterface, BottomNavigationView.OnN
         finish()
     }
 
-    // Initialize the bottom navigation view
-    private fun initBottomNav(navController: NavController)
-    {
-        Log.d(TAG, "Building bottom nav view")
-        bottom_nav?.setupWithNavController(navController)
-        bottom_nav?.enableAnimation(false)
-        bottom_nav?.labelVisibilityMode = LabelVisibilityMode.LABEL_VISIBILITY_LABELED
-        bottom_nav?.isItemHorizontalTranslationEnabled = false
+
+    // BottomNavController interface method implementations
+
+    override fun getNavGraphId(itemId: Int) = when(itemId) {
+        R.id.bottom_nav_home -> R.navigation.home_nav_graph
+
+        R.id.bottom_nav_collection -> R.navigation.collection_nav_graph
+
+        R.id.bottom_nav_pull_list -> R.navigation.pull_list_nav_graph
+
+        R.id.bottom_nav_search -> R.navigation.search_nav_graph
+
+        else -> R.navigation.home_nav_graph
     }
 
-    // Hide the bottom navigation view
-    override fun hideBottomNav()
-    {
-        bottom_nav.visibility = View.GONE
+    override fun onGraphChange() {
+        //todo
     }
 
-    // Show the bottom navigation view
-    override fun showBottomNav()
-    {
-        bottom_nav.visibility = View.VISIBLE
-    }
+    override fun onReselectNavItem(navController: NavController, fragment: Fragment) {
 
-    override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
-                when(menuItem.itemId)
-                {
-                    R.id.bottom_nav_home -> {
-                        Log.d(TAG, "Home bottom nav icon clicked")
-                        showBottomNav()
-                    }
-                    R.id.bottom_nav_pull_list -> {
-                        Log.d(TAG, "Home bottom nav icon clicked")
-                        showBottomNav()
-                    }
-                    R.id.bottom_nav_collection -> {
-                        Log.d(TAG, "Home bottom nav icon clicked")
-                        showBottomNav()
-                    }
-                    R.id.bottom_nav_search -> {
-                        Log.d(TAG, "Home bottom nav icon clicked")
-                        showBottomNav()
-                    }
+        when(bottomNavigationView.selectedItemId) {
 
+            R.id.bottom_nav_home -> {
+                when(fragment) {
+
+                    is BoxDetailFragment ->
+                        navController.navigate(R.id.action_boxDetailFragment_to_homeFragment)
+
+                    is BoxesFragment ->
+                        navController.navigate(R.id.action_boxesFragment_to_homeFragment)
+
+                    is ComicDetailFragment ->
+                        navController.navigate(R.id.action_nested_comic_comicDetailFragment_to_homeFragment)
+
+                    is CreatorDetailFragment ->
+                        navController.navigate(R.id.action_nested_comic_creatorDetailFragment_to_homeFragment)
+
+                    is CreatorsListFragment ->
+                        navController.navigate(R.id.action_nested_comic_creatorsListFragment_to_homeFragment)
+
+                    is FullCoverFragment ->
+                        navController.navigate(R.id.action_nested_comic_fullCoverFragment_to_homeFragment)
+
+                    is OtherVersionsFragment ->
+                        navController.navigate(R.id.action_nested_comic_otherVersionsFragment_to_homeFragment)
+
+                    is ReviewsFragment ->
+                        navController.navigate(R.id.action_nested_comic_reviewsFragment_to_homeFragment)
+
+                    is NewReleasesFragment ->
+                        navController.navigate(R.id.action_newReleasesFragment_to_homeFragment)
+
+                    is SettingsFragment ->
+                        navController.navigate(R.id.action_settingsFragment_to_homeFragment)
+
+                    else -> {
+                        Log.e("MainActivity", "onReselectNavItem (line 101): Unused fragment passed in")
+                    }
                 }
-        return false
-    }
-
-    override fun onBackPressed()
-    {
-        Log.d(TAG, "ENTRY: " + supportFragmentManager.backStackEntryCount)
-        super.onBackPressed()
-
-        val bottomMenu = bottom_nav!!.menu
-        when(supportFragmentManager.primaryNavigationFragment?.id)
-        {
-            R.id.nav_host_fragment -> {
-                showBottomNav()
-                bottomMenu.getItem(BOTTOM_NAV_HOME).isChecked = true
             }
-            R.id.bottom_nav_collection -> {
-                showBottomNav()
-                bottomMenu.getItem(BOTTOM_NAV_COLLECTION).isChecked = true
-            }
+
             R.id.bottom_nav_pull_list -> {
-                showBottomNav()
-                bottomMenu.getItem(BOTTOM_NAV_PULL_LIST).isChecked = true
+                when(fragment) {
+
+                    is ComicDetailFragment ->
+                        navController.navigate(R.id.action_nested_comic_comicDetailFragment_to_pullListFragment)
+
+                    is CreatorDetailFragment ->
+                        navController.navigate(R.id.action_nested_comic_creatorDetailFragment_to_pullListFragment)
+
+                    is CreatorsListFragment ->
+                        navController.navigate(R.id.action_nested_comic_creatorsListFragment_to_pullListFragment)
+
+                    is FullCoverFragment ->
+                        navController.navigate(R.id.action_nested_comic_fullCoverFragment_to_pullListFragment)
+
+                    is OtherVersionsFragment ->
+                        navController.navigate(R.id.action_nested_comic_otherVersionsFragment_to_pullListFragment)
+
+                    is ReviewsFragment ->
+                        navController.navigate(R.id.action_nested_comic_reviewsFragment_to_pullListFragment)
+
+                    else -> {
+                        Log.e("MainActivity", "onReselectNavItem (line 101): Unused fragment passed in")
+                    }
+                }
             }
+
+            R.id.bottom_nav_collection -> {
+                when(fragment) {
+
+                    is ComicDetailFragment ->
+                        navController.navigate(R.id.action_nested_comic_comicDetailFragment_to_collectionFragment)
+
+                    is CreatorDetailFragment ->
+                        navController.navigate(R.id.action_nested_comic_creatorDetailFragment_to_collectionFragment)
+
+                    is CreatorsListFragment ->
+                        navController.navigate(R.id.action_nested_comic_creatorsListFragment_to_collectionFragment)
+
+                    is FullCoverFragment ->
+                        navController.navigate(R.id.action_nested_comic_fullCoverFragment_to_collectionFragment)
+
+                    is OtherVersionsFragment ->
+                        navController.navigate(R.id.action_nested_comic_otherVersionsFragment_to_collectionFragment)
+
+                    is ReviewsFragment ->
+                        navController.navigate(R.id.action_nested_comic_reviewsFragment_to_collectionFragment)
+
+                    else -> {
+                        Log.e("MainActivity", "onReselectNavItem (line 101): Unused fragment passed in")
+                    }
+                }
+            }
+
             R.id.bottom_nav_search -> {
-                showBottomNav()
-                bottomMenu.getItem(BOTTOM_NAV_SEARCH).isChecked = true
+                when(fragment) {
+
+                    is ComicDetailFragment ->
+                        navController.navigate(R.id.action_nested_comic_comicDetailFragment_to_searchFragment)
+
+                    is CreatorDetailFragment ->
+                        navController.navigate(R.id.action_nested_comic_creatorDetailFragment_to_searchFragment)
+
+                    is CreatorsListFragment ->
+                        navController.navigate(R.id.action_nested_comic_creatorsListFragment_to_searchFragment)
+
+                    is FullCoverFragment ->
+                        navController.navigate(R.id.action_nested_comic_fullCoverFragment_to_searchFragment)
+
+                    is OtherVersionsFragment ->
+                        navController.navigate(R.id.action_nested_comic_otherVersionsFragment_to_searchFragment)
+
+                    is ReviewsFragment ->
+                        navController.navigate(R.id.action_nested_comic_reviewsFragment_to_searchFragment)
+
+                    else -> {
+                        Log.e("MainActivity", "onReselectNavItem (line 101): Unused fragment passed in")
+                    }
+                }
             }
         }
-
-        //TODO app exit toast
-//        if(supportFragmentManager.backStackEntryCount == 0)
-//        {
-//            appExitAttempts++
-//            Toast.makeText(this, getString(R.string.exit_toast), Toast.LENGTH_SHORT).show()
-//        }
-//        if(appExitAttempts >= 2)
-//        {
-//            Log.d(TAG, "Calling exit")
-//            super.onBackPressed()
-//            appExitAttempts = 0
-//        }
-
     }
 
-    // Inflate the comic detail fragment and pass in the comic data
-    override fun inflateComicDetailFragment(comic: Comic)
+    override fun displayBottomNav(display: Boolean)
     {
-        hideBottomNav()
-    }
-
-    // Inflate the other versions fragment passing in the list of other comic versions
-    override fun inflateOtherVersionsFragment(navController: NavController, actionID: Int, otherVersions: Array<String>, comicTitle: String)
-    {
-        hideBottomNav()
-        val bundle = Bundle()
-        bundle.putStringArray(getString(R.string.intent_other_versions), otherVersions)
-        bundle.putString(getString(R.string.intent_comic_title), comicTitle)
-        navController.navigate(actionID, bundle)
-    }
-
-    override fun inflateSettingsFragment(navController: NavController)
-    {
-        hideBottomNav()
-        navController.navigate(R.id.action_homeFragment_to_settingsFragment)
-    }
-
-    override fun inflateBoxesFragment()
-    {
-        hideBottomNav()
-    }
-
-    override fun inflateBoxDetailFragment(box: ComicBox)
-    {
-        hideBottomNav()
-    }
-
-    override fun inflateNewReleasesFragment()
-    {
-        hideBottomNav()
-    }
-
-    override fun inflateCreatorDetailFragment(navController: NavController, actionID: Int, creatorID: UUID)
-    {
-        hideBottomNav()
-        val bundle = Bundle()
-        bundle.putSerializable(getString(R.string.intent_creator_id), creatorID)
-        navController.navigate(actionID, bundle)
-    }
-
-    override fun inflateCreatorsListFragment(navController: NavController, actionID: Int, creators: MutableList<ComicCreator>)
-    {
-        hideBottomNav()
-        val bundle = Bundle()
-        bundle.putSerializable(getString(R.string.intent_creators), ArrayList(creators))
-        navController.navigate(actionID, bundle)
-    }
-
-    override fun inflateReviewsFragment(navController: NavController, actionID: Int, comicID: UUID)
-    {
-        hideBottomNav()
-        val bundle = Bundle()
-        bundle.putSerializable(getString(R.string.intent_comic_id), comicID)
-        navController.navigate(actionID, bundle)
-    }
-
-    override fun inflateFullCoverFragment(navController: NavController, actionID: Int, cover: String)
-    {
-        hideBottomNav()
-        val bundle = Bundle()
-        bundle.putString(getString(R.string.intent_comic_cover), cover)
-        navController.navigate(actionID, bundle)
+        if (display) bottom_nav.visibility = View.VISIBLE else bottom_nav.visibility = View.GONE
     }
 
     override fun displayProgressBar(bool: Boolean) {
@@ -222,7 +238,76 @@ class MainActivity : BaseActivity(), FragmentInterface, BottomNavigationView.OnN
             progress_bar.visibility = View.GONE
     }
 
-    //TODO Run first login tutorial and welcome information
+    // Inflate the comic detail fragment and pass in the comic data
+    override fun inflateComicDetailFragment(comic: Comic)
+    {
+        displayBottomNav(false)
+    }
+
+    // Inflate the other versions fragment passing in the list of other comic versions
+    override fun inflateOtherVersionsFragment(navController: NavController, actionID: Int, otherVersions: Array<String>, comicTitle: String)
+    {
+        displayBottomNav(false)
+        val bundle = Bundle()
+        bundle.putStringArray(getString(R.string.intent_other_versions), otherVersions)
+        bundle.putString(getString(R.string.intent_comic_title), comicTitle)
+        navController.navigate(actionID, bundle)
+    }
+
+    override fun inflateSettingsFragment(navController: NavController)
+    {
+        displayBottomNav(false)
+        navController.navigate(R.id.action_homeFragment_to_settingsFragment)
+    }
+
+    override fun inflateBoxesFragment()
+    {
+        displayBottomNav(false)
+    }
+
+    override fun inflateBoxDetailFragment(box: ComicBox)
+    {
+        displayBottomNav(false)
+    }
+
+    override fun inflateNewReleasesFragment()
+    {
+        displayBottomNav(false)
+    }
+
+    override fun inflateCreatorDetailFragment(navController: NavController, actionID: Int, creatorID: UUID)
+    {
+        displayBottomNav(false)
+        val bundle = Bundle()
+        bundle.putSerializable(getString(R.string.intent_creator_id), creatorID)
+        navController.navigate(actionID, bundle)
+    }
+
+    override fun inflateCreatorsListFragment(navController: NavController, actionID: Int, creators: MutableList<ComicCreator>)
+    {
+        displayBottomNav(false)
+        val bundle = Bundle()
+        bundle.putSerializable(getString(R.string.intent_creators), ArrayList(creators))
+        navController.navigate(actionID, bundle)
+    }
+
+    override fun inflateReviewsFragment(navController: NavController, actionID: Int, comicID: UUID)
+    {
+        displayBottomNav(false)
+        val bundle = Bundle()
+        bundle.putSerializable(getString(R.string.intent_comic_id), comicID)
+        navController.navigate(actionID, bundle)
+    }
+
+    override fun inflateFullCoverFragment(navController: NavController, actionID: Int, cover: String)
+    {
+        displayBottomNav(false)
+        val bundle = Bundle()
+        bundle.putString(getString(R.string.intent_comic_cover), cover)
+        navController.navigate(actionID, bundle)
+    }
+
+//TODO Run first login tutorial and welcome information
 //    private fun isFirstLogin() {
 //        Log.d(TAG, "isFirstLogin: called")
 //        val preferences = PreferenceManager.getDefaultSharedPreferences(this)

@@ -154,7 +154,7 @@ public class OtherVersionsFragment extends Fragment
 
     private void setViews(View view)
     {
-        fragmentHeader = view.findViewById(R.id.comicDetailFragmentHeader);
+        fragmentHeader = view.findViewById(R.id.fragmentHeader);
         otherVersionsRecyclerView = view.findViewById(R.id.otherVersionsRecyclerView);
     }
 

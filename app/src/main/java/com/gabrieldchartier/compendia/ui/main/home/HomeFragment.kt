@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import androidx.appcompat.app.AppCompatActivity
 
 class HomeFragment : Fragment(), View.OnClickListener
 {
@@ -91,6 +92,8 @@ class HomeFragment : Fragment(), View.OnClickListener
         setViewListeners()
         setViewData()
         retrieveNewReleases()
+        (activity as AppCompatActivity).supportActionBar!!.hide()
+        activityFragmentInterface?.displayBottomNav(true)
     }
 
     // Initialize the recycler views

@@ -61,11 +61,13 @@ class AuthActivity : BaseActivity(), NavController.OnDestinationChangedListener 
             }
         })
 
-        sessionManager.cachedToken.observe(this, Observer {
-            Log.d("AuthActivity", "subscribeObservers (line 65): AuthToken $it")
-            if(it.account_pk != -1 && it.token != null) {
-                navMainActivity()
-                finish()
+        sessionManager.cachedToken.observe(this, Observer { dataState ->
+            Log.d("AuthActivity", "subscribeObservers (line 65): AuthToken $dataState")
+            dataState.let { authToken ->
+                if(authToken != null && authToken.account_pk != -1 && authToken.token != null) {
+                    navMainActivity()
+                    finish()
+                }
             }
         })
     }

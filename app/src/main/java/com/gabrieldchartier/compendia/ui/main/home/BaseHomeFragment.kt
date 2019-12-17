@@ -7,8 +7,6 @@ import dagger.android.support.DaggerFragment
 
 abstract class BaseHomeFragment : DaggerFragment(){
 
-    val TAG: String = "AppDebug"
-
     lateinit var stateChangeListener: DataStateChangeListener
 
     override fun onAttach(context: Context) {
@@ -16,7 +14,7 @@ abstract class BaseHomeFragment : DaggerFragment(){
         try{
             stateChangeListener = context as DataStateChangeListener
         }catch(e: ClassCastException){
-            Log.e(TAG, "$context must implement DataStateChangeListener" )
+            Log.e("BaseHomeFragment", "onAttach (line 17)")
         }
     }
 }
