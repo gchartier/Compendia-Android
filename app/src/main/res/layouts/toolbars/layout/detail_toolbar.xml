@@ -10,7 +10,7 @@
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
     <TextView
-        android:id="@+id/comicDetailFragmentHeader"
+        android:id="@+id/fragmentHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constrainedWidth="true"
@@ -20,6 +20,6 @@
         app:layout_constraintBottom_toBottomOf="@id/comicDetailToolbar"
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/comicDetailToolbar"
-        tools:text="Gideon Falls" />
+        tools:text="Fragment Header" />
 
 </androidx.appcompat.widget.Toolbar>

@@ -19,6 +19,5 @@ interface FragmentInterface {
     fun inflateReviewsFragment(navController: NavController, actionID: Int, comicID: UUID)
     fun inflateFullCoverFragment(navController: NavController, actionID: Int, cover: String)
     fun onBackPressed()
-    fun hideBottomNav()
-    fun showBottomNav()
+    fun displayBottomNav(display: Boolean)
 }

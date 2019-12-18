@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- NOTE: If updating this comic nav graph, be sure to additionally manually update it in every nav
+    graph that references it. At the time of writing, nested nav graphs have backstack limitations
+    that require nested nav graphs be written manually each time they are used. -->
+<!-- todo Investigate if the backstack can be handled by referencing home, collection, pull list,
+    and search from here instead of copying all the code unnecessarily -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_comic_graph"
+    app:startDestination="@id/comicDetailFragment">
+
+    <fragment
+        android:id="@+id/comicDetailFragment"
+        android:name="com.gabrieldchartier.compendia.ui.main.comic.ComicDetailFragment"
+        android:label="ComicDetailFragment" >
+        <action
+            android:id="@+id/action_comicDetailFragment_to_reviewsFragment"
+            app:destination="@id/reviewsFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_comicDetailFragment_to_fullCoverFragment"
+            app:destination="@id/fullCoverFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_comicDetailFragment_to_creatorsListFragment"
+            app:destination="@id/creatorsListFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_comicDetailFragment_to_otherVersionsFragment"
+            app:destination="@id/otherVersionsFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_comicDetailFragment_to_creatorDetailFragment"
+            app:destination="@id/creatorDetailFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/otherVersionsFragment"
+        android:name="com.gabrieldchartier.compendia.ui.main.comic.OtherVersionsFragment"
+        android:label="fragment_other_versions"
+        tools:layout="@layout/fragment_other_versions" />
+    <fragment
+        android:id="@+id/fullCoverFragment"
+        android:name="com.gabrieldchartier.compendia.ui.main.comic.FullCoverFragment"
+        android:label="fragment_full_cover"
+        tools:layout="@layout/fragment_full_cover" />
+    <fragment
+        android:id="@+id/reviewsFragment"
+        android:name="com.gabrieldchartier.compendia.ui.main.comic.ReviewsFragment"
+        android:label="fragment_reviews_list"
+        tools:layout="@layout/fragment_reviews_list" />
+    <fragment
+        android:id="@+id/creatorDetailFragment"
+        android:name="com.gabrieldchartier.compendia.ui.main.comic.CreatorDetailFragment"
+        android:label="fragment_creator_detail"
+        tools:layout="@layout/fragment_creator_detail" />
+    <fragment
+        android:id="@+id/creatorsListFragment"
+        android:name="com.gabrieldchartier.compendia.ui.main.comic.CreatorsListFragment"
+        android:label="fragment_creators_list"
+        tools:layout="@layout/fragment_creators_list" >
+        <action
+            android:id="@+id/action_creatorsListFragment_to_creatorDetailFragment"
+            app:destination="@id/creatorDetailFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+</navigation>

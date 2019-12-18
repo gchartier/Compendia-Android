@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/collection_nav_graph"
+    app:startDestination="@id/collectionFragment">
+
+    <fragment
+        android:id="@+id/collectionFragment"
+        android:name="com.gabrieldchartier.compendia.ui.main.collection.CollectionFragment"
+        android:label="fragment_collection"
+        tools:layout="@layout/fragment_collection" >
+        <action
+            android:id="@+id/action_collectionFragment_to_comic_nav_graph"
+            app:destination="@id/nav_comic_graph"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_collectionFragment_to_boxesFragment"
+            app:destination="@id/boxesFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_collectionFragment_to_boxDetailFragment"
+            app:destination="@id/boxDetailFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/boxesFragment"
+        android:name="com.gabrieldchartier.compendia.ui.main.collection.BoxesFragment"
+        android:label="fragment_boxes"
+        tools:layout="@layout/fragment_boxes" >
+        <action
+            android:id="@+id/action_boxesFragment_to_boxDetailFragment"
+            app:destination="@id/boxDetailFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_boxesFragment_to_collectionFragment"
+            app:destination="@id/collectionFragment"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popUpTo="@+id/collection_nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/boxDetailFragment"
+        android:name="com.gabrieldchartier.compendia.ui.main.collection.BoxDetailFragment"
+        android:label="fragment_box_detail"
+        tools:layout="@layout/fragment_box_detail" >
+        <action
+            android:id="@+id/action_boxDetailFragment_to_comic_nav_graph"
+            app:destination="@id/nav_comic_graph"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_boxDetailFragment_to_collectionFragment"
+            app:destination="@id/collectionFragment"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popUpTo="@+id/collection_nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+
+    <!-- Nested Comic Graph -->
+    <navigation
+        android:id="@+id/comic_nav_graph"
+        app:startDestination="@id/comicDetailFragment">
+
+        <fragment
+            android:id="@+id/comicDetailFragment"
+            android:name="com.gabrieldchartier.compendia.ui.main.comic.ComicDetailFragment"
+            android:label="ComicDetailFragment" >
+            <action
+                android:id="@+id/action_comicDetailFragment_to_reviewsFragment"
+                app:destination="@id/reviewsFragment"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left" />
+            <action
+                android:id="@+id/action_comicDetailFragment_to_fullCoverFragment"
+                app:destination="@id/fullCoverFragment"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left" />
+            <action
+                android:id="@+id/action_comicDetailFragment_to_creatorsListFragment"
+                app:destination="@id/creatorsListFragment"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left" />
+            <action
+                android:id="@+id/action_comicDetailFragment_to_otherVersionsFragment"
+                app:destination="@id/otherVersionsFragment"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left" />
+            <action
+                android:id="@+id/action_comicDetailFragment_to_creatorDetailFragment"
+                app:destination="@id/creatorDetailFragment"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left" />
+            <action
+                android:id="@+id/action_nested_comic_comicDetailFragment_to_collectionFragment"
+                app:destination="@id/collectionFragment"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/fade_out"
+                app:enterAnim="@anim/fade_in"
+                app:exitAnim="@anim/fade_out"
+                app:popUpTo="@+id/collection_nav_graph"
+                app:popUpToInclusive="true" />
+        </fragment>
+        <fragment
+            android:id="@+id/otherVersionsFragment"
+            android:name="com.gabrieldchartier.compendia.ui.main.comic.OtherVersionsFragment"
+            android:label="fragment_other_versions"
+            tools:layout="@layout/fragment_other_versions">
+            <action
+                android:id="@+id/action_nested_comic_otherVersionsFragment_to_collectionFragment"
+                app:destination="@id/collectionFragment"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/fade_out"
+                app:enterAnim="@anim/fade_in"
+                app:exitAnim="@anim/fade_out"
+                app:popUpTo="@+id/collection_nav_graph"
+                app:popUpToInclusive="true" />
+        </fragment>
+        <fragment
+            android:id="@+id/fullCoverFragment"
+            android:name="com.gabrieldchartier.compendia.ui.main.comic.FullCoverFragment"
+            android:label="fragment_full_cover"
+            tools:layout="@layout/fragment_full_cover" >
+            <action
+                android:id="@+id/action_nested_comic_fullCoverFragment_to_collectionFragment"
+                app:destination="@id/collectionFragment"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/fade_out"
+                app:enterAnim="@anim/fade_in"
+                app:exitAnim="@anim/fade_out"
+                app:popUpTo="@+id/collection_nav_graph"
+                app:popUpToInclusive="true" />
+        </fragment>
+        <fragment
+            android:id="@+id/reviewsFragment"
+            android:name="com.gabrieldchartier.compendia.ui.main.comic.ReviewsFragment"
+            android:label="fragment_reviews_list"
+            tools:layout="@layout/fragment_reviews_list" >
+            <action
+                android:id="@+id/action_nested_comic_reviewsFragment_to_collectionFragment"
+                app:destination="@id/collectionFragment"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/fade_out"
+                app:enterAnim="@anim/fade_in"
+                app:exitAnim="@anim/fade_out"
+                app:popUpTo="@+id/collection_nav_graph"
+                app:popUpToInclusive="true" />
+        </fragment>
+        <fragment
+            android:id="@+id/creatorDetailFragment"
+            android:name="com.gabrieldchartier.compendia.ui.main.comic.CreatorDetailFragment"
+            android:label="fragment_creator_detail"
+            tools:layout="@layout/fragment_creator_detail" >
+            <action
+                android:id="@+id/action_nested_comic_creatorDetailFragment_to_collectionFragment"
+                app:destination="@id/collectionFragment"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/fade_out"
+                app:enterAnim="@anim/fade_in"
+                app:exitAnim="@anim/fade_out"
+                app:popUpTo="@+id/collection_nav_graph"
+                app:popUpToInclusive="true" />
+        </fragment>
+        <fragment
+            android:id="@+id/creatorsListFragment"
+            android:name="com.gabrieldchartier.compendia.ui.main.comic.CreatorsListFragment"
+            android:label="fragment_creators_list"
+            tools:layout="@layout/fragment_creators_list" >
+            <action
+                android:id="@+id/action_creatorsListFragment_to_creatorDetailFragment"
+                app:destination="@id/creatorDetailFragment" />
+            <action
+                android:id="@+id/action_nested_comic_creatorsListFragment_to_collectionFragment"
+                app:destination="@id/collectionFragment"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/fade_out"
+                app:enterAnim="@anim/fade_in"
+                app:exitAnim="@anim/fade_out"
+                app:popUpTo="@+id/collection_nav_graph"
+                app:popUpToInclusive="true" />
+        </fragment>
+    </navigation>
+</navigation>
