@@ -45,9 +45,8 @@ constructor(
             return returnErrorResponse(loginFieldErrors, ResponseType.Dialog())
         }
 
-        return object: NetworkBoundResource<LoginResponse, AuthViewState>(
-                sessionManager.isConnectedToInternet(), true
-        ){
+        return object: NetworkBoundResource<LoginResponse, AuthViewState, Any>(sessionManager.isConnectedToInternet(), true, false){
+
             override suspend fun handleAPISuccessResponse(response: APISuccessResponse<LoginResponse>) {
                 Log.d("AuthenticationRepositor", "handleAPISuccessResponse (line 43): $response")
                 // Incorrect login creds counts as a 200 response from server, so need to handle that
@@ -92,8 +91,10 @@ constructor(
                 repositoryJob = job
             }
 
-            // Not used in this case
+            // Cache functionality is not used for this request
             override suspend fun createCacheRequestAndReturn() { }
+            override fun loadFromCache(): LiveData<AuthViewState> {return AbsentLiveData.create()}
+            override suspend fun updateLocalDB(cacheObject: Any?) {}
 
         }.asLiveData()
     }
@@ -109,9 +110,12 @@ constructor(
             return returnErrorResponse(registrationFieldErrors, ResponseType.Dialog())
         }
 
-        return object: NetworkBoundResource<RegistrationResponse, AuthViewState> (
-                sessionManager.isConnectedToInternet(), true
-        ){
+        return object: NetworkBoundResource<RegistrationResponse, AuthViewState, Any> (
+                sessionManager.isConnectedToInternet(),
+                isNetworkRequest = true,
+                shouldLoadFromCache = false
+        )
+        {
             override suspend fun handleAPISuccessResponse(response: APISuccessResponse<RegistrationResponse>) {
                 Log.d("AuthenticationRepositor", "handleAPISuccessResponse (line 85): $response")
                 if(response.body.response.equals(GENERIC_AUTH_ERROR))
@@ -154,9 +158,10 @@ constructor(
                 repositoryJob = job
             }
 
-            // Not used in this case
+            // Cache functionality is not used for this request
+            override fun loadFromCache(): LiveData<AuthViewState> { return AbsentLiveData.create() }
+            override suspend fun updateLocalDB(cacheObject: Any?) { }
             override suspend fun createCacheRequestAndReturn() { }
-
         }.asLiveData()
     }
 
@@ -194,22 +199,24 @@ constructor(
             return returnNoTokenFound()
         }
         else {
-            return object: NetworkBoundResource<Void, AuthViewState> (
-                    sessionManager.isConnectedToInternet(), false
-            ){
+            return object: NetworkBoundResource<Void, AuthViewState, Any> (
+                    sessionManager.isConnectedToInternet(),
+                    isNetworkRequest = false,
+                    shouldLoadFromCache = true
+            )
+            {
                 override suspend fun createCacheRequestAndReturn() {
                     accountPropertiesDAO.searchByEmail(previousAuthUserEmail).let {  accountProperties ->
                         Log.d("AuthenticationRepositor", "createCacheRequestAndReturn (line 205): searching for token $accountProperties")
-                        accountProperties?.let {
-                            if(accountProperties.pk > -1) {
-                                authTokenDAO.searchByPk(accountProperties.pk).let { authToken ->
-                                    if(authToken != null) {
-                                        onCompleteJob(DataState.data(data= AuthViewState(authToken = authToken)))
-                                        return
+                            accountProperties.value.let {
+                                if(it != null)
+                                    authTokenDAO.searchByPk(it.pk).let { authToken ->
+                                        if(authToken != null) {
+                                            onCompleteJob(DataState.data(data= AuthViewState(authToken = authToken)))
+                                            return
+                                        }
                                     }
-                                }
                             }
-                        }
                         Log.d("AuthenticationRepositor", "createCacheRequestAndReturn (line 216): Authtoken not found...")
                         onCompleteJob(DataState.data(data=null, response =
                             Response(RESPONSE_CHECK_PREVIOUS_AUTH_USER_DONE, ResponseType.None())))
@@ -228,6 +235,10 @@ constructor(
                     repositoryJob?.cancel()
                     repositoryJob = job
                 }
+
+                // Cache functionality is not used in this request
+                override fun loadFromCache(): LiveData<AuthViewState> { return AbsentLiveData.create() }
+                override suspend fun updateLocalDB(cacheObject: Any?) { }
 
             }.asLiveData()
         }

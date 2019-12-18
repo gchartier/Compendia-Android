@@ -10,7 +10,6 @@ import androidx.appcompat.widget.Toolbar
 import com.gabrieldchartier.compendia.R
 import com.gabrieldchartier.compendia.session.SessionManager
 import com.gabrieldchartier.compendia.ui.main.MainActivity
-import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.detail_toolbar.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import javax.inject.Inject
@@ -71,6 +70,6 @@ class SettingsFragment : BaseHomeFragment() {
     }
 
     private fun setOnClickListeners() {
-        log_out_button.setOnClickListener { sessionManager.logout() }
+        log_out_button.setOnClickListener { viewModel.logout() }
     }
 }

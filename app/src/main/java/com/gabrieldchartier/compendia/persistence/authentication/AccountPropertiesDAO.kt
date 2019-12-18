@@ -16,8 +16,11 @@ interface AccountPropertiesDAO {
     fun insertOrIgnore(accountProperties: AccountProperties): Long
 
     @Query("SELECT * FROM account_properties WHERE pk = :pk")
-    fun searchByPK(pk: Int): AccountProperties?
+    fun searchByPK(pk: Int): LiveData<AccountProperties?>
 
     @Query("SELECT * FROM account_properties WHERE email = :email")
-    fun searchByEmail(email: String): AccountProperties?
+    fun searchByEmail(email: String): LiveData<AccountProperties?>
+
+    @Query("UPDATE account_properties SET username = :username WHERE pk = :pk")
+    fun updateAccountProperties(username: String, pk: Int)
 }
