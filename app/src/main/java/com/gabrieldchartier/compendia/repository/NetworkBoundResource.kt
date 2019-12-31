@@ -23,7 +23,8 @@ import kotlinx.coroutines.Dispatchers.Main
 abstract class NetworkBoundResource<ResponseObject, ViewStateType, CacheObject>(
         isNetworkAvailable: Boolean, // is there a network connection?
         isNetworkRequest: Boolean,
-        shouldLoadFromCache: Boolean
+        shouldLoadFromCache: Boolean,
+        shouldCancelIfNoInternet: Boolean
 ){
     protected val result = MediatorLiveData<DataState<ViewStateType>>()
     protected lateinit var job: CompletableJob
@@ -42,36 +43,45 @@ abstract class NetworkBoundResource<ResponseObject, ViewStateType, CacheObject>(
         }
 
         if(isNetworkRequest) {
-            if(isNetworkAvailable) {
-                coroutineScope.launch {
-                    delay(TESTING_NETWORK_DELAY)
-                    withContext(Main) {
-                        val APIResponse = createCall()
-                        result.addSource(APIResponse) { response ->
-                            result.removeSource(APIResponse)
-                            coroutineScope.launch {
-                                handleNetworkCall(response)
-                            }
-                        }
-                    }
-                }
-                GlobalScope.launch(IO) {
-                    delay(NETWORK_TIMEOUT)
+            if(isNetworkAvailable)
+                doNetworkRequest()
+            else
+                if (shouldCancelIfNoInternet)
+                    onErrorReturn(UNABLE_TODO_OPERATION_WO_INTERNET, shouldUseDialog = true, shouldUseToast = false)
+                else
+                    doCacheRequest()
+        }
+        else
+            doCacheRequest()
+    }
 
-                    if(!job.isCompleted) {
-                        Log.e("NetworkBoundResource", " (line 48): ")
-                        job.cancel(CancellationException(UNABLE_TO_RESOLVE_HOST))
+    private fun doCacheRequest() {
+        coroutineScope.launch {
+            // fake delay for testing cache
+            delay(TESTING_CACHE_DELAY)
+            createCacheRequestAndReturn()
+        }
+    }
+
+    private fun doNetworkRequest() {
+        coroutineScope.launch {
+            delay(TESTING_NETWORK_DELAY)
+            withContext(Main) {
+                val apiResponse = createCall()
+                result.addSource(apiResponse) { response ->
+                    result.removeSource(apiResponse)
+                    coroutineScope.launch {
+                        handleNetworkCall(response)
                     }
                 }
             }
-            else
-                onErrorReturn(UNABLE_TODO_OPERATION_WO_INTERNET, shouldUseDialog = true, shouldUseToast = false)
         }
-        else {
-            coroutineScope.launch {
-                // fake delay for testing cache
-                delay(TESTING_CACHE_DELAY)
-                createCacheRequestAndReturn()
+        GlobalScope.launch(IO) {
+            delay(NETWORK_TIMEOUT)
+
+            if(!job.isCompleted) {
+                Log.e("NetworkBoundResource", " (line 48): ")
+                job.cancel(CancellationException(UNABLE_TO_RESOLVE_HOST))
             }
         }
     }

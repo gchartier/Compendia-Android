@@ -1,6 +1,8 @@
 package com.gabrieldchartier.compendia
 
+import android.content.Context
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import com.gabrieldchartier.compendia.session.SessionManager
 import com.gabrieldchartier.compendia.ui.*
 import com.gabrieldchartier.compendia.util.displayErrorDialog
@@ -16,6 +18,15 @@ abstract class BaseActivity : DaggerAppCompatActivity(), DataStateChangeListener
 
     @Inject
     lateinit var sessionManager: SessionManager
+
+    override fun hideKeyboard() {
+        if(currentFocus != null) {
+            val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+        }
+        else
+            Log.e("HideKeyboard", "currentFocus was null")
+    }
 
     // Updates progress bar, and displays the response or error of the data state
     override fun onDataStateChange(dataState: DataState<*>?) {

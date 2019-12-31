@@ -31,13 +31,6 @@ class HomeFragment : Fragment(), View.OnClickListener
     private val viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    companion object
-    {
-        //Constants
-        private val TAG = "HomeFragment"
-    }
-
-    //Variables
     private var activityFragmentInterface: FragmentInterface? = null
     private var user: User? = null
     private var collection: Collection? = null
@@ -54,14 +47,12 @@ class HomeFragment : Fragment(), View.OnClickListener
 
     override fun onAttach(context: Context)
     {
-        Log.d(TAG, "onAttach started")
         super.onAttach(context)
         activityFragmentInterface = activity as FragmentInterface?
     }
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
-        Log.d(TAG, "onCreate started")
         super.onCreate(savedInstanceState)
 
         newReleaseRepository = NewReleaseRepository(context!!)
@@ -80,8 +71,6 @@ class HomeFragment : Fragment(), View.OnClickListener
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
-        Log.d(TAG, "onCreateView started")
-
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -99,8 +88,6 @@ class HomeFragment : Fragment(), View.OnClickListener
     // Initialize the recycler views
     private fun initRecyclerViews()
     {
-        Log.d(TAG, "Initializing Recycler Views")
-
         // Initialize New Releases Recycler View
         newReleasesLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         homeNewReleasesRecyclerView.layoutManager = newReleasesLayoutManager
@@ -118,8 +105,6 @@ class HomeFragment : Fragment(), View.OnClickListener
     // Set the data for the views on the screen
     private fun setViewData()
     {
-        Log.d(TAG, "setting view data")
-
         // Set header information
         homeCollectedNum.text = collection!!.comics.size.toString()
         if (readBox != null)
@@ -146,8 +131,6 @@ class HomeFragment : Fragment(), View.OnClickListener
     // Set the on click listeners for the views
     private fun setViewListeners()
     {
-        Log.d(TAG, "setting view listeners")
-
         homeSettingsButton.setOnClickListener(this)
         homeSeeAllNewReleasesText.setOnClickListener(this)
         homeSeeAllNewReleasesButton.setOnClickListener(this)
@@ -168,37 +151,30 @@ class HomeFragment : Fragment(), View.OnClickListener
         when(v.id)
         {
             R.id.homeSettingsButton -> {
-                Log.d(TAG, "settings clicked")
                 activityFragmentInterface?.inflateSettingsFragment(findNavController(v))
             }
 
             R.id.homeSeeAllNewReleasesText, R.id.homeSeeAllNewReleasesButton -> {
-                Log.d(TAG, "see all new releases clicked")
                 findNavController(v).navigate(R.id.action_homeFragment_to_newReleasesFragment)
             }
 
             R.id.homeSeeAllBoxesText, R.id.homeSeeAllBoxesButton -> {
-                Log.d(TAG, "see all boxes clicked")
                 findNavController(v).navigate(R.id.action_homeFragment_to_boxesFragment)
             }
 
             R.id.homeFeaturedBoxHeader, R.id.homeFeaturedBoxButton -> {
-                Log.d(TAG, "comic box detail " + featuredBox!!.boxName + " clicked")
                 findNavController(v).navigate(R.id.action_homeFragment_to_boxDetailFragment)
             }
 
             R.id.homeComicBoxText1, R.id.homeComicBoxButton1 -> {
-                Log.d(TAG, "comic box detail " + comicBoxes!![0] + " clicked")
                 findNavController(v).navigate(R.id.action_homeFragment_to_boxDetailFragment)
             }
 
             R.id.homeComicBoxText2, R.id.homeComicBoxButton2-> {
-                Log.d(TAG, "comic box detail " + comicBoxes!![1] + " clicked")
                 findNavController(v).navigate(R.id.action_homeFragment_to_boxDetailFragment)
             }
 
             R.id.homeComicBoxText3, R.id.homeComicBoxButton3 -> {
-                Log.d(TAG, "comic box detail " + comicBoxes!![2] + " clicked")
                 findNavController(v).navigate(R.id.action_homeFragment_to_boxDetailFragment)
             }
         }
@@ -206,8 +182,6 @@ class HomeFragment : Fragment(), View.OnClickListener
 
     private fun retrieveNewReleases()
     {
-        Log.d(TAG, "Retrieving New Releases")
-
         // Create the observer which updates the UI.
         val newReleasesObserver = Observer<List<Comic>> { newReleases ->
             thisWeeksNewReleases?.clear()

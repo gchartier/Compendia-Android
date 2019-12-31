@@ -45,7 +45,8 @@
             android:autofillHints="emailAddress"
             android:hint="@string/email_hint"
             android:inputType="textEmailAddress"
-            android:textColor="#000" />
+            android:textColor="#000"
+            android:imeOptions="flagNoExtractUi" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -69,7 +70,8 @@
             android:inputType="textPassword"
             android:textColor="#000"
             tools:layout_editor_absoluteX="-105dp"
-            tools:layout_editor_absoluteY="496dp" />
+            tools:layout_editor_absoluteY="496dp"
+            android:imeOptions="flagNoExtractUi" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

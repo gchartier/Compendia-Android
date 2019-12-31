@@ -30,6 +30,7 @@
     <string name="tag_fragment_full_cover">Full Cover</string>
     <string name="tag_fragment_creators_list">Creators List</string>
     <string name="tag_fragment_creator_detail">Creator Detail</string>
+    <string name="tag_fragment_change_password">Change Password</string>
 
     <!-- Intent Tags -->
     <string name="intent_comic">intent_comic</string>
@@ -84,6 +85,12 @@
     <string name="legal_terms_of_service_text">Terms of Service</string>
     <string name="settings_copyright_text">© 2019 Compendia Software</string>
     <string name="settings_version_text">Version 1.0.0 - Build 27015</string>
+
+    <!-- Change Password -->
+    <string name="change_password_text">Change Password</string>
+    <string name="current_password_hint">Current Password</string>
+    <string name="new_password_hint">New Password</string>
+    <string name="confirm_new_password_hint">Confirm New Password</string>
 
     <!-- Comic Detail -->
     <string name="comic_detail_date_collected_header">Date Collected</string>

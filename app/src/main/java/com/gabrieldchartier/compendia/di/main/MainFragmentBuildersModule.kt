@@ -4,6 +4,7 @@ import com.gabrieldchartier.compendia.ui.main.collection.BoxDetailFragment
 import com.gabrieldchartier.compendia.ui.main.collection.BoxesFragment
 import com.gabrieldchartier.compendia.ui.main.collection.CollectionFragment
 import com.gabrieldchartier.compendia.ui.main.comic.*
+import com.gabrieldchartier.compendia.ui.main.home.ChangePasswordFragment
 import com.gabrieldchartier.compendia.ui.main.home.HomeFragment
 import com.gabrieldchartier.compendia.ui.main.home.NewReleasesFragment
 import com.gabrieldchartier.compendia.ui.main.home.SettingsFragment
@@ -50,6 +51,9 @@ abstract class MainFragmentBuildersModule {
 
     @ContributesAndroidInjector()
     abstract fun contributeSettingsFragment(): SettingsFragment
+
+    @ContributesAndroidInjector()
+    abstract fun contributeChangePasswordFragment(): ChangePasswordFragment
 
     @ContributesAndroidInjector()
     abstract fun contributePullListFragment(): PullListFragment

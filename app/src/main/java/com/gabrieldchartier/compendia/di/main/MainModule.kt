@@ -19,7 +19,7 @@ class MainModule {
 
     @MainScope
     @Provides
-    fun provideMainRepository(
+    fun provideHomeRepository(
             compendiaAPIMainService: CompendiaAPIMainService,
             accountPropertiesDAO: AccountPropertiesDAO,
             sessionManager: SessionManager

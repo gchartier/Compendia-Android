@@ -10,8 +10,8 @@ data class RegistrationFields(
         var email: String? = null,
         var username: String? = null,
         var password: String? = null,
-        var password_confirmation: String? = null
-) {
+        var password_confirmation: String? = null)
+{
     class RegistrationError {
         companion object {
             fun mustFillAllFields(): String {

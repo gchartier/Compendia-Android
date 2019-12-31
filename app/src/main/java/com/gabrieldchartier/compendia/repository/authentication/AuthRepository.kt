@@ -45,7 +45,13 @@ constructor(
             return returnErrorResponse(loginFieldErrors, ResponseType.Dialog())
         }
 
-        return object: NetworkBoundResource<LoginResponse, AuthViewState, Any>(sessionManager.isConnectedToInternet(), true, false){
+        return object: NetworkBoundResource<LoginResponse, AuthViewState, Any>(
+                sessionManager.isConnectedToInternet(),
+                isNetworkRequest = true,
+                shouldLoadFromCache = false,
+                shouldCancelIfNoInternet = true
+        )
+        {
 
             override suspend fun handleAPISuccessResponse(response: APISuccessResponse<LoginResponse>) {
                 Log.d("AuthenticationRepositor", "handleAPISuccessResponse (line 43): $response")
@@ -113,7 +119,8 @@ constructor(
         return object: NetworkBoundResource<RegistrationResponse, AuthViewState, Any> (
                 sessionManager.isConnectedToInternet(),
                 isNetworkRequest = true,
-                shouldLoadFromCache = false
+                shouldLoadFromCache = false,
+                shouldCancelIfNoInternet = true
         )
         {
             override suspend fun handleAPISuccessResponse(response: APISuccessResponse<RegistrationResponse>) {
@@ -202,7 +209,8 @@ constructor(
             return object: NetworkBoundResource<Void, AuthViewState, Any> (
                     sessionManager.isConnectedToInternet(),
                     isNetworkRequest = false,
-                    shouldLoadFromCache = true
+                    shouldLoadFromCache = false,
+                    shouldCancelIfNoInternet = false
             )
             {
                 override suspend fun createCacheRequestAndReturn() {
