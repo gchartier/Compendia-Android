@@ -10,6 +10,7 @@ import com.gabrieldchartier.compendia.models.AccountProperties
 import com.gabrieldchartier.compendia.models.AuthToken
 import com.gabrieldchartier.compendia.persistence.authentication.AccountPropertiesDAO
 import com.gabrieldchartier.compendia.persistence.authentication.AuthTokenDAO
+import com.gabrieldchartier.compendia.repository.JobManager
 import com.gabrieldchartier.compendia.repository.NetworkBoundResource
 import com.gabrieldchartier.compendia.session.SessionManager
 import com.gabrieldchartier.compendia.ui.DataState
@@ -35,9 +36,7 @@ constructor(
         val sessionManager: SessionManager,
         val sharedPreferences: SharedPreferences,
         val sharedPrefsEditor: SharedPreferences.Editor
-)
-{
-    private var repositoryJob: Job? = null
+): JobManager("AuthRepository") {
 
     fun attemptLogin(email: String, password: String): LiveData<DataState<AuthViewState>> {
         val loginFieldErrors = LoginFields(email, password).validateLogin()
@@ -54,19 +53,22 @@ constructor(
         {
 
             override suspend fun handleAPISuccessResponse(response: APISuccessResponse<LoginResponse>) {
-                Log.d("AuthenticationRepositor", "handleAPISuccessResponse (line 43): $response")
+                Log.d("AuthenticationRepositor", "handleAPISuccessResponse (line 43): ${response.body.email}")
                 // Incorrect login creds counts as a 200 response from server, so need to handle that
                 if(response.body.response.equals(GENERIC_AUTH_ERROR)) {
                     return onErrorReturn(response.body.errorMessage, true, false)
                 }
 
-                accountPropertiesDAO.insertOrIgnore(
+                val newResult = accountPropertiesDAO.insertAndReplace(
                         AccountProperties(
                                 response.body.pk,
                                 response.body.email,
                                 ""
                         )
                 )
+
+                Log.e("AuthRepository", "handleAPISuccessResponse (line 69): accountinsert result = $newResult")
+                Log.e("AuthRepository", "handleAPISuccessResponse (line 70): ${accountPropertiesDAO.searchByPK(25).value}")
 
                 val result = authTokenDAO.insert(
                         AuthToken(
@@ -93,8 +95,7 @@ constructor(
             }
 
             override fun setJob(job: Job) {
-                repositoryJob?.cancel()
-                repositoryJob = job
+                addJob("attemptLogin", job)
             }
 
             // Cache functionality is not used for this request
@@ -161,8 +162,7 @@ constructor(
             }
 
             override fun setJob(job: Job) {
-                repositoryJob?.cancel()
-                repositoryJob = job
+                addJob("attemptRegistration", job)
             }
 
             // Cache functionality is not used for this request
@@ -187,11 +187,6 @@ constructor(
         }
     }
 
-    fun cancelActiveJobs() {
-        Log.d("AuthenticationRepository", "cancelActiveJobs (line 84): cancelling jobs")
-        repositoryJob?.cancel()
-    }
-
     private fun saveAuthenticatedUserToSharedPrefs(email: String) {
         sharedPrefsEditor.putString(PreferenceKeys.PREVIOUS_AUTH_USER, email)
         sharedPrefsEditor.apply()
@@ -206,6 +201,7 @@ constructor(
             return returnNoTokenFound()
         }
         else {
+            Log.d("AuthRepository", "checkPreviouslyAuthenticatedUser (line 201): Previously auth user found")
             return object: NetworkBoundResource<Void, AuthViewState, Any> (
                     sessionManager.isConnectedToInternet(),
                     isNetworkRequest = false,
@@ -214,18 +210,25 @@ constructor(
             )
             {
                 override suspend fun createCacheRequestAndReturn() {
+                    Log.e("AuthRepository", "createCacheRequestAndReturn (line 210): checking for auth user with email $previousAuthUserEmail")
                     accountPropertiesDAO.searchByEmail(previousAuthUserEmail).let {  accountProperties ->
                         Log.d("AuthenticationRepositor", "createCacheRequestAndReturn (line 205): searching for token $accountProperties")
-                            accountProperties.value.let {
+                            accountProperties.let {
+                                Log.e("AuthRepository", "createCacheRequestAndReturn (line 213): accountproperties value was not null")
                                 if(it != null)
+                                {
+                                    Log.e("AuthRepository", "createCacheRequestAndReturn (line 213): it was not null")
                                     authTokenDAO.searchByPk(it.pk).let { authToken ->
+                                        Log.e("AuthRepository", "createCacheRequestAndReturn (line 218): authtoken retrieved from search was not null")
                                         if(authToken != null) {
+                                            Log.e("AuthRepository", "createCacheRequestAndReturn (line 220): authtoken was not null")
                                             onCompleteJob(DataState.data(data= AuthViewState(authToken = authToken)))
                                             return
                                         }
                                     }
+                                }
                             }
-                        Log.d("AuthenticationRepositor", "createCacheRequestAndReturn (line 216): Authtoken not found...")
+                        Log.d("AuthenticationRepositor", "createCacheRequestAndReturn (line 216): Authtoken not found...   ${accountPropertiesDAO.searchByEmail(previousAuthUserEmail)?.email}")
                         onCompleteJob(DataState.data(data=null, response =
                             Response(RESPONSE_CHECK_PREVIOUS_AUTH_USER_DONE, ResponseType.None())))
                     }
@@ -240,8 +243,7 @@ constructor(
                 }
 
                 override fun setJob(job: Job) {
-                    repositoryJob?.cancel()
-                    repositoryJob = job
+                    addJob("checkPreviouslyAuthenticatedUser", job)
                 }
 
                 // Cache functionality is not used in this request

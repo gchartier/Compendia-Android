@@ -6,6 +6,7 @@ import com.gabrieldchartier.compendia.repository.main.HomeRepository
 import com.gabrieldchartier.compendia.session.SessionManager
 import com.gabrieldchartier.compendia.ui.BaseViewModel
 import com.gabrieldchartier.compendia.ui.DataState
+import com.gabrieldchartier.compendia.ui.authentication.state.AuthViewState
 import com.gabrieldchartier.compendia.ui.main.home.state.ChangePasswordFields
 import com.gabrieldchartier.compendia.ui.main.home.state.HomeStateEvent
 import com.gabrieldchartier.compendia.ui.main.home.state.HomeStateEvent.*
@@ -36,7 +37,12 @@ constructor(val sessionManager: SessionManager, val homeRepository: HomeReposito
             }
 
             is None -> {
-                return AbsentLiveData.create()
+                return object: LiveData<DataState<HomeViewState>>() {
+                    override fun onActive() {
+                        super.onActive()
+                        value = DataState.data(null, null)
+                    }
+                }
             }
         }
     }
@@ -59,5 +65,14 @@ constructor(val sessionManager: SessionManager, val homeRepository: HomeReposito
 
     fun logout() {
         sessionManager.logout()
+    }
+
+    fun cancelActiveJobs() {
+        setEmptyStateEvent()
+        homeRepository.cancelActiveJobs()
+    }
+
+    fun setEmptyStateEvent() {
+        setStateEvent(None())
     }
 }

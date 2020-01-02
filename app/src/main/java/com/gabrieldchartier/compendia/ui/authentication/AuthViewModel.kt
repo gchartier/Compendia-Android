@@ -1,6 +1,9 @@
 package com.gabrieldchartier.compendia.ui.authentication
 
+import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
+import com.gabrieldchartier.compendia.models.AccountProperties
 import com.gabrieldchartier.compendia.models.AuthToken
 import com.gabrieldchartier.compendia.repository.authentication.AuthRepository
 import com.gabrieldchartier.compendia.ui.BaseViewModel
@@ -8,6 +11,11 @@ import com.gabrieldchartier.compendia.ui.DataState
 import com.gabrieldchartier.compendia.ui.authentication.state.*
 import com.gabrieldchartier.compendia.ui.authentication.state.AuthStateEvent.*
 import com.gabrieldchartier.compendia.util.AbsentLiveData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class AuthViewModel
@@ -29,6 +37,13 @@ constructor(private val authRepository: AuthRepository):
                         stateEvent.username, stateEvent.password, stateEvent.password_confirmation )
 
             is AutoAuthenticateEvent -> return authRepository.checkPreviouslyAuthenticatedUser()
+
+            is None -> return object: LiveData<DataState<AuthViewState>>() {
+                override fun onActive() {
+                    super.onActive()
+                    value = DataState.data(null, null)
+                }
+            }
         }
 
         //todo handle this properly
@@ -66,7 +81,12 @@ constructor(private val authRepository: AuthRepository):
     }
 
     fun cancelActiveJobs() {
+        setEmptyStateEvent()
         authRepository.cancelActiveJobs()
+    }
+
+    fun setEmptyStateEvent() {
+        setStateEvent(None())
     }
 
     override fun onCleared() {

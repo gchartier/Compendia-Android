@@ -19,4 +19,6 @@ sealed class AuthStateEvent {
     ): AuthStateEvent()
 
     class AutoAuthenticateEvent: AuthStateEvent()
+
+    class None: AuthStateEvent()
 }

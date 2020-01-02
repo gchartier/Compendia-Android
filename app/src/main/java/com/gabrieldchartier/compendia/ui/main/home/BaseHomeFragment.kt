@@ -34,5 +34,11 @@ abstract class BaseHomeFragment : DaggerFragment(){
         viewModel = activity?.run {
             ViewModelProvider(this, providerFactory).get(HomeViewModel::class.java)
         }?: throw Exception("Invalid activity")
+
+        cancelActiveJobs()
+    }
+
+    fun cancelActiveJobs() {
+        viewModel.cancelActiveJobs()
     }
 }

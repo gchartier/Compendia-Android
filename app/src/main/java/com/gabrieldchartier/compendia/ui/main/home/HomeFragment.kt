@@ -25,6 +25,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.findNavController
 
 class HomeFragment : Fragment(), View.OnClickListener
 {
@@ -151,7 +152,8 @@ class HomeFragment : Fragment(), View.OnClickListener
         when(v.id)
         {
             R.id.homeSettingsButton -> {
-                activityFragmentInterface?.inflateSettingsFragment(findNavController(v))
+                Log.e("HomeFragment", "onClick (line 155): ${findNavController().currentDestination}")
+                findNavController().navigate(R.id.action_homeFragment_to_settingsFragment)
             }
 
             R.id.homeSeeAllNewReleasesText, R.id.homeSeeAllNewReleasesButton -> {

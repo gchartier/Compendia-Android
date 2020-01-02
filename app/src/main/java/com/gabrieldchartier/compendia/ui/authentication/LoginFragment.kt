@@ -9,11 +9,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.gabrieldchartier.compendia.R
+import com.gabrieldchartier.compendia.models.AccountProperties
 import com.gabrieldchartier.compendia.ui.authentication.state.AuthStateEvent
 import com.gabrieldchartier.compendia.ui.authentication.state.LoginFields
 import com.gabrieldchartier.compendia.view_models.ViewModelProviderFactory
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class LoginFragment : BaseAuthFragment() {
@@ -36,13 +41,15 @@ class LoginFragment : BaseAuthFragment() {
                 loginPassword.text.toString()))
     }
 
-    private fun subscribeObservers() {
+    fun subscribeObservers() {
         viewModel.viewState.observe(viewLifecycleOwner, Observer { authViewState ->
             authViewState.loginFields?.let { loginFields ->
                 loginFields.email?.let { register_email.setText(it) }
                 loginFields.password?.let { loginPassword.setText(it) }
             }
         })
+
+
     }
 
     private fun setOnClickListeners() {

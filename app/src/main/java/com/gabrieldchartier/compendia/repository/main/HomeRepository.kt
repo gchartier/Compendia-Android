@@ -8,6 +8,7 @@ import com.gabrieldchartier.compendia.api.main.CompendiaAPIMainService
 import com.gabrieldchartier.compendia.models.AccountProperties
 import com.gabrieldchartier.compendia.models.AuthToken
 import com.gabrieldchartier.compendia.persistence.authentication.AccountPropertiesDAO
+import com.gabrieldchartier.compendia.repository.JobManager
 import com.gabrieldchartier.compendia.repository.NetworkBoundResource
 import com.gabrieldchartier.compendia.session.SessionManager
 import com.gabrieldchartier.compendia.ui.DataState
@@ -29,8 +30,7 @@ constructor(
         val compendiaAPIMainService: CompendiaAPIMainService,
         val accountPropertiesDAO: AccountPropertiesDAO,
         val sessionManager: SessionManager
-) {
-    private var repositoryJob: Job? = null
+): JobManager("HomeRepository") {
 
     fun attemptGetAccountProperties(authToken: AuthToken): LiveData<DataState<HomeViewState>> {
         return object: NetworkBoundResource<AccountProperties, HomeViewState, AccountProperties>(
@@ -76,8 +76,7 @@ constructor(
             }
 
             override fun setJob(job: Job) {
-                repositoryJob?.cancel()
-                repositoryJob = job
+                addJob("attemptGetAccountProperties", job)
             }
 
         }.asLiveData()
@@ -109,8 +108,7 @@ constructor(
             }
 
             override fun setJob(job: Job) {
-                repositoryJob?.cancel()
-                repositoryJob = job
+                addJob("attemptChangePassword", job)
             }
 
             // Cache functionality is not used for this request
@@ -119,9 +117,5 @@ constructor(
             override suspend fun createCacheRequestAndReturn() { }
 
         }.asLiveData()
-    }
-
-    fun cancelActiveJobs() {
-        Log.d("HomeRepository", "cancelActiveJobs (line 20): Cancelling active jobs...")
     }
 }

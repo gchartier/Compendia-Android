@@ -32,6 +32,10 @@ class AuthActivity : BaseActivity(), NavController.OnDestinationChangedListener 
         viewModel = ViewModelProvider(this, providerFactory).get(AuthViewModel::class.java)
         findNavController(R.id.authentication_nav_host_fragment).addOnDestinationChangedListener(this)
         subscribeObservers()
+    }
+
+    override fun onResume() {
+        super.onResume()
         triggerAutoAuthenticateEvent()
     }
 

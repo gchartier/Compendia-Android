@@ -15,9 +15,11 @@ import com.gabrieldchartier.compendia.models.Comic
 import com.gabrieldchartier.compendia.models.ComicBox
 import com.gabrieldchartier.compendia.models.ComicCreator
 import com.gabrieldchartier.compendia.ui.authentication.AuthActivity
+import com.gabrieldchartier.compendia.ui.authentication.BaseAuthFragment
 import com.gabrieldchartier.compendia.ui.main.collection.BoxDetailFragment
 import com.gabrieldchartier.compendia.ui.main.collection.BoxesFragment
 import com.gabrieldchartier.compendia.ui.main.comic.*
+import com.gabrieldchartier.compendia.ui.main.home.BaseHomeFragment
 import com.gabrieldchartier.compendia.ui.main.home.NewReleasesFragment
 import com.gabrieldchartier.compendia.ui.main.home.SettingsFragment
 import com.gabrieldchartier.compendia.util.BottomNavController
@@ -97,7 +99,20 @@ class MainActivity : BaseActivity(), FragmentInterface, NavGraphProvider, OnNavi
     }
 
     override fun onGraphChange() {
-        //todo
+        cancelActiveJobs()
+    }
+
+    private fun cancelActiveJobs() {
+        val fragments = bottomNavController.fragmentManager.findFragmentById(bottomNavController.containerId)?.childFragmentManager?.fragments
+        if(fragments != null) {
+            for(fragment in fragments) {
+                when(fragment) {
+                    is BaseAuthFragment -> fragment.cancelActiveJobs()
+                    is BaseHomeFragment -> fragment.cancelActiveJobs()
+                }
+            }
+        }
+        displayProgressBar(false)
     }
 
     override fun onReselectNavItem(navController: NavController, fragment: Fragment) {

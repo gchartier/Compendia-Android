@@ -72,6 +72,12 @@ class BottomNavController (
     fun onBackPressed() {
         val childFragmentManager = fragmentManager.findFragmentById(containerId)!!
                 .childFragmentManager
+
+        Log.d("BottomNavController", "bnc: startId: ${appStartDestinationId}, last: ${navigationBackStack.last()}")
+        for(id in navigationBackStack){
+            Log.d("BottomNavController", "bnc list: id: $id")
+        }
+
         when {
             // We should always try to go back on the child fragment manager stack before going to
             // the navigation stack. It's important to use the child fragment manager instead of the
@@ -79,10 +85,11 @@ class BottomNavController (
             // supportFragmentManager may mess up with the NavController child fragment manager back
             // stack
 
-            childFragmentManager.popBackStackImmediate() -> {
-            }
+            childFragmentManager.popBackStackImmediate() -> { Log.d("BottomNavController", "BNC: popping child") }
             // Fragment back stack is empty so try to go back on the navigation stack
             navigationBackStack.size > 1 -> {
+                Log.d("BottomNavController", "BNC: backstack size > 1")
+
                 // Remove last item from back stack
                 navigationBackStack.removeLast()
 
@@ -93,6 +100,8 @@ class BottomNavController (
             // If the stack has only one and it's not the navigation home we should
             // ensure that the application always leave from startDestination
             navigationBackStack.last() != appStartDestinationId -> {
+                Log.d("BottomNavController", "BNC: start != current")
+
                 navigationBackStack.removeLast()
                 navigationBackStack.add(0, appStartDestinationId)
                 onNavigationItemSelected()
@@ -153,6 +162,7 @@ class BottomNavController (
     fun setOnItemNavigationChanged(listener: (itemId: Int) -> Unit) {
         this.navItemChangeListener = object : OnNavigationItemChanged {
             override fun onItemChanged(itemId: Int) {
+                Log.d("BottomNavController", "onItemChanged (line 165): $itemId")
                 listener.invoke(itemId)
             }
         }
