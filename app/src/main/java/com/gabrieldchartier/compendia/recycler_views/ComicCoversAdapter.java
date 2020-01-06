@@ -21,67 +21,67 @@ import com.gabrieldchartier.compendia.util.TempUtilClass;
 
 import java.util.List;
 
-public class ComicCoversAdapter extends RecyclerView.Adapter<ComicCoversAdapter.ViewHolder>
-{
-    // Constants
-    private static final String TAG = "RecyclerViewAdapter";
-
-    // Variables
-    private List<Comic> mComics;
-    private Context mContext;
-    private FragmentInterface fragmentRelay;
-    private NavController navController;
-    private Bundle bundle;
-
-    public ComicCoversAdapter(Context mContext, List<Comic> mComics)
-    {
-        this.mComics = mComics;
-        this.mContext = mContext;
-    }
-
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i)
-    {
-        Log.d(TAG, "onCreateViewHolder called");
-
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_list_item, viewGroup, false);
-
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i)
-    {
-        Log.d(TAG, "OnBindViewHolder called");
-        //TODO replace the glide load parameter with: mComics.get(viewHolder.getAdapterPosition()).getCover()
-        Glide.with(mContext).asBitmap().load(TempUtilClass.getImage(mContext ,mComics.get(viewHolder.getAdapterPosition()).getCover())).into(viewHolder.image);
-        bundle = new Bundle();
-        bundle.putParcelable(mContext.getString(R.string.intent_comic), mComics.get(viewHolder.getAdapterPosition()));
-        viewHolder.image.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_comicDetailFragment, bundle));
-    }
-
-    @Override
-    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView)
-    {
-        super.onAttachedToRecyclerView(recyclerView);
-        fragmentRelay = (FragmentInterface) mContext;
-    }
-
-    @Override
-    public int getItemCount()
-    {
-        return mComics.size();
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder
-    {
-        ImageView image;
-        public ViewHolder(View itemView)
-        {
-            super(itemView);
-            image = itemView.findViewById(R.id.comicListItemCover);
-
-        }
-    }
+public class ComicCoversAdapter// extends RecyclerView.Adapter<ComicCoversAdapter.ViewHolder>
+{ //todo rework this
+//    // Constants
+//    private static final String TAG = "RecyclerViewAdapter";
+//
+//    // Variables
+//    private List<Comic> mComics;
+//    private Context mContext;
+//    private FragmentInterface fragmentRelay;
+//    private NavController navController;
+//    private Bundle bundle;
+//
+//    public ComicCoversAdapter(Context mContext, List<Comic> mComics)
+//    {
+//        this.mComics = mComics;
+//        this.mContext = mContext;
+//    }
+//
+//    @NonNull
+//    @Override
+//    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i)
+//    {
+//        Log.d(TAG, "onCreateViewHolder called");
+//
+//        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.layout_comic_cover_list_item, viewGroup, false);
+//
+//        return new ViewHolder(view);
+//    }
+//
+//    @Override
+//    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i)
+//    {
+//        Log.d(TAG, "OnBindViewHolder called");
+//        //TODO replace the glide load parameter with: mComics.get(viewHolder.getAdapterPosition()).getCover()
+//        Glide.with(mContext).asBitmap().load(TempUtilClass.getImage(mContext ,mComics.get(viewHolder.getAdapterPosition()).getCover())).into(viewHolder.image);
+//        bundle = new Bundle();
+//        bundle.putParcelable(mContext.getString(R.string.intent_comic), mComics.get(viewHolder.getAdapterPosition()));
+//        viewHolder.image.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_homeFragment_to_comicDetailFragment, bundle));
+//    }
+//
+//    @Override
+//    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView)
+//    {
+//        super.onAttachedToRecyclerView(recyclerView);
+//        fragmentRelay = (FragmentInterface) mContext;
+//    }
+//
+//    @Override
+//    public int getItemCount()
+//    {
+//        return mComics.size();
+//    }
+//
+//    public class ViewHolder extends RecyclerView.ViewHolder
+//    {
+//        ImageView image;
+//        public ViewHolder(View itemView)
+//        {
+//            super(itemView);
+//            image = itemView.findViewById(R.id.comicListItemCover);
+//
+//        }
+//    }
 }

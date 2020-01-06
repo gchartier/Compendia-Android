@@ -9,6 +9,7 @@ class PreferenceKeys {
 
         // Shared Preference Keys
         const val PREVIOUS_AUTH_USER: String = "com.gabrieldchartier.compendia.PREVIOUS_AUTH_USER"
+        const val CURRENT_RELEASE_WEEK: String = "com.gabrieldchartier.compendia.CURRENT_RELEASE_WEEK"
         const val BLOG_FILTER: String = "com.gabrieldchartier.compendia.BLOG_FILTER"
         const val BLOG_ORDER: String = "com.gabrieldchartier.compendia.BLOG_ORDER"
     }

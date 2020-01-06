@@ -14,8 +14,9 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.gabrieldchartier.compendia.R
 import com.gabrieldchartier.compendia.ui.main.MainActivity
-import com.gabrieldchartier.compendia.ui.main.home.state.ChangePasswordFields
 import com.gabrieldchartier.compendia.ui.main.home.state.HomeStateEvent
+import com.gabrieldchartier.compendia.ui.main.home.state.HomeViewState
+import com.gabrieldchartier.compendia.ui.main.home.state.HomeViewState.*
 import com.gabrieldchartier.compendia.util.SuccessHandling.Companion.RESPONSE_PASSWORD_UPDATE_SUCCESS
 import kotlinx.android.synthetic.main.detail_toolbar.*
 import kotlinx.android.synthetic.main.fragment_change_password.*

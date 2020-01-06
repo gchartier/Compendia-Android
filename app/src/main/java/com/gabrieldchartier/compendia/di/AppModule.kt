@@ -8,9 +8,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import com.gabrieldchartier.compendia.R
-import com.gabrieldchartier.compendia.persistence.authentication.AccountPropertiesDAO
 import com.gabrieldchartier.compendia.persistence.AppDatabase
 import com.gabrieldchartier.compendia.persistence.AppDatabase.Companion.DATABASE_NAME
+import com.gabrieldchartier.compendia.persistence.authentication.AccountPropertiesDAO
 import com.gabrieldchartier.compendia.persistence.authentication.AuthTokenDAO
 import com.gabrieldchartier.compendia.util.Constants
 import com.gabrieldchartier.compendia.util.LiveDataCallAdapterFactory
@@ -23,13 +23,17 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
+
 @Module
 class AppModule {
 
     @Singleton
     @Provides
     fun provideGsonBuilder(): Gson {
-        return GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()
+        return GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssz")
+                .excludeFieldsWithoutExposeAnnotation()
+                .create()
     }
 
     @Singleton

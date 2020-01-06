@@ -2,27 +2,39 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "7e9ab0fed8421d1ce00a175de0b24d62",
+    "identityHash": "4ce9e68fb01daa64ba19fe204fac41ad",
     "entities": [
       {
         "tableName": "comics",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `comicID` TEXT, `title` TEXT, `cover` TEXT, `creators` TEXT, `publisherName` TEXT, `publisherID` TEXT, `imprintName` TEXT, `imprintID` TEXT, `releaseDate` TEXT, `coverPrice` TEXT, `description` TEXT, `pageCount` INTEGER NOT NULL, `arc` TEXT, `arcID` TEXT, `age` INTEGER NOT NULL, `synopsis` TEXT, `barcode` TEXT, `totalWant` INTEGER NOT NULL, `totalFavorited` INTEGER NOT NULL, `totalOwned` INTEGER NOT NULL, `totalRead` INTEGER NOT NULL, `averageRating` REAL NOT NULL, `totalRatings` INTEGER NOT NULL, `totalReviews` INTEGER NOT NULL, `seriesName` TEXT, `seriesID` TEXT, `printing` INTEGER NOT NULL, `isVariant` INTEGER NOT NULL, `variant` TEXT, `ageRating` TEXT, `isMiniSeries` INTEGER NOT NULL, `isReprint` INTEGER NOT NULL, `isOneShot` INTEGER NOT NULL, `miniSeriesLimit` INTEGER NOT NULL, `format` TEXT, `itemNumber` INTEGER NOT NULL, `collectionType` INTEGER NOT NULL, `otherVersions` TEXT, `userRating` REAL NOT NULL, `dateCollected` TEXT, `purchasePrice` TEXT, `boughtAt` TEXT, `condition` TEXT, `gradingAgency` TEXT, `grade` REAL NOT NULL, `quantity` INTEGER NOT NULL, `notes` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`pk` INTEGER NOT NULL, `title` TEXT NOT NULL, `item_number` TEXT NOT NULL, `release_date` INTEGER, `cover_price` TEXT, `cover` TEXT NOT NULL, `description` TEXT, `page_count` INTEGER, `publisher_pk` INTEGER NOT NULL, `series_pk` INTEGER NOT NULL, `barcode` TEXT, `printing` INTEGER, `format_type` TEXT, `is_mature` INTEGER, `version_of` INTEGER, `versions` INTEGER, `variant_code` TEXT, `total_wanted` INTEGER, `total_favorited` INTEGER, `total_owned` INTEGER, `total_read` INTEGER, `avg_rating` TEXT NOT NULL, `number_of_reviews` INTEGER NOT NULL, PRIMARY KEY(`pk`), FOREIGN KEY(`publisher_pk`) REFERENCES `publishers`(`pk`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`series_pk`) REFERENCES `series`(`pk`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
-            "fieldPath": "id",
-            "columnName": "id",
+            "fieldPath": "pk",
+            "columnName": "pk",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "comicID",
-            "columnName": "comicID",
+            "fieldPath": "title",
+            "columnName": "title",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "itemNumber",
+            "columnName": "item_number",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "releaseDate",
+            "columnName": "release_date",
+            "affinity": "INTEGER",
             "notNull": false
           },
           {
-            "fieldPath": "title",
-            "columnName": "title",
+            "fieldPath": "coverPrice",
+            "columnName": "cover_price",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -30,49 +42,7 @@
             "fieldPath": "cover",
             "columnName": "cover",
             "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "creators",
-            "columnName": "creators",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "publisherName",
-            "columnName": "publisherName",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "publisherID",
-            "columnName": "publisherID",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "imprintName",
-            "columnName": "imprintName",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "imprintID",
-            "columnName": "imprintID",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "releaseDate",
-            "columnName": "releaseDate",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "coverPrice",
-            "columnName": "coverPrice",
-            "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "description",
@@ -82,33 +52,21 @@
           },
           {
             "fieldPath": "pageCount",
-            "columnName": "pageCount",
+            "columnName": "page_count",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "publisher_pk",
+            "columnName": "publisher_pk",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "arc",
-            "columnName": "arc",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "arcID",
-            "columnName": "arcID",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "age",
-            "columnName": "age",
+            "fieldPath": "series_pk",
+            "columnName": "series_pk",
             "affinity": "INTEGER",
             "notNull": true
-          },
-          {
-            "fieldPath": "synopsis",
-            "columnName": "synopsis",
-            "affinity": "TEXT",
-            "notNull": false
           },
           {
             "fieldPath": "barcode",
@@ -117,200 +75,132 @@
             "notNull": false
           },
           {
-            "fieldPath": "totalWant",
-            "columnName": "totalWant",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "totalFavorited",
-            "columnName": "totalFavorited",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "totalOwned",
-            "columnName": "totalOwned",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "totalRead",
-            "columnName": "totalRead",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "averageRating",
-            "columnName": "averageRating",
-            "affinity": "REAL",
-            "notNull": true
-          },
-          {
-            "fieldPath": "totalRatings",
-            "columnName": "totalRatings",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "totalReviews",
-            "columnName": "totalReviews",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "seriesName",
-            "columnName": "seriesName",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "seriesID",
-            "columnName": "seriesID",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
             "fieldPath": "printing",
             "columnName": "printing",
             "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "formatType",
+            "columnName": "format_type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "isMature",
+            "columnName": "is_mature",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "versionOf",
+            "columnName": "version_of",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "versions",
+            "columnName": "versions",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "variantCode",
+            "columnName": "variant_code",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "totalWanted",
+            "columnName": "total_wanted",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "totalFavorited",
+            "columnName": "total_favorited",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "totalOwned",
+            "columnName": "total_owned",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "totalRead",
+            "columnName": "total_read",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "avgRating",
+            "columnName": "avg_rating",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "isVariant",
-            "columnName": "isVariant",
+            "fieldPath": "numberOfReviews",
+            "columnName": "number_of_reviews",
             "affinity": "INTEGER",
             "notNull": true
-          },
-          {
-            "fieldPath": "variant",
-            "columnName": "variant",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "ageRating",
-            "columnName": "ageRating",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "isMiniSeries",
-            "columnName": "isMiniSeries",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "isReprint",
-            "columnName": "isReprint",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "isOneShot",
-            "columnName": "isOneShot",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "miniSeriesLimit",
-            "columnName": "miniSeriesLimit",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "format",
-            "columnName": "format",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "itemNumber",
-            "columnName": "itemNumber",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "collectionType",
-            "columnName": "collectionType",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "otherVersions",
-            "columnName": "otherVersions",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "userRating",
-            "columnName": "userRating",
-            "affinity": "REAL",
-            "notNull": true
-          },
-          {
-            "fieldPath": "dateCollected",
-            "columnName": "dateCollected",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "purchasePrice",
-            "columnName": "purchasePrice",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "boughtAt",
-            "columnName": "boughtAt",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "condition",
-            "columnName": "condition",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "gradingAgency",
-            "columnName": "gradingAgency",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "grade",
-            "columnName": "grade",
-            "affinity": "REAL",
-            "notNull": true
-          },
-          {
-            "fieldPath": "quantity",
-            "columnName": "quantity",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "notes",
-            "columnName": "notes",
-            "affinity": "TEXT",
-            "notNull": false
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "pk"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
-        "indices": [],
-        "foreignKeys": []
+        "indices": [
+          {
+            "name": "index_comics_publisher_pk",
+            "unique": false,
+            "columnNames": [
+              "publisher_pk"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_comics_publisher_pk` ON `${TABLE_NAME}` (`publisher_pk`)"
+          },
+          {
+            "name": "index_comics_series_pk",
+            "unique": false,
+            "columnNames": [
+              "series_pk"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_comics_series_pk` ON `${TABLE_NAME}` (`series_pk`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "publishers",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "publisher_pk"
+            ],
+            "referencedColumns": [
+              "pk"
+            ]
+          },
+          {
+            "table": "series",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "series_pk"
+            ],
+            "referencedColumns": [
+              "pk"
+            ]
+          }
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7e9ab0fed8421d1ce00a175de0b24d62')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4ce9e68fb01daa64ba19fe204fac41ad')"
     ]
   }
 }

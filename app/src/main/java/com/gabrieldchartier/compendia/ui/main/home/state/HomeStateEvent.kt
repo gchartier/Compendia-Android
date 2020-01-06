@@ -9,5 +9,7 @@ sealed class HomeStateEvent {
             val newPasswordConfirmation: String
     ): HomeStateEvent()
 
+    class GetNewReleasesEvent: HomeStateEvent()
+
     class None: HomeStateEvent()
 }

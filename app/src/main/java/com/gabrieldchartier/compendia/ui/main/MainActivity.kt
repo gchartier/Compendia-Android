@@ -13,7 +13,6 @@ import com.gabrieldchartier.compendia.FragmentInterface
 import com.gabrieldchartier.compendia.R
 import com.gabrieldchartier.compendia.models.Comic
 import com.gabrieldchartier.compendia.models.ComicBox
-import com.gabrieldchartier.compendia.models.ComicCreator
 import com.gabrieldchartier.compendia.ui.authentication.AuthActivity
 import com.gabrieldchartier.compendia.ui.authentication.BaseAuthFragment
 import com.gabrieldchartier.compendia.ui.main.collection.BoxDetailFragment
@@ -295,14 +294,6 @@ class MainActivity : BaseActivity(), FragmentInterface, NavGraphProvider, OnNavi
         displayBottomNav(false)
         val bundle = Bundle()
         bundle.putSerializable(getString(R.string.intent_creator_id), creatorID)
-        navController.navigate(actionID, bundle)
-    }
-
-    override fun inflateCreatorsListFragment(navController: NavController, actionID: Int, creators: MutableList<ComicCreator>)
-    {
-        displayBottomNav(false)
-        val bundle = Bundle()
-        bundle.putSerializable(getString(R.string.intent_creators), ArrayList(creators))
         navController.navigate(actionID, bundle)
     }
 

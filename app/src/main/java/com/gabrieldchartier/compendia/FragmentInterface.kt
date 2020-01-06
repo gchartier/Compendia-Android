@@ -4,7 +4,6 @@ import androidx.navigation.NavController
 
 import com.gabrieldchartier.compendia.models.Comic
 import com.gabrieldchartier.compendia.models.ComicBox
-import com.gabrieldchartier.compendia.models.ComicCreator
 import java.util.UUID
 
 interface FragmentInterface {
@@ -15,7 +14,6 @@ interface FragmentInterface {
     fun inflateBoxDetailFragment(box: ComicBox)
     fun inflateNewReleasesFragment()
     fun inflateCreatorDetailFragment(navController: NavController, actionID: Int, creatorID: UUID)
-    fun inflateCreatorsListFragment(navController: NavController, actionID: Int, creators: MutableList<ComicCreator>)
     fun inflateReviewsFragment(navController: NavController, actionID: Int, comicID: UUID)
     fun inflateFullCoverFragment(navController: NavController, actionID: Int, cover: String)
     fun onBackPressed()

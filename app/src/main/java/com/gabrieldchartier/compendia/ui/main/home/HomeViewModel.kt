@@ -2,12 +2,12 @@ package com.gabrieldchartier.compendia.ui.main.home
 
 import androidx.lifecycle.LiveData
 import com.gabrieldchartier.compendia.models.AccountProperties
+import com.gabrieldchartier.compendia.models.Comic
+import com.gabrieldchartier.compendia.models.NewRelease
 import com.gabrieldchartier.compendia.repository.main.HomeRepository
 import com.gabrieldchartier.compendia.session.SessionManager
 import com.gabrieldchartier.compendia.ui.BaseViewModel
 import com.gabrieldchartier.compendia.ui.DataState
-import com.gabrieldchartier.compendia.ui.authentication.state.AuthViewState
-import com.gabrieldchartier.compendia.ui.main.home.state.ChangePasswordFields
 import com.gabrieldchartier.compendia.ui.main.home.state.HomeStateEvent
 import com.gabrieldchartier.compendia.ui.main.home.state.HomeStateEvent.*
 import com.gabrieldchartier.compendia.ui.main.home.state.HomeViewState
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 class HomeViewModel
 @Inject
-constructor(val sessionManager: SessionManager, val homeRepository: HomeRepository): BaseViewModel<HomeStateEvent, HomeViewState>() {
+constructor(val sessionManager: SessionManager, private val homeRepository: HomeRepository): BaseViewModel<HomeStateEvent, HomeViewState>() {
     override fun initNewViewState(): HomeViewState {
         return HomeViewState()
     }
@@ -33,6 +33,12 @@ constructor(val sessionManager: SessionManager, val homeRepository: HomeReposito
             is GetAccountPropertiesEvent -> {
                 return sessionManager.cachedToken.value?.let { authToken ->
                     homeRepository.attemptGetAccountProperties(authToken)
+                }?: AbsentLiveData.create()
+            }
+
+            is GetNewReleasesEvent -> {
+                return sessionManager.cachedToken.value?.let {authToken ->
+                    homeRepository.attemptGetNewReleases(authToken)
                 }?: AbsentLiveData.create()
             }
 
@@ -60,6 +66,12 @@ constructor(val sessionManager: SessionManager, val homeRepository: HomeReposito
         if(update.accountProperties == accountProperties)
             return
         update.accountProperties = accountProperties
+        _viewState.value = update
+    }
+
+    fun setNewReleases(newReleases: List<Comic>) {
+        val update = getCurrentViewStateOrNew()
+        update.homeFields.newReleases = newReleases
         _viewState.value = update
     }
 
