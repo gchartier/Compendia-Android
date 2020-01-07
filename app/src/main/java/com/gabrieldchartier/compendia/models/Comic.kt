@@ -112,3 +112,5 @@ data class Comic (
         @ColumnInfo(name="quantity")
         var quantity: Int? = 1
 )
+
+data class ComicSeriesPublisherWrapper (var comic: Comic, var series: Series, var publisher: Publisher)

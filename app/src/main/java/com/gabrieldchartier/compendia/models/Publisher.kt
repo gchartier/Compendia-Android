@@ -8,14 +8,10 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "publishers")
 data class Publisher (
-        @SerializedName("pk")
-        @Expose
         @PrimaryKey(autoGenerate = false)
         @ColumnInfo(name="pk")
         var pk: Int,
 
-        @SerializedName("name")
-        @Expose
         @ColumnInfo(name="name")
         var name: String
 )

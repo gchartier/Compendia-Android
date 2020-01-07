@@ -6,10 +6,8 @@ import androidx.lifecycle.switchMap
 import com.gabrieldchartier.compendia.api.GenericResponse
 import com.gabrieldchartier.compendia.api.main.CompendiaAPIMainService
 import com.gabrieldchartier.compendia.api.main.network_responses.ComicListResponse
-import com.gabrieldchartier.compendia.models.AccountProperties
-import com.gabrieldchartier.compendia.models.AuthToken
-import com.gabrieldchartier.compendia.models.Comic
-import com.gabrieldchartier.compendia.models.NewRelease
+import com.gabrieldchartier.compendia.api.main.network_responses.ComicResponse
+import com.gabrieldchartier.compendia.models.*
 import com.gabrieldchartier.compendia.persistence.authentication.AccountPropertiesDAO
 import com.gabrieldchartier.compendia.persistence.main.NewReleasesDAO
 import com.gabrieldchartier.compendia.repository.JobManager
@@ -134,7 +132,7 @@ constructor(
     }
 
     fun attemptGetNewReleases(authToken: AuthToken): LiveData<DataState<HomeViewState>> {
-        return object: NetworkBoundResource<ComicListResponse, HomeViewState, List<Comic>>(
+        return object: NetworkBoundResource<ComicListResponse, HomeViewState, List<ComicSeriesPublisherWrapper>>(
                 sessionManager.isConnectedToInternet(),
                 isNetworkRequest = true,
                 shouldLoadFromCache = true,
@@ -154,15 +152,29 @@ constructor(
                         }
             }
 
-            override suspend fun updateLocalDB(cacheObject: List<Comic>?) {
-                val newReleases: ArrayList<NewRelease> = ArrayList()
+            override suspend fun updateLocalDB(cacheObject: List<ComicSeriesPublisherWrapper>?) {
+                val newReleases: ArrayList<Comic>     = ArrayList()
+                val series:      ArrayList<Series>    = ArrayList()
+                val publishers:  ArrayList<Publisher> = ArrayList()
 
-                if(cacheObject != null)
-                    for(comic in cacheObject)
-                        newReleases.add(NewRelease(pk=0, comicPK = comic.pk))
+                if(cacheObject != null) {
+                    for(comicWrapper in cacheObject) {
+                        newReleases.add(comicWrapper.comic)
+                        series.add(comicWrapper.series)
+                        publishers.add(comicWrapper.publisher)
+                    }
 
-                cacheObject?.let {
-                    newReleasesDAO.insertNewReleaseComicsOrIgnore(cacheObject)
+                    publishers.let {
+                        newReleasesDAO.insertPublishersOrIgnore(it)
+                    }
+
+                    series.let {
+                        newReleasesDAO.insertSeriesOrIgnore(it)
+                    }
+
+                    newReleases.let {
+                        newReleasesDAO.insertComicsOrIgnore(it)
+                    }
                 }
             }
 
@@ -175,49 +187,65 @@ constructor(
             }
 
             override suspend fun handleAPISuccessResponse(response: APISuccessResponse<ComicListResponse>) {
-                val comicList: ArrayList<Comic> = ArrayList()
+                val comicWrapperList: ArrayList<ComicSeriesPublisherWrapper> = ArrayList()
                 for(newReleaseResponse in response.body.results) {
-                    comicList.add(
-                            Comic(
-                                    pk = newReleaseResponse.pk,
-                                    title = newReleaseResponse.title,
-                                    itemNumber = newReleaseResponse.itemNumber,
-                                    releaseDate = convertServerStringDateToLong(newReleaseResponse.releaseDate),
-                                    coverPrice = newReleaseResponse.coverPrice,
-                                    cover = newReleaseResponse.cover,
-                                    description = newReleaseResponse.description,
-                                    pageCount = newReleaseResponse.pageCount,
-                                    publisher_pk = newReleaseResponse.publisher_pk,
-                                    series_pk = newReleaseResponse.series_pk,
-                                    barcode = newReleaseResponse.barcode,
-                                    printing = newReleaseResponse.printing,
-                                    formatType = newReleaseResponse.formatType,
-                                    isMature = newReleaseResponse.isMature,
-                                    versionOf = newReleaseResponse.versionOf,
-                                    versions = newReleaseResponse.versions,
-                                    variantCode = newReleaseResponse.variantCode,
-                                    totalWanted = newReleaseResponse.totalWanted,
-                                    totalFavorited = newReleaseResponse.totalFavorited,
-                                    totalOwned = newReleaseResponse.totalOwned,
-                                    totalRead = newReleaseResponse.totalRead,
-                                    avgRating = newReleaseResponse.avgRating,
-                                    numberOfReviews = newReleaseResponse.numberOfReviews,
-                                    dateCollected = newReleaseResponse.collectionDetails?.dateCollected.let {
-                                        if(it != null) convertServerStringDateToLong(it) else null
-                                    },
-                                    purchasePrice = newReleaseResponse.collectionDetails?.purchasePrice,
-                                    boughtAt = newReleaseResponse.collectionDetails?.boughtAt,
-                                    condition = newReleaseResponse.collectionDetails?.condition,
-                                    isSlabbed = newReleaseResponse.collectionDetails?.isSlabbed,
-                                    certification = newReleaseResponse.collectionDetails?.certification,
-                                    grade = newReleaseResponse.collectionDetails?.grade,
-                                    quantity = newReleaseResponse.collectionDetails?.quantity
-                            )
+                    comicWrapperList.add(
+                            ComicSeriesPublisherWrapper(
+                                    comic = Comic(
+                                        pk = newReleaseResponse.pk,
+                                        title = newReleaseResponse.title,
+                                        itemNumber = newReleaseResponse.itemNumber,
+                                        releaseDate = convertServerStringDateToLong(newReleaseResponse.releaseDate),
+                                        coverPrice = newReleaseResponse.coverPrice,
+                                        cover = newReleaseResponse.cover,
+                                        description = newReleaseResponse.description,
+                                        pageCount = newReleaseResponse.pageCount,
+                                        publisher_pk = newReleaseResponse.publisher.id,
+                                        series_pk = newReleaseResponse.series.id,
+                                        barcode = newReleaseResponse.barcode,
+                                        printing = newReleaseResponse.printing,
+                                        formatType = newReleaseResponse.formatType,
+                                        isMature = newReleaseResponse.isMature,
+                                        versionOf = newReleaseResponse.versionOf,
+                                        versions = newReleaseResponse.versions,
+                                        variantCode = newReleaseResponse.variantCode,
+                                        totalWanted = newReleaseResponse.totalWanted,
+                                        totalFavorited = newReleaseResponse.totalFavorited,
+                                        totalOwned = newReleaseResponse.totalOwned,
+                                        totalRead = newReleaseResponse.totalRead,
+                                        avgRating = newReleaseResponse.avgRating,
+                                        numberOfReviews = newReleaseResponse.numberOfReviews,
+                                        dateCollected = newReleaseResponse.collectionDetails?.dateCollected.let {
+                                            if(it != null) convertServerStringDateToLong(it) else null
+                                        },
+                                        purchasePrice = newReleaseResponse.collectionDetails?.purchasePrice,
+                                        boughtAt = newReleaseResponse.collectionDetails?.boughtAt,
+                                        condition = newReleaseResponse.collectionDetails?.condition,
+                                        isSlabbed = newReleaseResponse.collectionDetails?.isSlabbed,
+                                        certification = newReleaseResponse.collectionDetails?.certification,
+                                        grade = newReleaseResponse.collectionDetails?.grade,
+                                        quantity = newReleaseResponse.collectionDetails?.quantity
+                                ),
+                                series = Series(
+                                        pk = newReleaseResponse.series.id,
+                                        name = newReleaseResponse.series.name,
+                                        genre = newReleaseResponse.series.genre,
+                                        years = newReleaseResponse.series.years,
+                                        isOneShot = newReleaseResponse.series.is_one_shot,
+                                        isMiniSeries = newReleaseResponse.series.is_mini_series,
+                                        miniSeriesLimit = newReleaseResponse.series.mini_series_limit,
+                                        publisher_pk = newReleaseResponse.series.publisher_id
+                                ),
+                                publisher = Publisher(
+                                        pk = newReleaseResponse.publisher.id,
+                                        name = newReleaseResponse.publisher.name
+                                )
+                        )
                     )
                 }
                 sharedPrefsEditor.putLong(PreferenceKeys.CURRENT_RELEASE_WEEK, convertServerStringDateToLong(response.body.results[0].releaseDate))
                 sharedPrefsEditor.apply()
-                updateLocalDB(comicList)
+                updateLocalDB(comicWrapperList)
                 createCacheRequestAndReturn()
             }
 

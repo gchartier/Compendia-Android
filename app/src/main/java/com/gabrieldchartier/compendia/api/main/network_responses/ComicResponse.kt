@@ -36,13 +36,13 @@ class ComicResponse(
         @Expose
         var pageCount: Int?,
 
-        @SerializedName("publisher_id")
+        @SerializedName("publisher")
         @Expose
-        var publisher_pk: Int,
+        var publisher: PublisherResponse,
 
-        @SerializedName("series_id")
+        @SerializedName("series")
         @Expose
-        var series_pk: Int,
+        var series: SeriesResponse,
 
         @SerializedName("creators")
         @Expose
