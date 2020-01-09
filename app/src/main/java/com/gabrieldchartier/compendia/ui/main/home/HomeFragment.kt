@@ -9,13 +9,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.RequestManager
 import com.gabrieldchartier.compendia.R
 import com.gabrieldchartier.compendia.recycler_views.ComicCoversAdapter
 import com.gabrieldchartier.compendia.models.*
+import com.gabrieldchartier.compendia.recycler_views.HorizontalComicCoverListAdapter
 import com.gabrieldchartier.compendia.ui.main.MainActivity
 import com.gabrieldchartier.compendia.ui.main.home.state.HomeStateEvent
+import kotlinx.android.synthetic.main.fragment_home.*
+import javax.inject.Inject
 
-class HomeFragment : BaseHomeFragment()
+class HomeFragment : BaseHomeFragment(), HorizontalComicCoverListAdapter.Interaction
 {
 //    private val viewModelJob = Job()
 //    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -24,8 +29,8 @@ class HomeFragment : BaseHomeFragment()
 //    private var user: User? = null
 //    private var collection: Collection? = null
 //    private var thisWeeksNewReleases: ArrayList<Comic>? = null
-    private var newReleasesLayoutManager: LinearLayoutManager? = null
-    private var newReleasesAdapter: ComicCoversAdapter? = null
+//    private var newReleasesLayoutManager: LinearLayoutManager? = null
+//    private var newReleasesAdapter: ComicCoversAdapter? = null
 //    private var comicBoxes: MutableList<ComicBox>? = null
 //    private var featuredBox: ComicBox? = null
 //    private var readBox: ComicBox? = null
@@ -33,6 +38,12 @@ class HomeFragment : BaseHomeFragment()
 //    private var featuredBoxAdapter: ComicCoversAdapter? = null
 //    private var newReleaseRepository : NewReleaseRepository? = null
 //    private var newReleases : LiveData<List<Comic>>? = null
+
+
+    @Inject
+    lateinit var requestManager: RequestManager
+
+    private lateinit var newReleaseCoversAdapter: HorizontalComicCoverListAdapter
 
     lateinit var mainActivity: MainActivity
 
@@ -53,9 +64,15 @@ class HomeFragment : BaseHomeFragment()
         super.onViewCreated(view, savedInstanceState)
 
         mainActivity.displayBottomNav(false)
+        initRecyclerViews()
         subscribeObservers()
         setOnClickListeners()
         getReleases()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        homeNewReleasesRecyclerView.adapter = null
     }
 
     private fun getReleases() {
@@ -80,8 +97,9 @@ class HomeFragment : BaseHomeFragment()
 
         viewModel.viewState.observe(viewLifecycleOwner, Observer {  viewState ->
             viewState.homeFields.newReleases?.let {
-                //todo setNewReleaseCoversRecyclerView(it)
-                Log.d("HomeFragment", "subscribeObservers (line 91): $it")
+                newReleaseCoversAdapter.submitList(it)
+                Log.d("HomeFragment", "subscribeObservers (line 101): ${it.get(0)}")
+                Log.d("HomeFragment", "subscribeObservers (line 91): ${newReleaseCoversAdapter.itemCount}")
             }
         })
     }
@@ -127,11 +145,21 @@ class HomeFragment : BaseHomeFragment()
     // Initialize the recycler views
     private fun initRecyclerViews()
     {
-        // Initialize New Releases Recycler View
-//        newReleasesLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-//        homeNewReleasesRecyclerView.layoutManager = newReleasesLayoutManager
-//        newReleasesAdapter = ComicCoversAdapter(activity, )
-//        homeNewReleasesRecyclerView.adapter = newReleasesAdapter
+        homeNewReleasesRecyclerView.apply {
+            layoutManager = LinearLayoutManager(this@HomeFragment.context, LinearLayoutManager.HORIZONTAL, false)
+            newReleaseCoversAdapter = HorizontalComicCoverListAdapter(requestManager = requestManager, interaction = this@HomeFragment)
+            addOnScrollListener(object: RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                    val lastPosition = layoutManager.findLastVisibleItemPosition()
+                    if(lastPosition == newReleaseCoversAdapter.itemCount.minus(1)) {
+                        Log.d("HomeFragment", "onScrollStateChanged (line 150): Loading next page of results.....")
+                    }
+                }
+            })
+            adapter = newReleaseCoversAdapter
+        }
 
         // Initialize Featured Box Recycler View
 //        featuredBoxLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
@@ -236,4 +264,8 @@ class HomeFragment : BaseHomeFragment()
 //            newReleases?.observe(lifecycleOwner, newReleasesObserver)
 //        }
 //    }
+
+    override fun onItemSelected(position: Int, item: Comic) {
+        Log.d("HomeFragment", "onItemSelected (line 261): clicked on ${item.title} at position $position")
+    }
 }

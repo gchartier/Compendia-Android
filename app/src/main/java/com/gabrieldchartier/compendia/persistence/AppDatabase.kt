@@ -19,7 +19,7 @@ import com.gabrieldchartier.compendia.persistence.main.NewReleasesDAO
             Creator::class,
             NewRelease::class
         ],
-        version = 3
+        version = 4
 )
 abstract class AppDatabase: RoomDatabase() {
     abstract fun getAuthenticationTokenDAO(): AuthTokenDAO

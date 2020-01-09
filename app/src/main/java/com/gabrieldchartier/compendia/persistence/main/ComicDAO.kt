@@ -7,6 +7,6 @@ import com.gabrieldchartier.compendia.models.Comic
 
 @Dao
 interface ComicDAO : PublisherDAO, SeriesDAO {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertComicsOrIgnore(comics: List<Comic>?): List<Long>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertComicsAndReplace(comics: List<Comic>?): List<Long>
 }

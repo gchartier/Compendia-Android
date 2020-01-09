@@ -7,6 +7,6 @@ import com.gabrieldchartier.compendia.models.Series
 
 @Dao
 interface SeriesDAO {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertSeriesOrIgnore(series: List<Series>): List<Long>?
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertSeriesAndReplace(series: List<Series>): List<Long>?
 }
