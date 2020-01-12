@@ -1,10 +1,7 @@
 package com.gabrieldchartier.compendia.persistence
 
 import com.gabrieldchartier.compendia.api.main.network_responses.ComicListResponse
-import com.gabrieldchartier.compendia.models.Comic
-import com.gabrieldchartier.compendia.models.ComicSeriesPublisherWrapper
-import com.gabrieldchartier.compendia.models.Publisher
-import com.gabrieldchartier.compendia.models.Series
+import com.gabrieldchartier.compendia.models.*
 import com.gabrieldchartier.compendia.persistence.main.ComicDAO
 import com.gabrieldchartier.compendia.util.DateUtilities
 import com.gabrieldchartier.compendia.util.GenericAPIResponse
@@ -12,35 +9,84 @@ import com.gabrieldchartier.compendia.util.GenericAPIResponse
 class ComicPersistenceHelper {
     companion object {
 
-        fun insertComicData(comicDAO: ComicDAO, responseData: List<ComicSeriesPublisherWrapper>) {
-            val newReleases: ArrayList<Comic>     = ArrayList()
-            val series:      ArrayList<Series>    = ArrayList()
-            val publishers:  ArrayList<Publisher> = ArrayList()
+        fun insertComicDataToDb(comicDAO: ComicDAO, responseData: List<ComicDataWrapper>) {
+            val newReleasesToInsert:  ArrayList<Comic>            = ArrayList()
+            val seriesToInsert:       ArrayList<Series>           = ArrayList()
+            val publishersToInsert:   ArrayList<Publisher>        = ArrayList()
+            val creatorsToInsert:     ArrayList<Creator>          = ArrayList()
+            val creatorJoinsToInsert: ArrayList<ComicCreatorJoin> = ArrayList()
 
             for(comicWrapper in responseData) {
-                newReleases.add(comicWrapper.comic)
-                series.add(comicWrapper.series)
-                publishers.add(comicWrapper.publisher)
+
+                newReleasesToInsert.add(comicWrapper.comic)
+                seriesToInsert.add(comicWrapper.series)
+                publishersToInsert.add(comicWrapper.publisher)
+
+                comicWrapper.creators?.let {comicCreators ->
+                    for (creator in comicCreators) {
+                        creatorsToInsert.add(
+                                Creator(
+                                        pk = creator.creator_id,
+                                        name = creator.name
+                                )
+                        )
+
+                        creatorJoinsToInsert.add(
+                                ComicCreatorJoin(
+                                        pk = creator.pk,
+                                        comicID = comicWrapper.comic.pk,
+                                        creatorID = creator.creator_id,
+                                        creatorType = creator.creator_type
+                                )
+                        )
+                    }
+                }
             }
 
-            publishers.let {
+            publishersToInsert.let {
                 comicDAO.insertPublishersAndReplace(it)
             }
 
-            series.let {
+            seriesToInsert.let {
                 comicDAO.insertSeriesAndReplace(it)
             }
 
-            newReleases.let {
+            creatorsToInsert.let {
+                comicDAO.insertCreatorsAndReplace(it)
+            }
+
+            newReleasesToInsert.let {
                 comicDAO.insertComicsAndReplace(it)
+            }
+
+            creatorJoinsToInsert.let {
+                comicDAO.insertComicCreatorsAndReplace(it)
             }
         }
 
-        fun createComicWrapperList(apiResponse: GenericAPIResponse.APISuccessResponse<ComicListResponse>): ArrayList<ComicSeriesPublisherWrapper> {
-            val comicWrapperList: ArrayList<ComicSeriesPublisherWrapper> = ArrayList()
+        fun createComicWrapperList(apiResponse: GenericAPIResponse.APISuccessResponse<ComicListResponse>): ArrayList<ComicDataWrapper> {
+            val comicWrapperList: ArrayList<ComicDataWrapper> = ArrayList()
+            var comicCreatorList: ArrayList<ComicCreator>
+
             for(newReleaseResponse in apiResponse.body.results) {
+
+                comicCreatorList = ArrayList()
+
+                newReleaseResponse.creators?.let { comicCreators ->
+                    for(comicCreator in comicCreators)
+                        comicCreatorList.add(
+                                ComicCreator(
+                                        pk = comicCreator.pk,
+                                        comic_id = newReleaseResponse.pk,
+                                        creator_id = comicCreator.creatorID,
+                                        name = comicCreator.name,
+                                        creator_type = comicCreator.creatorType
+                                )
+                        )
+                }
+
                 comicWrapperList.add(
-                        ComicSeriesPublisherWrapper(
+                        ComicDataWrapper(
                                 comic = Comic(
                                         pk = newReleaseResponse.pk,
                                         title = newReleaseResponse.title,
@@ -65,6 +111,7 @@ class ComicPersistenceHelper {
                                         totalRead = newReleaseResponse.totalRead,
                                         avgRating = newReleaseResponse.avgRating,
                                         numberOfReviews = newReleaseResponse.numberOfReviews,
+                                        isCollected = newReleaseResponse.collectionDetails != null,
                                         dateCollected = newReleaseResponse.collectionDetails?.dateCollected.let {
                                             if(it != null) DateUtilities.convertServerStringDateToLong(it) else null
                                         },
@@ -89,7 +136,8 @@ class ComicPersistenceHelper {
                                 publisher = Publisher(
                                         pk = newReleaseResponse.publisher.id,
                                         name = newReleaseResponse.publisher.name
-                                )
+                                ),
+                                creators = comicCreatorList
                         )
                 )
             }

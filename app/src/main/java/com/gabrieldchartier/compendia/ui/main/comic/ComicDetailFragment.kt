@@ -1,59 +1,70 @@
 package com.gabrieldchartier.compendia.ui.main.comic
 
-import android.animation.ObjectAnimator
-import android.app.AlertDialog
-import android.content.Context
 import android.os.Bundle
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.CompoundButton
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.constraintlayout.widget.Barrier
-import androidx.constraintlayout.widget.Group
-import androidx.navigation.Navigation
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import com.gabrieldchartier.compendia.FragmentInterface
 import com.gabrieldchartier.compendia.R
-import com.gabrieldchartier.compendia.models.Collection
 import com.gabrieldchartier.compendia.models.Comic
-import com.gabrieldchartier.compendia.models.ComicBox
-import com.gabrieldchartier.compendia.util.TempUtilClass
-import com.iarcuschin.simpleratingbar.SimpleRatingBar
+import com.gabrieldchartier.compendia.models.ComicCreatorJoin
+import com.gabrieldchartier.compendia.models.Creator
+import com.gabrieldchartier.compendia.ui.main.MainActivity
+import com.gabrieldchartier.compendia.ui.main.home.BaseHomeFragment
+import com.gabrieldchartier.compendia.util.DateUtilities.Companion.convertLongToStringDate
 import kotlinx.android.synthetic.main.fragment_comic_detail.*
-import kotlin.collections.ArrayList
-import java.util.UUID
 
-class ComicDetailFragment : Fragment()//, View.OnClickListener, CompoundButton.OnCheckedChangeListener
+class ComicDetailFragment : BaseHomeFragment()
 {
-    //todo rework this
-//    companion object
-//    {
-//        // Constants
-//        private const val TAG = "ComicDetailFragment"
-//    }
-//
-//    // Variables
-//    private var comic: Comic? = null
-//    private var collection: Collection? = null
-//    private var comicIsInCollection: Boolean = false
-//    private var activityFragmentInterface: FragmentInterface? = null
-//    private var constraintLayout: ConstraintLayout? = null
-//    private var constraintSet: ConstraintSet? = null
-//    private var creators: MutableList<ComicCreator> = ArrayList()
-//
+    // todo possibly include this in di or viewmodel
+    private var creators: MutableList<ComicCreatorJoin> = ArrayList()
+    private var constraintLayout: ConstraintLayout? = null
+    private var constraintSet: ConstraintSet? = null
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return layoutInflater.inflate(R.layout.fragment_comic_detail, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
+        subscribeObservers()
+        (activity as MainActivity).apply {
+            displayBottomNav(false)
+            //todo setActionBar()
+            // val toolbar = view.findViewById<Toolbar>(R.id.comicDetailToolbar)
+            // var actionBar: ActionBar? = null
+            // if (activity != null)
+            // {
+            //     (activity as AppCompatActivity).setSupportActionBar(toolbar)
+            //     actionBar = (activity as AppCompatActivity).supportActionBar
+            // }
+            // if (actionBar != null)
+            // {
+            //     actionBar.setDisplayShowTitleEnabled(false)
+            //     actionBar.setDisplayHomeAsUpEnabled(true)
+            // }
+            // else
+            //     Log.e(TAG, "Support Action Bar was null")
+        }
+    }
+
+    private fun subscribeObservers() {
+        viewModel.dataState.observe(viewLifecycleOwner, Observer{ dataState ->
+            stateChangeListener.onDataStateChange(dataState)
+        })
+
+        viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
+            viewState.comicDetailFields.comic?.let{ comic ->
+                setComicData(comic)
+            }
+        })
+    }
+
+//todo remove unneeded views
 //    // Views
 //    private var customComicBoxes: List<ComicBox>? = null
 //    private var readBox: ComicBox? = null
@@ -113,255 +124,110 @@ class ComicDetailFragment : Fragment()//, View.OnClickListener, CompoundButton.O
 //    private var boxFavorite: CompoundButton? = null
 //    private var reviewsButton: ImageView? = null
 //    private var editCollectionButton: ImageView? = null
-//
-//    override fun onCreate(savedInstanceState: Bundle?)
-//    {
-//        Log.d(TAG, "Calling onCreate")
-//        super.onCreate(savedInstanceState)
-//
-//        // Toolbar Menu
-//        setHasOptionsMenu(true)
-//
-//        // Variables
-//        val bundle = this.arguments
-//        collection = Collection()
-//
-//        Log.d(TAG, "collection: " + collection!!)
-//        val boxes = collection!!.comicBoxes
-//        for (c in boxes)
-//            Log.d(TAG, "Boxes: " + c.boxName)
-//
-//        Log.d(TAG, "Bundle == $bundle")
-//
-//        // Retrieve bundle and set comic
-//        comic = bundle!!.getParcelable(getString(R.string.intent_comic))
-//        Log.d(TAG, "Retrieved comic bundle " + comic!!.title)
-//        comicIsInCollection = collection!!.comicIsInCollection(comic)
-//        creators = comic!!.creators
-//        readBox = collection!!.getComicBoxByName(ComicBox.READ_BOX_NAME)
-//        Log.d(TAG, "Read Box " + readBox!!)
-//        wantBox = collection!!.getComicBoxByName(ComicBox.WANT_BOX_NAME)
-//        favoriteBox = collection!!.getComicBoxByName(ComicBox.FAVORITE_BOX_NAME)
-//    }
-//
-//    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        Log.d(TAG, "onCreateView: started")
-//
-//        val view: View?
-//
-//        // If the retrieved comic is not null, build the view
-//        //TODO maybe there's a better way to do this so that it won't bomb. Also, test this
-//        if (comic != null)
-//        {
-//            // Inflate the view, then initialize the toolbar and widgets
-//            view = inflater.inflate(R.layout.fragment_comic_detail, container, false)
-//            initializeFragmentToolbar(view!!)
-//            initializeViews(view)
-//
-//            // Set the widgets to the comic data
-//            setViewData()
-//            inflateCreators()
-//            inflateComicBoxes()
-//            setViewListeners()
-//            activityFragmentInterface!!.displayBottomNav(false)
-//        }
-//        else
-//        {
-//            view = null
-//            AlertDialog.Builder(activity)
-//                    .setTitle(getString(R.string.alert_dialog_error_title))
-//                    .setMessage(getString(R.string.comic_detail_no_comic_error))
-//
-//                    .setPositiveButton(getString(R.string.alert_dialog_go_back)) { _, _ -> activityFragmentInterface!!.onBackPressed() }
-//
-//                    // A null listener allows the button to dismiss the dialog and take no further action.
-//                    .setNegativeButton(getString(R.string.alert_dialog_report_error)) { _, _ ->
-//                        // TODO Open Report Error Dialog
-//                    }
-//                    .setIcon(android.R.drawable.ic_dialog_alert)
-//                    .show()
-//        }
-//        return view
-//    }
-//
-//    // Initialize the fragment toolbar at the top of the screen
-//    private fun initializeFragmentToolbar(view: View)
-//    {
-//        val toolbar = view.findViewById<Toolbar>(R.id.comicDetailToolbar)
-//        var actionBar: ActionBar? = null
-//        if (activity != null)
-//        {
-//            (activity as AppCompatActivity).setSupportActionBar(toolbar)
-//            actionBar = (activity as AppCompatActivity).supportActionBar
-//        }
-//        if (actionBar != null)
-//        {
-//            actionBar.setDisplayShowTitleEnabled(false)
-//            actionBar.setDisplayHomeAsUpEnabled(true)
-//        }
-//        else
-//            Log.e(TAG, "Support Action Bar was null")
-//    }
-//
-//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater)
-//    {
-//        inflater.inflate(R.menu.detail_tool_bar_menu, menu)
-//        super.onCreateOptionsMenu(menu, inflater)
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean
-//    { // TODO figure out the returns here
-//        when (item.itemId)
-//        {
-//            android.R.id.home -> {
-//                activityFragmentInterface!!.onBackPressed()
-//                return true
-//            }
-//            R.id.subMenuSubmitReport -> {
-//                return true
-//            }
-//            R.id.subMenuShare -> {
-//                return true
-//            }
-//        }
-//        return true
-//    }
-//
-//    override fun onAttach(context: Context)
-//    {
-//        super.onAttach(context)
-//        activityFragmentInterface = activity as FragmentInterface?
-//    }
-//
-//    private fun initializeViews(view: View)
-//    {
-//        constraintSet = ConstraintSet()
-//        constraintLayout = view.findViewById(R.id.comicDetailConstraintLayout)
-//        constraintSet!!.clone(constraintLayout!!)
-//        fragmentHeader = view.findViewById(R.id.fragmentHeader)
-//        cover = view.findViewById(R.id.comicDetailCover)
-//        title = view.findViewById(R.id.comicDetailTitle)
-//        publisher = view.findViewById(R.id.comicDetailPublisher)
-//        publisherImprintSeparator = view.findViewById(R.id.comicDetailPublisherImprintSeparator)
-//        imprint = view.findViewById(R.id.comicDetailImprint)
-//        format = view.findViewById(R.id.comicDetailFormat)
-//        coverDate = view.findViewById(R.id.comicDetailCoverDate)
-//        coverPrice = view.findViewById(R.id.comicDetailCoverPrice)
-//        age = view.findViewById(R.id.comicDetailAge)
-//        ageRating = view.findViewById(R.id.comicDetailAgeRating)
-//        otherVersionText = view.findViewById(R.id.comicDetailOtherVersionText)
-//        otherVersionArrow = view.findViewById(R.id.comicDetailOtherVersionArrow)
-//        userRating = view.findViewById(R.id.comicDetailUserRating)
-//        hasReadIcon = view.findViewById(R.id.comicDetailHasReadIcon)
-//        inCollectionIcon = view.findViewById(R.id.comicDetailInCollectionIcon)
-//        avgReviewText = view.findViewById(R.id.comicDetailAvgReviewText)
-//        reviewsText = view.findViewById(R.id.comicDetailReviewsText)
-//        reviewsButton = view.findViewById(R.id.comicDetailReviewsButton)
-//        descriptionGradient = view.findViewById(R.id.descriptionGradient)
-//        description = view.findViewById(R.id.comicDetailDescription)
-//        collectionDetailsGroup = view.findViewById(R.id.comicDetailCollectionDetailsGroup)
-//        editCollectionButton = view.findViewById(R.id.comicDetailEditCollectionButton)
-//        dateCollected = view.findViewById(R.id.comicDetailDateCollected)
-//        purchasePrice = view.findViewById(R.id.comicDetailPurchasePrice)
-//        boughtAt = view.findViewById(R.id.comicDetailBoughtAt)
-//        condition = view.findViewById(R.id.comicDetailCondition)
-//        grade = view.findViewById(R.id.comicDetailGrade)
-//        quantity = view.findViewById(R.id.comicDetailQuantity)
-//        collectionBoxesContentDivider = view.findViewById(R.id.comicDetailCollectionBoxesContentDivider)
-//        boxRead = view.findViewById(R.id.comicDetailBoxRead)
-//        boxWant = view.findViewById(R.id.comicDetailBoxWant)
-//        boxFavorite = view.findViewById(R.id.comicDetailBoxFavorite)
-//
-//        // Creator-related views
-//        creatorText1 = view.findViewById(R.id.comicDetailCreatorText1)
-//        creatorButton1 = view.findViewById(R.id.comicDetailCreatorButton1)
-//        creatorType1 = view.findViewById(R.id.comicDetailCreatorType1)
-//        creator1Group = view.findViewById(R.id.comicDetailCreator1Group)
-//        creatorText2 = view.findViewById(R.id.comicDetailCreatorText2)
-//        creatorButton2 = view.findViewById(R.id.comicDetailCreatorButton2)
-//        creatorType2 = view.findViewById(R.id.comicDetailCreatorType2)
-//        creator2Group = view.findViewById(R.id.comicDetailCreator2Group)
-//        creatorText3 = view.findViewById(R.id.comicDetailCreatorText3)
-//        creatorButton3 = view.findViewById(R.id.comicDetailCreatorButton3)
-//        creatorType3 = view.findViewById(R.id.comicDetailCreatorType3)
-//        creator3Group = view.findViewById(R.id.comicDetailCreator3Group)
-//        creatorText4 = view.findViewById(R.id.comicDetailCreatorText4)
-//        creatorButton4 = view.findViewById(R.id.comicDetailCreatorButton4)
-//        creatorType4 = view.findViewById(R.id.comicDetailCreatorType4)
-//        creator4Group = view.findViewById(R.id.comicDetailCreator4Group)
-//        creatorsBarrierBottom = view.findViewById(R.id.comicDetailCreatorsBarrierBottom)
-//        noCreators = view.findViewById(R.id.comicDetailNoCreators)
-//        seeAllCreatorsText = view.findViewById(R.id.comicDetailSeeAllCreatorsText)
-//        seeAllCreatorsButton = view.findViewById(R.id.comicDetailSeeAllCreatorsButton)
-//    }
-//
-//    private fun setViewData()
-//    {
-//        fragmentHeader!!.text = comic!!.seriesName
-//        //TODO replace the glide load parameter with: Uri.parse(comic.getCover()) and remove the if/else about context
-//        if (activity != null)
-//            Glide.with(this)
-//                    .load(TempUtilClass.getImage(activity!!, comic!!.cover))
-//                    .into(cover!!)
-//        else
-//            Log.e(TAG, "Activity context is null for some reason")
-//        title!!.text = comic!!.title
-//        publisher!!.text = comic!!.publisherName
-//        if (comic!!.imprintName != "")
-//            imprint!!.text = comic!!.imprintName
+
+    private fun initializeViews(view: View)
+    {
+        constraintSet = ConstraintSet()
+        constraintLayout = view.findViewById(R.id.comicDetailConstraintLayout)
+        constraintSet!!.clone(constraintLayout!!)
+    }
+
+    private fun setComicData(comic: Comic)
+    {
+        //todo fragmentHeader.text = comic.seriesName
+        Glide.with(this)
+                .load(comic.cover)
+                .into(comicDetailCover)
+        comicDetailTitle.text = comic.title
+        //todo publisher.text = comic.publisherName
+//  todo      if (comic.imprintName != "")
+//            imprint.text = comic.imprintName
 //        else {
-//            imprint!!.visibility = View.GONE
-//            publisherImprintSeparator!!.visibility = View.GONE
+//            imprint.visibility = View.GONE
+//            publisherImprintSeparator.visibility = View.GONE
 //        }
-//        format!!.text = comic!!.format
-//        coverDate!!.text = comic!!.releaseDate
-//        coverPrice!!.text = comic!!.coverPrice
-//        age!!.text = comic!!.ageAsString
-//        ageRating!!.text = comic!!.ageRating
-//        if (comic!!.otherVersions.size >= 1)
-//            otherVersionText!!.text = getString(R.string.comic_detail_other_versions_text, Integer.toString(comic!!.otherVersions.size))
-//        else {
-//            otherVersionText!!.text = getString(R.string.comic_detail_other_versions_text, "No")
-//            otherVersionArrow!!.visibility = View.GONE
-//        }
-//        if (comicIsInCollection)
-//            inCollectionIcon!!.visibility = View.VISIBLE
-//        if (collection!!.comicIsInBox(comic, ComicBox.READ_BOX_NAME))
+        comicDetailFormat.text = comic.formatType
+
+        if(comic.releaseDate != null)
+            comic.releaseDate?.let {
+                comicDetailCoverDate.text = convertLongToStringDate(it)
+            }
+        else
+            comicDetailCoverDate.text = R.string.comic_detail_no_release_date.toString()
+
+        comicDetailCoverPrice.text = comic.coverPrice
+
+        if (comic.isMature)
+            comicDetailAgeRating.text = R.string.comic_detail_mature_rating.toString()
+        else
+            comicDetailAgeRating.text = R.string.comic_detail_not_rated.toString()
+
+        if (comic.versions >= 1)
+            comicDetailOtherVersionText.text = getString(R.string.comic_detail_other_versions_text, comic.versions.toString())
+        else {
+            comicDetailOtherVersionText.text = getString(R.string.comic_detail_other_versions_text, "No")
+            comicDetailOtherVersionArrow.visibility = View.GONE
+        }
+
+        if (comic.isCollected)
+            comicDetailInCollectionIcon.visibility = View.VISIBLE
+        else
+            comicDetailInCollectionIcon.visibility = View.GONE
+
+// todo       if (collection!!.comicIsInBox(comic, ComicBox.READ_BOX_NAME))
 //            hasReadIcon!!.visibility = View.VISIBLE
-//        if (comic!!.userRating > 0.0f)
+
+// todo figure out how to get the user rating, maybe store it on the comic? Or get it from the ratings table...
+//      if (comic!!.userRating > 0.0f)
 //            userRating!!.rating = comic!!.userRating
 //        avgReviewText!!.text = getString(R.string.common_average_ratings, java.lang.Float.toString(comic!!.averageRating))
-//        if (comic!!.totalReviews >= 1)
-//            reviewsText!!.text = getString(R.string.common_reviews, Integer.toString(comic!!.totalReviews))
-//        else
-//            reviewsText!!.text = getString(R.string.comic_detail_no_reviews)
-//        if (comic!!.description == "")
-//            description!!.text = getString(R.string.comic_detail_no_description)
-//        else
-//            description!!.text = comic!!.description
-//        descriptionGradient!!.post {
-//            if (description!!.lineCount <= resources.getInteger(R.integer.DESCRIPTION_MAX_LINES))
-//                descriptionGradient!!.visibility = View.GONE
-//            else
-//                descriptionGradient!!.visibility = View.VISIBLE
-//        }
-//        if (comicIsInCollection)
-//        {
-//            dateCollected!!.text = comic!!.dateCollected
-//            purchasePrice!!.text = comic!!.purchasePrice
-//            boughtAt!!.text = comic!!.boughtAt
-//            condition!!.text = comic!!.condition
-//            grade!!.text = comic!!.gradeAndAgencyString
-//            quantity!!.text = comic!!.quantity.toString()
-//        } else {
-//            collectionDetailsGroup!!.visibility = View.GONE
+
+        if (comic.numberOfReviews >= 1)
+            comicDetailReviewsText.text = getString(R.string.common_reviews, comic.numberOfReviews.toString())
+        else
+            comicDetailReviewsText.text = getString(R.string.comic_detail_no_reviews)
+
+        if (comic.description.isNullOrEmpty())
+            comicDetailDescription.text = getString(R.string.comic_detail_no_description)
+        else
+        {
+            comicDetailDescription.text = comic.description
+            descriptionGradient.post {
+                if (comicDetailDescription.lineCount <= resources.getInteger(R.integer.DESCRIPTION_MAX_LINES))
+                    descriptionGradient.visibility = View.GONE
+                else
+                    descriptionGradient.visibility = View.VISIBLE
+            }
+        }
+
+        if (comic.isCollected)
+        {
+            if(comic.dateCollected != null)
+                comic.dateCollected?.let {
+                    comicDetailDateCollected.text = convertLongToStringDate(it)
+                }
+            else
+                comicDetailDateCollected.text = R.string.comic_detail_no_collected_date.toString()
+
+            comicDetailPurchasePrice.text = comic.purchasePrice
+            comicDetailBoughtAt.text = comic.boughtAt
+            comicDetailCondition.text = comic.condition
+            comicDetailGrade.text = comic.grade
+            comicDetailQuantity.text = comic.quantity.toString()
+        }
+        else {
+//            comicDetailCollectionDetailsGroup.visibility = View.GONE
 //            constraintSet = ConstraintSet()
-//            constraintSet!!.connect(collectionBoxesContentDivider!!.id, ConstraintSet.TOP,
-//                    creatorsBarrierBottom!!.id, ConstraintSet.BOTTOM, 0)
-//            constraintSet!!.applyTo(constraintLayout!!)
-//        }
-//    }
+//            constraintSet?.apply {
+//                connect(comicDetailCollectionBoxesContentDivider.id, ConstraintSet.TOP,
+//                        comicDetailCreatorsBarrierBottom.id, ConstraintSet.BOTTOM, 0)
 //
+//                applyTo(constraintLayout)
+//            }
+        }
+    }
+
+//todo add creators to view model
 //    private fun inflateCreators()
 //    {
 //        // Initialize creators
@@ -370,10 +236,10 @@ class ComicDetailFragment : Fragment()//, View.OnClickListener, CompoundButton.O
 //        // Set text and visibility of creators
 //        if (numberOfCreators >= 1)
 //        {
-//            creator1Group!!.visibility = View.VISIBLE
-//            creatorText1!!.text = creators[0].name
-//            creatorText1!!.tag = creators[0].id
-//            creatorType1!!.text = creators[0].creatorTypes
+//            comicDetailCreator1Group.visibility = View.VISIBLE
+//            comicDetailCreatorText1.text = creators[0]
+//            comicDetailCreatorText1.tag = creators[0].pk
+//            comicDetailCreatorType1.text = creators[0]
 //            if (numberOfCreators >= 2)
 //            {
 //                creator2Group!!.visibility = View.VISIBLE
@@ -404,7 +270,8 @@ class ComicDetailFragment : Fragment()//, View.OnClickListener, CompoundButton.O
 //        else
 //            noCreators!!.visibility = View.VISIBLE
 //    }
-//
+
+//todo add comic boxes to view model
 //    private fun inflateComicBoxes()
 //    {
 //        // Initialize box checkboxes, and their layout params
@@ -456,7 +323,8 @@ class ComicDetailFragment : Fragment()//, View.OnClickListener, CompoundButton.O
 //            if (collection!!.comicIsInBox(comic, box.text.toString()))
 //                box.isChecked = true
 //    }
-//
+
+//todo simplify this
 //    private fun setViewListeners()
 //    {
 //        // Top detail listeners
@@ -493,7 +361,8 @@ class ComicDetailFragment : Fragment()//, View.OnClickListener, CompoundButton.O
 //        for (box in customComicBoxCheckboxes!!)
 //            box.setOnCheckedChangeListener(this)
 //    }
-//
+
+//todo refactor
 //    override fun onClick(view: View)
 //    {
 //        if (view.id == R.id.comicDetailOtherVersionArrow || view.id == R.id.comicDetailOtherVersionText)
@@ -578,8 +447,8 @@ class ComicDetailFragment : Fragment()//, View.OnClickListener, CompoundButton.O
 //                    R.id.action_comicDetailFragment_to_fullCoverFragment, comic!!.cover)
 //        }
 //    }
-//
-//
+
+//todo refactor
 //    override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean)
 //    {
 //        if (buttonView.id == R.id.comicDetailBoxRead)

@@ -1,7 +1,5 @@
 package com.gabrieldchartier.compendia.ui.main.home
 
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import android.util.Log
@@ -9,10 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 import com.gabrieldchartier.compendia.R
-import com.gabrieldchartier.compendia.recycler_views.ComicCoversAdapter
 import com.gabrieldchartier.compendia.models.*
 import com.gabrieldchartier.compendia.recycler_views.HorizontalComicCoverListAdapter
 import com.gabrieldchartier.compendia.ui.main.MainActivity
@@ -39,21 +37,10 @@ class HomeFragment : BaseHomeFragment(), HorizontalComicCoverListAdapter.Interac
 //    private var newReleaseRepository : NewReleaseRepository? = null
 //    private var newReleases : LiveData<List<Comic>>? = null
 
-
     @Inject
     lateinit var requestManager: RequestManager
 
     private lateinit var newReleaseCoversAdapter: HorizontalComicCoverListAdapter
-
-    lateinit var mainActivity: MainActivity
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if(context is Activity)
-            mainActivity = context as MainActivity
-        else
-            Log.e("HomeFragment", "onAttach (line 33): context was not an instance of activity")
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
@@ -63,11 +50,11 @@ class HomeFragment : BaseHomeFragment(), HorizontalComicCoverListAdapter.Interac
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mainActivity.displayBottomNav(false)
+        (activity as MainActivity).displayBottomNav(true)
         initRecyclerViews()
         subscribeObservers()
         setOnClickListeners()
-        getReleases()
+        getNewReleases()
     }
 
     override fun onDestroyView() {
@@ -75,7 +62,7 @@ class HomeFragment : BaseHomeFragment(), HorizontalComicCoverListAdapter.Interac
         homeNewReleasesRecyclerView.adapter = null
     }
 
-    private fun getReleases() {
+    private fun getNewReleases() {
         viewModel.setStateEvent(HomeStateEvent.GetNewReleasesEvent())
     }
 
@@ -98,7 +85,7 @@ class HomeFragment : BaseHomeFragment(), HorizontalComicCoverListAdapter.Interac
         viewModel.viewState.observe(viewLifecycleOwner, Observer {  viewState ->
             viewState.homeFields.newReleases?.let {
                 newReleaseCoversAdapter.submitList(it)
-                Log.d("HomeFragment", "subscribeObservers (line 101): ${it.get(0)}")
+                //Log.d("HomeFragment", "subscribeObservers (line 101): ${it.get(0)}")
                 Log.d("HomeFragment", "subscribeObservers (line 91): ${newReleaseCoversAdapter.itemCount}")
             }
         })
@@ -108,40 +95,6 @@ class HomeFragment : BaseHomeFragment(), HorizontalComicCoverListAdapter.Interac
         //todo
     }
 
-    private fun setNewReleaseCoversRecyclerView(newReleases: List<NewRelease>) {
-
-    }
-//
-//    override fun onCreate(savedInstanceState: Bundle?)
-//    {
-//        super.onCreate(savedInstanceState)
-//
-//        newReleaseRepository = NewReleaseRepository(context!!)
-//
-//        //newReleases = NewReleases.getInstance()
-//        collection = Collection()
-//        user = User.getInstance()
-//        //TODO thisWeeksNewReleases = newReleases!!.thisWeek
-//        thisWeeksNewReleases = ArrayList()
-//        featuredBox = collection!!.getComicBoxByName(user!!.featuredBoxName)
-//        comicBoxes = collection!!.comicBoxes
-//        comicBoxes!!.remove(featuredBox)
-//        readBox = collection!!.getComicBoxByName(ComicBox.READ_BOX_NAME)
-//        //repository?.insertNewReleasesTask()
-//    }
-//
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
-//    {
-//        super.onViewCreated(view, savedInstanceState)
-//        initRecyclerViews()
-//        setViewListeners()
-//        setViewData()
-//        retrieveNewReleases()
-//        (activity as AppCompatActivity).supportActionBar!!.hide()
-//        activityFragmentInterface?.displayBottomNav(true)
-//    }
-//
     // Initialize the recycler views
     private fun initRecyclerViews()
     {
@@ -160,13 +113,14 @@ class HomeFragment : BaseHomeFragment(), HorizontalComicCoverListAdapter.Interac
             })
             adapter = newReleaseCoversAdapter
         }
+    }
 
-        // Initialize Featured Box Recycler View
-//        featuredBoxLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-//        homeFeaturedBoxRecyclerView.layoutManager = featuredBoxLayoutManager
-//        if (featuredBox != null)
-//            featuredBoxAdapter = ComicCoversAdapter(activity, featuredBox!!.comicsInBox)
-//        homeFeaturedBoxRecyclerView.adapter = featuredBoxAdapter
+    override fun onItemSelected(position: Int, item: Comic) {
+        Log.d("HomeFragment", "onItemSelected (line 261): clicked on ${item.title} at position $position")
+        viewModel.setComicInfoForDetail(item)
+        if(findNavController().currentDestination?.id == R.id.homeFragment)
+            Log.e("HomeFragment", "HOME FRAGMENT IS CURRENT DESTINATION")
+        findNavController().navigate(R.id.action_homeFragment_to_comic_nav_graph)
     }
 //
 //    // Set the data for the views on the screen
@@ -247,25 +201,4 @@ class HomeFragment : BaseHomeFragment(), HorizontalComicCoverListAdapter.Interac
 //            }
 //        }
 //    }
-
-//    private fun retrieveNewReleases()
-//    {
-//        // Create the observer which updates the UI.
-//        val newReleasesObserver = Observer<List<Comic>> { newReleases ->
-//            thisWeeksNewReleases?.clear()
-//            thisWeeksNewReleases?.addAll(newReleases)
-//            newReleasesAdapter?.notifyDataSetChanged()
-//        }
-//
-//        val lifecycleOwner = this
-//
-//        uiScope.launch {
-//            newReleases = newReleaseRepository?.retrieveNewReleasesTask()
-//            newReleases?.observe(lifecycleOwner, newReleasesObserver)
-//        }
-//    }
-
-    override fun onItemSelected(position: Int, item: Comic) {
-        Log.d("HomeFragment", "onItemSelected (line 261): clicked on ${item.title} at position $position")
-    }
 }

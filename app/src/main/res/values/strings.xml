@@ -111,6 +111,10 @@
     <string name="comic_detail_no_description">No Description</string>
     <string name="comic_detail_see_all_creators_text">See All Creators</string>
     <string name="comic_detail_no_creators">No Creators Listed</string>
+    <string name="comic_detail_mature_rating">Mature</string>
+    <string name="comic_detail_not_rated">Not Rated</string>
+    <string name="comic_detail_no_release_date">No Release Date</string>
+    <string name="comic_detail_no_collected_date">No Date Collected</string>
 
     <!-- Collection -->
     <string name="collection_recently_added_header">Recently Added</string>

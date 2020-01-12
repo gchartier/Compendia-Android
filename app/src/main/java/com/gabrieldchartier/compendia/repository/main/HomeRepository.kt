@@ -6,7 +6,6 @@ import androidx.lifecycle.switchMap
 import com.gabrieldchartier.compendia.api.GenericResponse
 import com.gabrieldchartier.compendia.api.main.CompendiaAPIMainService
 import com.gabrieldchartier.compendia.api.main.network_responses.ComicListResponse
-import com.gabrieldchartier.compendia.api.main.network_responses.ComicResponse
 import com.gabrieldchartier.compendia.models.*
 import com.gabrieldchartier.compendia.persistence.ComicPersistenceHelper
 import com.gabrieldchartier.compendia.persistence.authentication.AccountPropertiesDAO
@@ -20,7 +19,6 @@ import com.gabrieldchartier.compendia.ui.ResponseType
 import com.gabrieldchartier.compendia.ui.main.home.state.HomeViewState
 import com.gabrieldchartier.compendia.util.AbsentLiveData
 import com.gabrieldchartier.compendia.util.DateUtilities
-import com.gabrieldchartier.compendia.util.DateUtilities.Companion.convertServerStringDateToDate
 import com.gabrieldchartier.compendia.util.DateUtilities.Companion.convertServerStringDateToLong
 import com.gabrieldchartier.compendia.util.GenericAPIResponse
 import com.gabrieldchartier.compendia.util.GenericAPIResponse.APISuccessResponse
@@ -28,9 +26,6 @@ import com.gabrieldchartier.compendia.util.PreferenceKeys
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.withContext
-import org.androidannotations.annotations.sharedpreferences.Pref
-import java.time.LocalDate
-import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
@@ -133,7 +128,7 @@ constructor(
     }
 
     fun attemptGetNewReleases(authToken: AuthToken): LiveData<DataState<HomeViewState>> {
-        return object: NetworkBoundResource<ComicListResponse, HomeViewState, List<ComicSeriesPublisherWrapper>>(
+        return object: NetworkBoundResource<ComicListResponse, HomeViewState, List<ComicDataWrapper>>(
                 sessionManager.isConnectedToInternet(),
                 isNetworkRequest = true,
                 shouldLoadFromCache = true,
@@ -153,9 +148,9 @@ constructor(
                         }
             }
 
-            override suspend fun updateLocalDB(cacheObject: List<ComicSeriesPublisherWrapper>?) {
+            override suspend fun updateLocalDB(cacheObject: List<ComicDataWrapper>?) {
                 if(cacheObject != null)
-                    ComicPersistenceHelper.insertComicData(newReleasesDAO, cacheObject)
+                    ComicPersistenceHelper.insertComicDataToDb(newReleasesDAO, cacheObject)
             }
 
             override suspend fun createCacheRequestAndReturn() {
@@ -167,7 +162,7 @@ constructor(
             }
 
             override suspend fun handleAPISuccessResponse(response: APISuccessResponse<ComicListResponse>) {
-                val comicWrapperList: ArrayList<ComicSeriesPublisherWrapper> = ComicPersistenceHelper.createComicWrapperList(response)
+                val comicWrapperList: ArrayList<ComicDataWrapper> = ComicPersistenceHelper.createComicWrapperList(response)
                 sharedPrefsEditor.putLong(PreferenceKeys.CURRENT_RELEASE_WEEK, convertServerStringDateToLong(response.body.results[0].releaseDate))
                 sharedPrefsEditor.apply()
                 updateLocalDB(comicWrapperList)
@@ -179,7 +174,7 @@ constructor(
             }
 
             override fun setJob(job: Job) {
-                addJob("attemptGetNewReleaseCovers", job)
+                addJob("attemptGetNewReleases", job)
             }
         }.asLiveData()
     }

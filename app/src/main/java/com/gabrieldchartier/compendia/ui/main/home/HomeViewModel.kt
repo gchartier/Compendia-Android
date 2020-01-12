@@ -1,9 +1,7 @@
 package com.gabrieldchartier.compendia.ui.main.home
 
 import androidx.lifecycle.LiveData
-import com.gabrieldchartier.compendia.models.AccountProperties
-import com.gabrieldchartier.compendia.models.Comic
-import com.gabrieldchartier.compendia.models.NewRelease
+import com.gabrieldchartier.compendia.models.*
 import com.gabrieldchartier.compendia.repository.main.HomeRepository
 import com.gabrieldchartier.compendia.session.SessionManager
 import com.gabrieldchartier.compendia.ui.BaseViewModel
@@ -72,6 +70,15 @@ constructor(val sessionManager: SessionManager, private val homeRepository: Home
     fun setNewReleases(newReleases: List<Comic>) {
         val update = getCurrentViewStateOrNew()
         update.homeFields.newReleases = newReleases
+        _viewState.value = update
+    }
+
+    fun setComicInfoForDetail(comic: Comic, series: Series, publisher: Publisher, creators: List<ComicCreator>?) {
+        val update = getCurrentViewStateOrNew()
+        update.comicDetailFields.comic = comic
+        update.comicDetailFields.series = series
+        update.comicDetailFields.publisher = publisher
+        update.comicDetailFields.creators = creators
         _viewState.value = update
     }
 

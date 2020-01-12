@@ -76,7 +76,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit2_version"
 
     // Lifecycle Components (ViewModel, LiveData and ReactiveStreams)
-    def lifecycle_version = "2.2.0-rc02"
+    def lifecycle_version = "2.2.0-rc03"
     implementation "androidx.lifecycle:lifecycle-runtime:$lifecycle_version"
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
@@ -87,7 +87,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 
     // Room
-    def room_version = "2.2.2"
+    def room_version = "2.2.3"
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
@@ -101,13 +101,13 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
 
     // Jetpack Navigation Components
-    def nav_version = "2.2.0-rc02"
+    def nav_version = "2.2.0-rc04"
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation "androidx.navigation:navigation-runtime:$nav_version"
 
     // Material
-    def material_version = "1.2.0-alpha02"
+    def material_version = "1.2.0-alpha03"
     implementation "com.google.android.material:material:$material_version"
 
     // Material Dialogs

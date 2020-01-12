@@ -1,17 +1,21 @@
 package com.gabrieldchartier.compendia.ui.main.home.state
 
-import com.gabrieldchartier.compendia.models.AccountProperties
-import com.gabrieldchartier.compendia.models.Comic
-import com.gabrieldchartier.compendia.models.NewRelease
+import com.gabrieldchartier.compendia.models.*
 
 class HomeViewState(
         var accountProperties: AccountProperties? = null,
         var changePasswordFields: ChangePasswordFields? = ChangePasswordFields(),
-        var homeFields: HomeFields = HomeFields()
+        var homeFields: HomeFields = HomeFields(),
+        var comicDetailFields: ComicDetailFields = ComicDetailFields()
 )
 {
-    data class HomeFields(
-            var newReleases: List<Comic>? = ArrayList()
+    data class HomeFields(var newReleases: List<Comic>? = ArrayList())
+
+    data class ComicDetailFields(
+            var comic: Comic? = null,
+            var creators: List<ComicCreator>? = null,
+            var series: Series? = null,
+            var publisher: Publisher? = null
     )
 
     data class ChangePasswordFields(

@@ -17,9 +17,10 @@ import com.gabrieldchartier.compendia.persistence.main.NewReleasesDAO
             Series::class,
             Publisher::class,
             Creator::class,
+            ComicCreatorJoin::class,
             NewRelease::class
         ],
-        version = 4
+        version = 6
 )
 abstract class AppDatabase: RoomDatabase() {
     abstract fun getAuthenticationTokenDAO(): AuthTokenDAO

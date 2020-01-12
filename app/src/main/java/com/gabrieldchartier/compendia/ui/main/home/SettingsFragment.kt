@@ -23,16 +23,6 @@ class SettingsFragment : BaseHomeFragment() {
     @Inject
     lateinit var sessionManager: SessionManager
 
-    lateinit var mainActivity: MainActivity
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if(context is Activity)
-            mainActivity = context as MainActivity
-        else
-            Log.e("SettingsFragment", "onAttach (line 33): context was not an instance of activity")
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         return inflater.inflate(R.layout.fragment_settings, container, false)
@@ -41,7 +31,7 @@ class SettingsFragment : BaseHomeFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mainActivity.displayBottomNav(false)
+        (activity as MainActivity).displayBottomNav(false)
         initializeFragmentToolbar()
         setOnClickListeners()
         subscribeObservers()
@@ -52,7 +42,7 @@ class SettingsFragment : BaseHomeFragment() {
         when (item.itemId)
         {
             android.R.id.home -> {
-                mainActivity.onBackPressed()
+                (activity as MainActivity).onBackPressed()
                 return true
             }
         }

@@ -62,7 +62,7 @@ class ComicResponse(
 
         @SerializedName("is_mature")
         @Expose
-        var isMature: Boolean? = false,
+        var isMature: Boolean,
 
         @SerializedName("version_of")
         @Expose
@@ -70,7 +70,7 @@ class ComicResponse(
 
         @SerializedName("versions")
         @Expose
-        var versions: Int? = 0,
+        var versions: Int,
 
         @SerializedName("variant_code")
         @Expose

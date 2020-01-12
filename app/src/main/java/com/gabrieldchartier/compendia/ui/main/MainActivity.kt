@@ -45,7 +45,7 @@ class MainActivity : BaseActivity(), FragmentInterface, NavGraphProvider, OnNavi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         // TODO isFirstLogin()
-        setupActionBar()
+        //setupActionBar()
         bottomNavigationView = findViewById(R.id.bottom_nav)
         bottomNavigationView.setUpNavigation(bottomNavController, this)
         if(savedInstanceState == null)
@@ -54,9 +54,9 @@ class MainActivity : BaseActivity(), FragmentInterface, NavGraphProvider, OnNavi
         displayBottomNav(true)
     }
 
-    private fun setupActionBar() {
-        setSupportActionBar(tool_bar)
-    }
+//    private fun setupActionBar() {
+//        setSupportActionBar(tool_bar)
+//    }
 
     override fun onBackPressed() = bottomNavController.onBackPressed()
 

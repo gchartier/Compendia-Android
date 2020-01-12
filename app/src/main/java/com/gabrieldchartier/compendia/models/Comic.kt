@@ -59,13 +59,13 @@ data class Comic (
         var formatType: String?,
 
         @ColumnInfo(name="is_mature")
-        var isMature: Boolean? = false,
+        var isMature: Boolean,
 
         @ColumnInfo(name="version_of")
         var versionOf: Int?,
 
         @ColumnInfo(name="versions")
-        var versions: Int? = 0,
+        var versions: Int,
 
         @ColumnInfo(name="variant_code")
         var variantCode: String?,
@@ -87,6 +87,9 @@ data class Comic (
 
         @ColumnInfo(name="number_of_reviews")
         var numberOfReviews: Int,
+
+        @ColumnInfo(name="is_collected")
+        var isCollected: Boolean,
 
         @ColumnInfo(name="date_collected")
         var dateCollected: Long?,
@@ -113,4 +116,4 @@ data class Comic (
         var quantity: Int? = 1
 )
 
-data class ComicSeriesPublisherWrapper (var comic: Comic, var series: Series, var publisher: Publisher)
+data class ComicDataWrapper (var comic: Comic, var series: Series, var publisher: Publisher, var creators: List<ComicCreator>?)
