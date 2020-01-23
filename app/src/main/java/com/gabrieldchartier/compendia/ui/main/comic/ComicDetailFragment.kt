@@ -1,20 +1,23 @@
 package com.gabrieldchartier.compendia.ui.main.comic
 
 import android.os.Bundle
+import android.util.Log
 import androidx.constraintlayout.widget.ConstraintSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.gabrieldchartier.compendia.R
-import com.gabrieldchartier.compendia.models.Comic
 import com.gabrieldchartier.compendia.models.ComicCreatorJoin
-import com.gabrieldchartier.compendia.models.Creator
+import com.gabrieldchartier.compendia.models.ComicWithData
 import com.gabrieldchartier.compendia.ui.main.MainActivity
 import com.gabrieldchartier.compendia.ui.main.home.BaseHomeFragment
 import com.gabrieldchartier.compendia.util.DateUtilities.Companion.convertLongToStringDate
+import kotlinx.android.synthetic.main.detail_toolbar.*
 import kotlinx.android.synthetic.main.fragment_comic_detail.*
 
 class ComicDetailFragment : BaseHomeFragment()
@@ -32,23 +35,20 @@ class ComicDetailFragment : BaseHomeFragment()
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         subscribeObservers()
+
         (activity as MainActivity).apply {
             displayBottomNav(false)
-            //todo setActionBar()
-            // val toolbar = view.findViewById<Toolbar>(R.id.comicDetailToolbar)
-            // var actionBar: ActionBar? = null
-            // if (activity != null)
-            // {
-            //     (activity as AppCompatActivity).setSupportActionBar(toolbar)
-            //     actionBar = (activity as AppCompatActivity).supportActionBar
-            // }
-            // if (actionBar != null)
-            // {
-            //     actionBar.setDisplayShowTitleEnabled(false)
-            //     actionBar.setDisplayHomeAsUpEnabled(true)
-            // }
-            // else
-            //     Log.e(TAG, "Support Action Bar was null")
+
+            setSupportActionBar(comicDetailToolbar as Toolbar)
+            val actionBar: ActionBar? = supportActionBar
+
+            if (actionBar != null)
+            {
+                actionBar.setDisplayShowTitleEnabled(false)
+                actionBar.setDisplayHomeAsUpEnabled(true)
+            }
+            else
+                Log.e("ComicDetailFragment", "Error occurred setting up fragment toolbar")
         }
     }
 
@@ -132,44 +132,41 @@ class ComicDetailFragment : BaseHomeFragment()
         constraintSet!!.clone(constraintLayout!!)
     }
 
-    private fun setComicData(comic: Comic)
+    private fun setComicData(comic: ComicWithData)
     {
-        //todo fragmentHeader.text = comic.seriesName
+        fragmentHeader.text = comic.seriesName
         Glide.with(this)
-                .load(comic.cover)
+                .load(comic.comic.cover)
                 .into(comicDetailCover)
-        comicDetailTitle.text = comic.title
-        //todo publisher.text = comic.publisherName
-//  todo      if (comic.imprintName != "")
-//            imprint.text = comic.imprintName
-//        else {
-//            imprint.visibility = View.GONE
-//            publisherImprintSeparator.visibility = View.GONE
-//        }
-        comicDetailFormat.text = comic.formatType
+        comicDetailTitle.text = comic.comic.title
+        comicDetailPublisher.text = comic.publisherName
+        //todo handle imprint
+        comicDetailImprint.visibility = View.GONE
+        comicDetailPublisherImprintSeparator.visibility = View.GONE
+        comicDetailFormat.text = comic.comic.formatType
 
-        if(comic.releaseDate != null)
-            comic.releaseDate?.let {
+        if(comic.comic.releaseDate != null)
+            comic.comic.releaseDate?.let {
                 comicDetailCoverDate.text = convertLongToStringDate(it)
             }
         else
             comicDetailCoverDate.text = R.string.comic_detail_no_release_date.toString()
 
-        comicDetailCoverPrice.text = comic.coverPrice
+        comicDetailCoverPrice.text = comic.comic.coverPrice
 
-        if (comic.isMature)
-            comicDetailAgeRating.text = R.string.comic_detail_mature_rating.toString()
+        if (comic.comic.isMature)
+            comicDetailAgeRating.text = getString(R.string.comic_detail_mature_rating, "No")
         else
             comicDetailAgeRating.text = R.string.comic_detail_not_rated.toString()
 
-        if (comic.versions >= 1)
-            comicDetailOtherVersionText.text = getString(R.string.comic_detail_other_versions_text, comic.versions.toString())
+        if (comic.comic.versions >= 1)
+            comicDetailOtherVersionText.text = getString(R.string.comic_detail_other_versions_text, comic.comic.versions.toString())
         else {
             comicDetailOtherVersionText.text = getString(R.string.comic_detail_other_versions_text, "No")
             comicDetailOtherVersionArrow.visibility = View.GONE
         }
 
-        if (comic.isCollected)
+        if (comic.comic.isCollected)
             comicDetailInCollectionIcon.visibility = View.VISIBLE
         else
             comicDetailInCollectionIcon.visibility = View.GONE
@@ -178,20 +175,20 @@ class ComicDetailFragment : BaseHomeFragment()
 //            hasReadIcon!!.visibility = View.VISIBLE
 
 // todo figure out how to get the user rating, maybe store it on the comic? Or get it from the ratings table...
-//      if (comic!!.userRating > 0.0f)
-//            userRating!!.rating = comic!!.userRating
-//        avgReviewText!!.text = getString(R.string.common_average_ratings, java.lang.Float.toString(comic!!.averageRating))
+//      if (comic.userRating > 0.0f)
+//            userRating.rating = comic.userRating
+        comicDetailAvgReviewText.text = getString(R.string.common_average_ratings, comic.comic.avgRating)
 
-        if (comic.numberOfReviews >= 1)
-            comicDetailReviewsText.text = getString(R.string.common_reviews, comic.numberOfReviews.toString())
+        if (comic.comic.numberOfReviews >= 1)
+            comicDetailReviewsText.text = getString(R.string.common_reviews, comic.comic.numberOfReviews.toString())
         else
             comicDetailReviewsText.text = getString(R.string.comic_detail_no_reviews)
 
-        if (comic.description.isNullOrEmpty())
+        if (comic.comic.description.isNullOrEmpty())
             comicDetailDescription.text = getString(R.string.comic_detail_no_description)
         else
         {
-            comicDetailDescription.text = comic.description
+            comicDetailDescription.text = comic.comic.description
             descriptionGradient.post {
                 if (comicDetailDescription.lineCount <= resources.getInteger(R.integer.DESCRIPTION_MAX_LINES))
                     descriptionGradient.visibility = View.GONE
@@ -200,20 +197,20 @@ class ComicDetailFragment : BaseHomeFragment()
             }
         }
 
-        if (comic.isCollected)
+        if (comic.comic.isCollected)
         {
-            if(comic.dateCollected != null)
-                comic.dateCollected?.let {
+            if(comic.comic.dateCollected != null)
+                comic.comic.dateCollected?.let {
                     comicDetailDateCollected.text = convertLongToStringDate(it)
                 }
             else
                 comicDetailDateCollected.text = R.string.comic_detail_no_collected_date.toString()
 
-            comicDetailPurchasePrice.text = comic.purchasePrice
-            comicDetailBoughtAt.text = comic.boughtAt
-            comicDetailCondition.text = comic.condition
-            comicDetailGrade.text = comic.grade
-            comicDetailQuantity.text = comic.quantity.toString()
+            comicDetailPurchasePrice.text = comic.comic.purchasePrice
+            comicDetailBoughtAt.text = comic.comic.boughtAt
+            comicDetailCondition.text = comic.comic.condition
+            comicDetailGrade.text = comic.comic.grade
+            comicDetailQuantity.text = comic.comic.quantity.toString()
         }
         else {
 //            comicDetailCollectionDetailsGroup.visibility = View.GONE

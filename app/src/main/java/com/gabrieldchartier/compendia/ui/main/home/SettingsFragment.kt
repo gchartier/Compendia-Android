@@ -1,7 +1,5 @@
 package com.gabrieldchartier.compendia.ui.main.home
 
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -28,9 +26,8 @@ class SettingsFragment : BaseHomeFragment() {
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun onStart() {
+        super.onStart()
         (activity as MainActivity).displayBottomNav(false)
         initializeFragmentToolbar()
         setOnClickListeners()
@@ -99,6 +96,7 @@ class SettingsFragment : BaseHomeFragment() {
     }
 
     private fun setAccountPropertiesFields(accountProperties: AccountProperties) {
+        Log.d("SettingsFragment", "setAccountPropertiesFields (line 99): ${accountProperties.pk}")
         account_username_field?.text = accountProperties.username
     }
 }

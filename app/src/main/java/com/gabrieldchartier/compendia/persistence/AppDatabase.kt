@@ -6,6 +6,8 @@ import androidx.room.TypeConverters
 import com.gabrieldchartier.compendia.models.*
 import com.gabrieldchartier.compendia.persistence.authentication.AccountPropertiesDAO
 import com.gabrieldchartier.compendia.persistence.authentication.AuthTokenDAO
+import com.gabrieldchartier.compendia.persistence.main.CollectionDAO
+import com.gabrieldchartier.compendia.persistence.main.ComicBoxDAO
 import com.gabrieldchartier.compendia.persistence.main.NewReleasesDAO
 
 @TypeConverters(Converters::class)
@@ -18,9 +20,11 @@ import com.gabrieldchartier.compendia.persistence.main.NewReleasesDAO
             Publisher::class,
             Creator::class,
             ComicCreatorJoin::class,
-            NewRelease::class
+            NewRelease::class,
+            ComicBox::class,
+            CollectionDetails::class
         ],
-        version = 6
+        version = 10
 )
 abstract class AppDatabase: RoomDatabase() {
     abstract fun getAuthenticationTokenDAO(): AuthTokenDAO
@@ -28,6 +32,10 @@ abstract class AppDatabase: RoomDatabase() {
     abstract fun getAccountPropertiesDAO(): AccountPropertiesDAO
 
     abstract fun getNewReleasesDAO(): NewReleasesDAO
+
+    abstract fun getComicBoxDAO(): ComicBoxDAO
+
+    abstract fun getCollectionDAO(): CollectionDAO
 
     companion object {
         const val DATABASE_NAME = "application_database"

@@ -1,13 +1,7 @@
 package com.gabrieldchartier.compendia.persistence.main
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import com.gabrieldchartier.compendia.models.Comic
-import com.gabrieldchartier.compendia.models.ComicCreator
-import com.gabrieldchartier.compendia.models.ComicCreatorJoin
-import com.gabrieldchartier.compendia.models.Creator
+import androidx.room.*
+import com.gabrieldchartier.compendia.models.*
 
 @Dao
 interface ComicDAO : PublisherDAO, SeriesDAO {

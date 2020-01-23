@@ -37,9 +37,9 @@ class ChangePasswordFragment : BaseHomeFragment() {
             Log.e("SettingsFragment", "onAttach (line 33): context was not an instance of activity")
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        subscribeObservers()
+    override fun onStart() {
+        super.onStart()
+        (activity as MainActivity).displayBottomNav(false)
         initializeFragmentToolbar()
 
         change_password_button.setOnClickListener {
@@ -49,8 +49,8 @@ class ChangePasswordFragment : BaseHomeFragment() {
                     new_password_confirmation.text.toString()
             ))
         }
-        (activity as AppCompatActivity).supportActionBar!!.show()
-        mainActivity.displayBottomNav(false)
+
+        subscribeObservers()
     }
 
     private fun subscribeObservers() {

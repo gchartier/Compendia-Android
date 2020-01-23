@@ -63,7 +63,7 @@ constructor(
                         AccountProperties(
                                 response.body.pk,
                                 response.body.email,
-                                ""
+                                response.body.username
                         )
                 )
 
@@ -111,65 +111,66 @@ constructor(
             username: String,
             password: String,
             passwordConfirmation: String): LiveData<DataState<AuthViewState>> {
-        val registrationFieldErrors = RegistrationFields(
+
+            val registrationFieldErrors = RegistrationFields(
                 email, username, password, passwordConfirmation).validateRegistration()
-        if(!registrationFieldErrors.equals(RegistrationFields.RegistrationError.none())) {
-            return returnErrorResponse(registrationFieldErrors, ResponseType.Dialog())
-        }
+            if(!registrationFieldErrors.equals(RegistrationFields.RegistrationError.none())) {
+                return returnErrorResponse(registrationFieldErrors, ResponseType.Dialog())
+            }
 
-        return object: NetworkBoundResource<RegistrationResponse, AuthViewState, Any> (
-                sessionManager.isConnectedToInternet(),
-                isNetworkRequest = true,
-                shouldLoadFromCache = false,
-                shouldCancelIfNoInternet = true
-        )
-        {
-            override suspend fun handleAPISuccessResponse(response: APISuccessResponse<RegistrationResponse>) {
-                Log.d("AuthenticationRepositor", "handleAPISuccessResponse (line 85): $response")
-                if(response.body.response.equals(GENERIC_AUTH_ERROR))
-                    return onErrorReturn(response.body.errorMessage, true, false)
+            return object: NetworkBoundResource<RegistrationResponse, AuthViewState, Any> (
+                    sessionManager.isConnectedToInternet(),
+                    isNetworkRequest = true,
+                    shouldLoadFromCache = false,
+                    shouldCancelIfNoInternet = true
+            )
+            {
+                override suspend fun handleAPISuccessResponse(response: APISuccessResponse<RegistrationResponse>) {
+                    Log.d("AuthenticationRepositor", "handleAPISuccessResponse (line 85): $response")
+                    if(response.body.response.equals(GENERIC_AUTH_ERROR))
+                        return onErrorReturn(response.body.errorMessage, true, false)
 
-                accountPropertiesDAO.insertOrIgnore(
-                        AccountProperties(
-                                response.body.pk,
-                                response.body.email,
-                                ""
-                        )
-                )
-
-                val result = authTokenDAO.insert(
-                        AuthToken(
-                                response.body.pk,
-                                response.body.token
-                        )
-                )
-
-                if(result < 0) {
-                    return onCompleteJob(
-                            DataState.error(Response(ERROR_SAVE_AUTH_TOKEN, ResponseType.Dialog()))
+                    accountPropertiesDAO.insertOrIgnore(
+                            AccountProperties(
+                                    response.body.pk,
+                                    response.body.email,
+                                    response.body.username
+                            )
                     )
+
+                    val result = authTokenDAO.insert(
+                            AuthToken(
+                                    response.body.pk,
+                                    response.body.token
+                            )
+                    )
+
+                    if(result < 0) {
+                        return onCompleteJob(
+                                DataState.error(Response(ERROR_SAVE_AUTH_TOKEN, ResponseType.Dialog()))
+                        )
+                    }
+
+                    saveAuthenticatedUserToSharedPrefs(email)
+
+                    onCompleteJob(DataState.data(data =
+                        AuthViewState(authToken =
+                            AuthToken(response.body.pk, response.body.token))))
                 }
 
-                saveAuthenticatedUserToSharedPrefs(email)
+                override fun createCall(): LiveData<GenericAPIResponse<RegistrationResponse>> {
+                    return authenticationService.register(email, username, password, passwordConfirmation)
+                }
 
-                onCompleteJob(DataState.data(data =
-                    AuthViewState(authToken =
-                        AuthToken(response.body.pk, response.body.token))))
-            }
+                override fun setJob(job: Job) {
+                    addJob("attemptRegistration", job)
+                }
 
-            override fun createCall(): LiveData<GenericAPIResponse<RegistrationResponse>> {
-                return authenticationService.register(email, username, password, passwordConfirmation)
-            }
-
-            override fun setJob(job: Job) {
-                addJob("attemptRegistration", job)
-            }
-
-            // Cache functionality is not used for this request
-            override fun loadFromCache(): LiveData<AuthViewState> { return AbsentLiveData.create() }
-            override suspend fun updateLocalDB(cacheObject: Any?) { }
-            override suspend fun createCacheRequestAndReturn() { }
-        }.asLiveData()
+                // Cache functionality is not used for this request
+                override fun loadFromCache(): LiveData<AuthViewState> { return AbsentLiveData.create() }
+                override suspend fun updateLocalDB(cacheObject: Any?) { }
+                override suspend fun createCacheRequestAndReturn() { }
+            }.asLiveData()
     }
 
     private fun returnErrorResponse(errorMessage: String, responseType: ResponseType): LiveData<DataState<AuthViewState>> {

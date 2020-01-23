@@ -70,6 +70,7 @@
     <string name="home_collected_header">Collected</string>
     <string name="home_read_header">Read</string>
     <string name="home_reviews_header">Reviewed</string>
+    <string name="home_no_new_releases">No Releases Found&#8230;</string>
 
     <!-- Settings -->
     <string name="account_log_out">Log Out</string>

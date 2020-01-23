@@ -140,7 +140,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="4dp"
-            app:layout_constraintEnd_toStartOf="@+id/comicDetailFormatAgeSeparator"
+            app:layout_constraintEnd_toStartOf="@+id/comicDetailFormatAgeRatingSeparator"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@+id/comicDetailCover"
@@ -149,38 +149,14 @@
             tools:text="Single Issue" />
 
         <ImageView
-            android:id="@+id/comicDetailFormatAgeSeparator"
+            android:id="@+id/comicDetailFormatAgeRatingSeparator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:importantForAccessibility="no"
             app:layout_constraintBottom_toBottomOf="@+id/comicDetailFormat"
-            app:layout_constraintEnd_toStartOf="@+id/comicDetailAge"
             app:layout_constraintStart_toEndOf="@+id/comicDetailFormat"
-            app:layout_constraintTop_toTopOf="@+id/comicDetailFormat"
-            app:srcCompat="@drawable/detail_separator" />
-
-        <TextView
-            android:id="@+id/comicDetailAge"
-            style="@style/detail_text_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            app:layout_constraintBottom_toBottomOf="@+id/comicDetailFormatAgeSeparator"
-            app:layout_constraintEnd_toStartOf="@+id/comicDetailAgeRatingSeparator"
-            app:layout_constraintStart_toEndOf="@+id/comicDetailFormatAgeSeparator"
-            app:layout_constraintTop_toTopOf="@+id/comicDetailFormatAgeSeparator"
-            tools:text="Modern Age" />
-
-        <ImageView
-            android:id="@+id/comicDetailAgeRatingSeparator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:importantForAccessibility="no"
-            app:layout_constraintBottom_toBottomOf="@+id/comicDetailAge"
             app:layout_constraintEnd_toStartOf="@+id/comicDetailAgeRating"
-            app:layout_constraintStart_toEndOf="@+id/comicDetailAge"
-            app:layout_constraintTop_toTopOf="@+id/comicDetailAge"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailFormat"
             app:srcCompat="@drawable/detail_separator" />
 
         <TextView
@@ -189,11 +165,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/comicDetailAgeRatingSeparator"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/comicDetailAgeRatingSeparator"
-            app:layout_constraintTop_toTopOf="@+id/comicDetailAgeRatingSeparator"
+            app:layout_constraintBottom_toBottomOf="@+id/comicDetailFormatAgeRatingSeparator"
+            app:layout_constraintStart_toEndOf="@+id/comicDetailFormatAgeRatingSeparator"
+            app:layout_constraintTop_toTopOf="@+id/comicDetailFormatAgeRatingSeparator"
             tools:text="MA" />
 
         <TextView

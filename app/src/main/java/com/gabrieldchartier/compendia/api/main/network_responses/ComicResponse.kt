@@ -102,7 +102,19 @@ class ComicResponse(
 
         @SerializedName("collection_details")
         @Expose
-        var collectionDetails: CollectionDetails?
+        var collectionDetails: CollectionDetails?,
+
+        @SerializedName("is_read")
+        @Expose
+        var isRead: Boolean,
+
+        @SerializedName("is_favorited")
+        @Expose
+        var isFavorited: Boolean,
+
+        @SerializedName("is_wanted")
+        @Expose
+        var isWanted: Boolean
 )
 
 class CollectionDetails (

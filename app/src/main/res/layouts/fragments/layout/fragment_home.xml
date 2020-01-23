@@ -150,6 +150,18 @@
             app:layout_constraintTop_toTopOf="@+id/homeContentGuidelineTop" />
 
         <TextView
+            android:id="@+id/homeNoNewReleasesText"
+            style="@android:style/Widget.Holo.Light.TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="24dp"
+            android:text="@string/home_no_new_releases"
+            app:layout_constraintStart_toStartOf="@+id/homeNewReleasesHeader"
+            app:layout_constraintTop_toBottomOf="@+id/homeNewReleasesHeader" />
+
+        <TextView
             android:id="@+id/homeSeeAllNewReleasesText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -186,6 +198,13 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/newReleasesBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="homeNewReleasesRecyclerView,homeNoNewReleasesText" />
+
         <TextView
             android:id="@+id/homeBoxesHeader"
             style="@style/home_header_text"
@@ -196,7 +215,7 @@
             android:text="@string/home_boxes_header"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/homeNewReleasesRecyclerView" />
+            app:layout_constraintTop_toBottomOf="@+id/newReleasesBarrier" />
 
         <TextView
             android:id="@+id/homeSeeAllBoxesText"
@@ -223,51 +242,18 @@
             app:layout_constraintTop_toTopOf="@+id/homeSeeAllBoxesText" />
 
         <TextView
-            android:id="@+id/homeFeaturedBoxHeader"
-            style="@style/detail_text_2_medium"
+            android:id="@+id/homeComicBoxText1"
+            style="@style/detail_text_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/homeFeaturedBoxButton"
+            app:layout_constraintEnd_toStartOf="@+id/homeComicBoxButton1"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@+id/homeBoxesHeader"
             app:layout_constraintTop_toBottomOf="@+id/homeBoxesHeader"
             tools:text="Favorites" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/homeFeaturedBoxRecyclerView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/homeFeaturedBoxHeader"
-            app:layout_constraintTop_toBottomOf="@+id/homeFeaturedBoxHeader">
-
-        </androidx.recyclerview.widget.RecyclerView>
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/homeFeaturedBoxBoxesBarrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="homeFeaturedBoxRecyclerView"
-            tools:layout_editor_absoluteY="424dp" />
-
-        <TextView
-            android:id="@+id/homeComicBoxText1"
-            style="@style/detail_text_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/homeComicBoxButton1"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="@id/homeFeaturedBoxHeader"
-            app:layout_constraintTop_toBottomOf="@+id/homeFeaturedBoxBoxesBarrier"
-            tools:text="Want" />
 
         <TextView
             android:id="@+id/homeComicBoxText2"
@@ -278,9 +264,9 @@
             app:layout_constraintEnd_toStartOf="@+id/homeComicBoxButton2"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="@+id/homeComicBoxText1"
+            app:layout_constraintStart_toStartOf="@id/homeComicBoxText1"
             app:layout_constraintTop_toBottomOf="@+id/homeComicBoxText1"
-            tools:text="Read" />
+            tools:text="Want" />
 
         <TextView
             android:id="@+id/homeComicBoxText3"
@@ -293,19 +279,20 @@
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="@+id/homeComicBoxText2"
             app:layout_constraintTop_toBottomOf="@+id/homeComicBoxText2"
-            tools:text="Missing Issues" />
+            tools:text="Read" />
 
-        <ImageView
-            android:id="@+id/homeComicBoxButton1"
+        <TextView
+            android:id="@+id/homeComicBoxText4"
+            style="@style/detail_text_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:importantForAccessibility="no"
-            android:src="@drawable/navigate_in"
-            app:layout_constraintBottom_toBottomOf="@+id/homeComicBoxText1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/homeComicBoxText1"
-            app:layout_constraintTop_toTopOf="@+id/homeComicBoxText1" />
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/homeComicBoxButton4"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/homeComicBoxText3"
+            app:layout_constraintTop_toBottomOf="@+id/homeComicBoxText3"
+            tools:text="Missing Issues" />
 
         <ImageView
             android:id="@+id/homeComicBoxButton2"
@@ -323,7 +310,7 @@
             android:id="@+id/homeComicBoxButton3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/content_description_home_view_box_button"
+            android:importantForAccessibility="no"
             android:src="@drawable/navigate_in"
             app:layout_constraintBottom_toBottomOf="@+id/homeComicBoxText3"
             app:layout_constraintEnd_toEndOf="parent"
@@ -332,15 +319,27 @@
             app:layout_constraintTop_toTopOf="@+id/homeComicBoxText3" />
 
         <ImageView
-            android:id="@+id/homeFeaturedBoxButton"
+            android:id="@+id/homeComicBoxButton4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/content_description_home_view_box_button"
+            android:src="@drawable/navigate_in"
+            app:layout_constraintBottom_toBottomOf="@+id/homeComicBoxText4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/homeComicBoxText4"
+            app:layout_constraintTop_toTopOf="@+id/homeComicBoxText4" />
+
+        <ImageView
+            android:id="@+id/homeComicBoxButton1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/navigate_in"
-            app:layout_constraintBottom_toBottomOf="@+id/homeFeaturedBoxHeader"
+            app:layout_constraintBottom_toBottomOf="@+id/homeComicBoxText1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/homeFeaturedBoxHeader"
-            app:layout_constraintTop_toTopOf="@+id/homeFeaturedBoxHeader" />
+            app:layout_constraintStart_toEndOf="@+id/homeComicBoxText1"
+            app:layout_constraintTop_toTopOf="@+id/homeComicBoxText1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

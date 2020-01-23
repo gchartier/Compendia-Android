@@ -9,13 +9,14 @@ class HomeViewState(
         var comicDetailFields: ComicDetailFields = ComicDetailFields()
 )
 {
-    data class HomeFields(var newReleases: List<Comic>? = ArrayList())
+    data class HomeFields(
+            var newReleases: List<ComicWithData>? = ArrayList(),
+            var comicBoxes: List<ComicBox>? = ArrayList(),
+            var collectionDetails: CollectionDetails? = null
+    )
 
     data class ComicDetailFields(
-            var comic: Comic? = null,
-            var creators: List<ComicCreator>? = null,
-            var series: Series? = null,
-            var publisher: Publisher? = null
+            var comic: ComicWithData? = null
     )
 
     data class ChangePasswordFields(

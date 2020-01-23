@@ -1,12 +1,7 @@
 package com.gabrieldchartier.compendia.models
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
+import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
-import androidx.room.PrimaryKey
-import java.time.LocalDate
-import java.util.*
 
 @Entity(tableName = "comics",
         foreignKeys = [
@@ -117,3 +112,11 @@ data class Comic (
 )
 
 data class ComicDataWrapper (var comic: Comic, var series: Series, var publisher: Publisher, var creators: List<ComicCreator>?)
+
+data class ComicWithData(
+        @Embedded val comic: Comic,
+        @ColumnInfo(name="publisher_name")
+        val publisherName: String,
+        @ColumnInfo(name="series_name")
+        val seriesName: String
+)

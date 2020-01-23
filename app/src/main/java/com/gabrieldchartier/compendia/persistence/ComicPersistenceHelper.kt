@@ -44,11 +44,11 @@ class ComicPersistenceHelper {
             }
 
             publishersToInsert.let {
-                comicDAO.insertPublishersAndReplace(it)
+                comicDAO.insertPublishersOrIgnore(it)
             }
 
             seriesToInsert.let {
-                comicDAO.insertSeriesAndReplace(it)
+                comicDAO.insertOrUpdateSeries(it)
             }
 
             creatorsToInsert.let {

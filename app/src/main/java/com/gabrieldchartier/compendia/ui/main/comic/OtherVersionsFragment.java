@@ -1,33 +1,6 @@
 package com.gabrieldchartier.compendia.ui.main.comic;
 
-import android.content.Context;
-import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.gabrieldchartier.compendia.FragmentInterface;
-import com.gabrieldchartier.compendia.recycler_views.OtherVersionRecyclerCategory;
-import com.gabrieldchartier.compendia.recycler_views.OtherVersionsExpandableRecyclerAdapter;
-import com.gabrieldchartier.compendia.R;
-import com.gabrieldchartier.compendia.models.Collection;
-import com.gabrieldchartier.compendia.models.Comic;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 @SuppressWarnings("FieldCanBeLocal")
 public class OtherVersionsFragment extends Fragment

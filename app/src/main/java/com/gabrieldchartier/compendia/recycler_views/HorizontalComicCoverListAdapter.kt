@@ -6,22 +6,25 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.*
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
+import com.bumptech.glide.request.RequestOptions
 import com.gabrieldchartier.compendia.R
 import com.gabrieldchartier.compendia.models.Comic
+import com.gabrieldchartier.compendia.models.ComicWithData
 import kotlinx.android.synthetic.main.layout_comic_cover_list_item.view.*
 
 class HorizontalComicCoverListAdapter(
         private val interaction: Interaction? = null,
-        private val requestManager: RequestManager
+        private val requestManager: RequestManager,
+        private val requestOptions: RequestOptions
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Comic>() {
+    val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ComicWithData>() {
 
-        override fun areItemsTheSame(oldItem: Comic, newItem: Comic): Boolean {
-            return oldItem.pk == newItem.pk
+        override fun areItemsTheSame(oldItem: ComicWithData, newItem: ComicWithData): Boolean {
+            return oldItem.comic.pk == newItem.comic.pk
         }
 
-        override fun areContentsTheSame(oldItem: Comic, newItem: Comic): Boolean {
+        override fun areContentsTheSame(oldItem: ComicWithData, newItem: ComicWithData): Boolean {
             return oldItem == newItem
         }
 
@@ -60,14 +63,15 @@ class HorizontalComicCoverListAdapter(
                         false
                 ),
                 interaction = interaction,
-                requestManager = requestManager
+                requestManager = requestManager,
+                requestOptions = requestOptions
         )
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is ComicCoverViewHolder -> {
-                holder.bind(differ.currentList.get(position))
+                holder.bind(differ.currentList[position])
             }
         }
     }
@@ -76,7 +80,7 @@ class HorizontalComicCoverListAdapter(
         return differ.currentList.size
     }
 
-    fun submitList(list: List<Comic>?) {
+    fun submitList(list: List<ComicWithData>?) {
         val newList = list?.toMutableList()
         differ.submitList(newList)
     }
@@ -85,16 +89,21 @@ class HorizontalComicCoverListAdapter(
     constructor(
             itemView: View,
             val requestManager: RequestManager,
+            val requestOptions: RequestOptions,
             private val interaction: Interaction?
     ) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(item: Comic) = with(itemView) {
+        fun bind(item: ComicWithData) = with(itemView) {
             itemView.setOnClickListener {
                 interaction?.onItemSelected(adapterPosition, item)
             }
 
+            //todo fix this later
+            requestOptions.override(585, 900)
+
             requestManager
-                    .load(item.cover)
+                    .load(item.comic.cover)
+                    .apply(requestOptions)
                     .transition(withCrossFade())
                     .into(itemView.comicListItemCover)
 
@@ -102,6 +111,6 @@ class HorizontalComicCoverListAdapter(
     }
 
     interface Interaction {
-        fun onItemSelected(position: Int, item: Comic)
+        fun onItemSelected(position: Int, item: ComicWithData)
     }
 }

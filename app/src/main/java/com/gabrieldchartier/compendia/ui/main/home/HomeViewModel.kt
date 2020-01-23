@@ -1,5 +1,6 @@
 package com.gabrieldchartier.compendia.ui.main.home
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.gabrieldchartier.compendia.models.*
 import com.gabrieldchartier.compendia.repository.main.HomeRepository
@@ -20,6 +21,7 @@ constructor(val sessionManager: SessionManager, private val homeRepository: Home
     }
 
     override fun handleStateEvent(stateEvent: HomeStateEvent): LiveData<DataState<HomeViewState>> {
+        Log.d("HomeViewModel", "handleStateEvent TEST1234: STATE EVENT WAS $stateEvent")
         when(stateEvent) {
             is ChangePasswordEvent -> {
                 return sessionManager.cachedToken.value?.let { authToken ->
@@ -37,6 +39,18 @@ constructor(val sessionManager: SessionManager, private val homeRepository: Home
             is GetNewReleasesEvent -> {
                 return sessionManager.cachedToken.value?.let {authToken ->
                     homeRepository.attemptGetNewReleases(authToken)
+                }?: AbsentLiveData.create()
+            }
+
+            is GetComicBoxesEvent -> {
+                return sessionManager.cachedToken.value?.let { authToken ->
+                    homeRepository.attemptGetComicBoxes(authToken)
+                }?: AbsentLiveData.create()
+            }
+
+            is GetCollectionDetailsEvent -> {
+                return sessionManager.cachedToken.value?.let { authToken ->
+                    homeRepository.attemptGetCollectionDetails(authToken)
                 }?: AbsentLiveData.create()
             }
 
@@ -67,18 +81,27 @@ constructor(val sessionManager: SessionManager, private val homeRepository: Home
         _viewState.value = update
     }
 
-    fun setNewReleases(newReleases: List<Comic>) {
+    fun setNewReleases(newReleases: List<ComicWithData>) {
         val update = getCurrentViewStateOrNew()
         update.homeFields.newReleases = newReleases
         _viewState.value = update
     }
 
-    fun setComicInfoForDetail(comic: Comic, series: Series, publisher: Publisher, creators: List<ComicCreator>?) {
+    fun setComicBoxes(comicBoxes: List<ComicBox>) {
+        val update = getCurrentViewStateOrNew()
+        update.homeFields.comicBoxes = comicBoxes
+        _viewState.value = update
+    }
+
+    fun setCollectionDetails(collectionDetails: CollectionDetails) {
+        val update = getCurrentViewStateOrNew()
+        update.homeFields.collectionDetails = collectionDetails
+        _viewState.value = update
+    }
+
+    fun setComicInfoForDetail(comic: ComicWithData) {
         val update = getCurrentViewStateOrNew()
         update.comicDetailFields.comic = comic
-        update.comicDetailFields.series = series
-        update.comicDetailFields.publisher = publisher
-        update.comicDetailFields.creators = creators
         _viewState.value = update
     }
 

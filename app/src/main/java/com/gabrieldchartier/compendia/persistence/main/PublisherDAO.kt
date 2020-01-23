@@ -7,6 +7,6 @@ import com.gabrieldchartier.compendia.models.Publisher
 
 @Dao
 interface PublisherDAO {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertPublishersAndReplace(publishers: List<Publisher>): List<Long>?
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertPublishersOrIgnore(publishers: List<Publisher>): List<Long>?
 }

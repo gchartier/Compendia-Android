@@ -15,7 +15,7 @@ data class Series (
         @ColumnInfo(name="pk")
         var pk: Int,
 
-        @ColumnInfo(name="name")
+        @ColumnInfo(name="series_name")
         var name: String,
 
         @ColumnInfo(name="genre")

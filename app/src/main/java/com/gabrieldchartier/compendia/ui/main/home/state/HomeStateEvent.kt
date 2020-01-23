@@ -11,5 +11,9 @@ sealed class HomeStateEvent {
 
     class GetNewReleasesEvent: HomeStateEvent()
 
+    class GetComicBoxesEvent: HomeStateEvent()
+
+    class GetCollectionDetailsEvent: HomeStateEvent()
+
     class None: HomeStateEvent()
 }
