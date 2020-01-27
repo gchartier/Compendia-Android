@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_comic_detail.*
 
 class ComicDetailFragment : BaseHomeFragment()
 {
-    // todo possibly include this in di or viewmodel
+    //todo possibly include this in di or viewmodel
     private var creators: MutableList<ComicCreatorJoin> = ArrayList()
     private var constraintLayout: ConstraintLayout? = null
     private var constraintSet: ConstraintSet? = null
@@ -31,25 +31,12 @@ class ComicDetailFragment : BaseHomeFragment()
         return layoutInflater.inflate(R.layout.fragment_comic_detail, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart() {
+        super.onStart()
         setHasOptionsMenu(true)
         subscribeObservers()
-
-        (activity as MainActivity).apply {
-            displayBottomNav(false)
-
-            setSupportActionBar(comicDetailToolbar as Toolbar)
-            val actionBar: ActionBar? = supportActionBar
-
-            if (actionBar != null)
-            {
-                actionBar.setDisplayShowTitleEnabled(false)
-                actionBar.setDisplayHomeAsUpEnabled(true)
-            }
-            else
-                Log.e("ComicDetailFragment", "Error occurred setting up fragment toolbar")
-        }
+        initializeFragmentToolbar()
+        (activity as MainActivity).displayBottomNav(false)
     }
 
     private fun subscribeObservers() {
@@ -64,66 +51,19 @@ class ComicDetailFragment : BaseHomeFragment()
         })
     }
 
-//todo remove unneeded views
-//    // Views
-//    private var customComicBoxes: List<ComicBox>? = null
-//    private var readBox: ComicBox? = null
-//    private var wantBox: ComicBox? = null
-//    private var favoriteBox: ComicBox? = null
-//    private var customComicBoxCheckboxes: MutableList<CheckBox>? = null
-//    private var fragmentHeader: TextView? = null
-//    private var cover: ImageView? = null
-//    private var title: TextView? = null
-//    private var publisher: TextView? = null
-//    private var imprint: TextView? = null
-//    private var publisherImprintSeparator: ImageView? = null
-//    private var format: TextView? = null
-//    private var coverDate: TextView? = null
-//    private var coverPrice: TextView? = null
-//    private var age: TextView? = null
-//    private var ageRating: TextView? = null
-//    private var otherVersionText: TextView? = null
-//    private var otherVersionArrow: ImageView? = null
-//    private var inCollectionIcon: ImageView? = null
-//    private var hasReadIcon: ImageView? = null
-//    private var userRating: SimpleRatingBar? = null
-//    private var avgReviewText: TextView? = null
-//    private var reviewsText: TextView? = null
-//    private var description: TextView? = null
-//    private var descriptionGradient: View? = null
-//    private var dateCollected: TextView? = null
-//    private var purchasePrice: TextView? = null
-//    private var boughtAt: TextView? = null
-//    private var condition: TextView? = null
-//    private var grade: TextView? = null
-//    private var quantity: TextView? = null
-//    private var collectionDetailsGroup: Group? = null
-//    private var collectionBoxesContentDivider: View? = null
-//    private var creatorsBarrierBottom: Barrier? = null
-//    private var creator1Group: Group? = null
-//    private var creatorText1: TextView? = null
-//    private var creatorType1: TextView? = null
-//    private var creatorButton1: ImageView? = null
-//    private var creator2Group: Group? = null
-//    private var creatorText2: TextView? = null
-//    private var creatorType2: TextView? = null
-//    private var creatorButton2: ImageView? = null
-//    private var creator3Group: Group? = null
-//    private var creatorText3: TextView? = null
-//    private var creatorType3: TextView? = null
-//    private var creatorButton3: ImageView? = null
-//    private var creator4Group: Group? = null
-//    private var creatorText4: TextView? = null
-//    private var creatorType4: TextView? = null
-//    private var creatorButton4: ImageView? = null
-//    private var seeAllCreatorsText: TextView? = null
-//    private var seeAllCreatorsButton: ImageView? = null
-//    private var noCreators: TextView? = null
-//    private var boxRead: CompoundButton? = null
-//    private var boxWant: CompoundButton? = null
-//    private var boxFavorite: CompoundButton? = null
-//    private var reviewsButton: ImageView? = null
-//    private var editCollectionButton: ImageView? = null
+    private fun initializeFragmentToolbar()
+    {
+        (activity as MainActivity).setSupportActionBar(comicDetailToolbar as Toolbar)
+        val actionBar: ActionBar? = (activity as MainActivity).supportActionBar
+
+        if (actionBar != null)
+        {
+            actionBar.setDisplayShowTitleEnabled(false)
+            actionBar.setDisplayHomeAsUpEnabled(true)
+        }
+        else
+            Log.e("ComicDetailFragment", "initializeFragmentToolbar (line 56)")
+    }
 
     private fun initializeViews(view: View)
     {
@@ -155,9 +95,9 @@ class ComicDetailFragment : BaseHomeFragment()
         comicDetailCoverPrice.text = comic.comic.coverPrice
 
         if (comic.comic.isMature)
-            comicDetailAgeRating.text = getString(R.string.comic_detail_mature_rating, "No")
+            comicDetailAgeRating.text = getString(R.string.comic_detail_mature_rating)
         else
-            comicDetailAgeRating.text = R.string.comic_detail_not_rated.toString()
+            comicDetailAgeRating.text = getString(R.string.comic_detail_not_rated)
 
         if (comic.comic.versions >= 1)
             comicDetailOtherVersionText.text = getString(R.string.comic_detail_other_versions_text, comic.comic.versions.toString())
@@ -171,23 +111,29 @@ class ComicDetailFragment : BaseHomeFragment()
         else
             comicDetailInCollectionIcon.visibility = View.GONE
 
-// todo       if (collection!!.comicIsInBox(comic, ComicBox.READ_BOX_NAME))
+//        if (comic.comic)
 //            hasReadIcon!!.visibility = View.VISIBLE
 
-// todo figure out how to get the user rating, maybe store it on the comic? Or get it from the ratings table...
-//      if (comic.userRating > 0.0f)
-//            userRating.rating = comic.userRating
-        comicDetailAvgReviewText.text = getString(R.string.common_average_ratings, comic.comic.avgRating)
+        if (comic.comic.userRating > 0.0f)
+            comicDetailUserRating.rating = comic.comic.userRating
 
-        if (comic.comic.numberOfReviews >= 1)
-            comicDetailReviewsText.text = getString(R.string.common_reviews, comic.comic.numberOfReviews.toString())
+        if(comic.comic.avgRating == getString(R.string.comic_detail_no_ratings))
+            comicDetailAvgReviewText.text = comic.comic.avgRating
         else
+            comicDetailAvgReviewText.text = getString(R.string.common_average_ratings, comic.comic.avgRating)
+
+        if (comic.comic.numberOfReviews >= 1) {
+            comicDetailReviewsText.text = getString(R.string.common_reviews, comic.comic.numberOfReviews.toString())
+            comicDetailReviewsButton.visibility = View.VISIBLE
+        }
+        else {
             comicDetailReviewsText.text = getString(R.string.comic_detail_no_reviews)
+            comicDetailReviewsButton.visibility = View.GONE
+        }
 
         if (comic.comic.description.isNullOrEmpty())
             comicDetailDescription.text = getString(R.string.comic_detail_no_description)
-        else
-        {
+        else {
             comicDetailDescription.text = comic.comic.description
             descriptionGradient.post {
                 if (comicDetailDescription.lineCount <= resources.getInteger(R.integer.DESCRIPTION_MAX_LINES))

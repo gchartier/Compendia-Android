@@ -24,7 +24,7 @@ import com.gabrieldchartier.compendia.persistence.main.NewReleasesDAO
             ComicBox::class,
             CollectionDetails::class
         ],
-        version = 10
+        version = 11
 )
 abstract class AppDatabase: RoomDatabase() {
     abstract fun getAuthenticationTokenDAO(): AuthTokenDAO

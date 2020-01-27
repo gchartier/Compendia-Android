@@ -114,7 +114,11 @@ class ComicResponse(
 
         @SerializedName("is_wanted")
         @Expose
-        var isWanted: Boolean
+        var isWanted: Boolean,
+
+        @SerializedName("user_rating")
+        @Expose
+        var userRating: Float
 )
 
 class CollectionDetails (

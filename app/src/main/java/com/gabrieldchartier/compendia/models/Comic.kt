@@ -108,7 +108,10 @@ data class Comic (
         var grade: String?,
 
         @ColumnInfo(name="quantity")
-        var quantity: Int? = 1
+        var quantity: Int? = 1,
+
+        @ColumnInfo(name="user_rating")
+        var userRating: Float
 )
 
 data class ComicDataWrapper (var comic: Comic, var series: Series, var publisher: Publisher, var creators: List<ComicCreator>?)

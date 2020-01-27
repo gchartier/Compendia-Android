@@ -107,7 +107,7 @@
     <string name="comic_detail_box_name_want">Want</string>
     <string name="comic_detail_box_name_favorite">Favorite</string>
     <string name="comic_detail_box_name_read">Read</string>
-    <string name="comic_detail_no_reviews">No</string>
+    <string name="comic_detail_no_reviews">No Reviews</string>
     <string name="comic_detail_no_comic_error">Couldn\'t Find Comic Details&#8230;</string>
     <string name="comic_detail_no_description">No Description</string>
     <string name="comic_detail_see_all_creators_text">See All Creators</string>
@@ -116,6 +116,7 @@
     <string name="comic_detail_not_rated">Not Rated</string>
     <string name="comic_detail_no_release_date">No Release Date</string>
     <string name="comic_detail_no_collected_date">No Date Collected</string>
+    <string name="comic_detail_no_ratings">No Ratings</string>
 
     <!-- Collection -->
     <string name="collection_recently_added_header">Recently Added</string>

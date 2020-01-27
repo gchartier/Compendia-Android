@@ -121,7 +121,8 @@ class ComicPersistenceHelper {
                                         isSlabbed = newReleaseResponse.collectionDetails?.isSlabbed,
                                         certification = newReleaseResponse.collectionDetails?.certification,
                                         grade = newReleaseResponse.collectionDetails?.grade,
-                                        quantity = newReleaseResponse.collectionDetails?.quantity
+                                        quantity = newReleaseResponse.collectionDetails?.quantity,
+                                        userRating = newReleaseResponse.userRating
                                 ),
                                 series = Series(
                                         pk = newReleaseResponse.series.id,
